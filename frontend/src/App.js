@@ -16,6 +16,7 @@ function App() {
           <Route path="/complaints" element={<Complaints />} />
           <Route path="/status" element={<Status />} />
           <Route path="/contact" element={<Contact />} />
+         
         </Routes>
       </div>
       <Footer />
