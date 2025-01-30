@@ -2,15 +2,8 @@ import React from "react";
 
 export default function Sidebar() {
   return (
-    <div className="h-[75vh] w-64 p-5 rounded-xl bg-gradient-to-b from-blue-900 to-blue-600 shadow-lg backdrop-blur-md text-white">
-      
-      {/* Header */}
-      <div className="bg-white/20 text-white font-semibold p-4 rounded-xl text-center mb-6 shadow-md">
-        <span className="flex items-center justify-center space-x-2 text-lg">
-          🎨
-          <span>Grievance Dashboard</span>
-        </span>
-      </div>
+    <div className="h-[65vh] w-64 p-5 rounded-2xl bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl backdrop-blur-md text-white">
+
 
       {/* Menu Items */}
       <ul className="space-y-3">
@@ -30,17 +23,20 @@ export default function Sidebar() {
 function SidebarItem({ icon, text, badge, special }) {
   return (
     <li
-      className={`flex justify-between items-center p-3 rounded-xl cursor-pointer transition-all transform hover:scale-105 ${
-        special
+      className={`flex justify-between items-center p-3 rounded-xl cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-md ${special
           ? "bg-red-600 hover:bg-red-700 text-white"
           : "bg-white/20 hover:bg-white/30 text-white"
-      }`}
+        }`}
     >
       <div className="flex items-center space-x-3">
-        <span className="text-lg">{icon}</span>
+        <span className="text-xl">{icon}</span>
         <span className="text-sm font-medium">{text}</span>
       </div>
-      {badge && <span className="text-xs font-bold text-red-400">{badge}</span>}
+      {badge && (
+        <span className="ml-2 px-2 py-1 text-xs font-bold bg-red-100 text-red-600 rounded-full">
+          {badge}
+        </span>
+      )}
     </li>
   );
 }
