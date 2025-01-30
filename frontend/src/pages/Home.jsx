@@ -43,74 +43,93 @@ export default function Home() {
   const closedGrievances = grievances.filter((g) => g.status === "Closed").length;
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <h1 className="text-3xl text-center mt-10 font-bold">Welcome to the Grievance Portal</h1>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-blue-500 to-purple-600 py-10 text-center shadow-md">
+        <h1 className="text-4xl font-bold text-white">Welcome to the Grievance Portal</h1>
+        <p className="mt-2 text-white">Manage and view all your grievances in one place</p>
+      </header>
 
       {/* Summary Cards */}
-      <div className="mt-10 mx-auto max-w-6xl grid grid-cols-3 gap-5">
-        <div className="bg-orange-500 text-white p-5 rounded-lg text-center shadow-lg">
-          <p className="text-2xl font-bold">{totalGrievances}</p>
+      <div className="mt-10 mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-5 px-5">
+        <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white p-6 rounded-xl shadow-xl transform transition duration-200 hover:scale-105">
+          <p className="text-3xl font-bold">{totalGrievances}</p>
           <p className="mt-2">Total Grievances Registered</p>
         </div>
-        <div className="bg-green-500 text-white p-5 rounded-lg text-center shadow-lg">
-          <p className="text-2xl font-bold">{pendingGrievances}</p>
+        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-xl shadow-xl transform transition duration-200 hover:scale-105">
+          <p className="text-3xl font-bold">{pendingGrievances}</p>
           <p className="mt-2">Number of Grievances Pending</p>
         </div>
-        <div className="bg-red-500 text-white p-5 rounded-lg text-center shadow-lg">
-          <p className="text-2xl font-bold">{closedGrievances}</p>
+        <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-6 rounded-xl shadow-xl transform transition duration-200 hover:scale-105">
+          <p className="text-3xl font-bold">{closedGrievances}</p>
           <p className="mt-2">Number of Grievances Closed</p>
         </div>
       </div>
 
       {/* Grievances Table */}
-      <div className="mt-10 mx-auto max-w-6xl bg-white p-5 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold mb-5">List of Grievances</h2>
-        <table className="table-auto w-full border-collapse border border-gray-300 text-left">
-          <thead className="bg-gray-800 text-white">
-            <tr>
-              <th className="border border-gray-300 p-2">Sn.</th>
-              <th className="border border-gray-300 p-2">Registration Number</th>
-              <th className="border border-gray-300 p-2">Received Date</th>
-              <th className="border border-gray-300 p-2">Grievance Description</th>
-              <th className="border border-gray-300 p-2">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentEntries.map((grievance, index) => (
-              <tr key={grievance.id} className="bg-gray-100">
-                <td className="border border-gray-300 p-2">{indexOfFirstEntry + index + 1}</td>
-                <td className="border border-gray-300 p-2">{grievance.registrationNumber}</td>
-                <td className="border border-gray-300 p-2">{grievance.receivedDate}</td>
-                <td className="border border-gray-300 p-2">{grievance.description}</td>
-                <td className="border border-gray-300 p-2">{grievance.status}</td>
+      <div className="mt-10 mx-auto max-w-6xl bg-white p-6 rounded-xl shadow-lg">
+        <h2 className="text-2xl font-bold mb-6">List of Grievances</h2>
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full text-left border-collapse">
+            <thead className="bg-gray-800 text-white">
+              <tr>
+                <th className="p-3">Sn.</th>
+                <th className="p-3">Registration Number</th>
+                <th className="p-3">Received Date</th>
+                <th className="p-3">Grievance Description</th>
+                <th className="p-3">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentEntries.map((grievance, index) => (
+                <tr
+                  key={grievance.id}
+                  className={`border-b last:border-b-0 ${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-gray-100`}
+                >
+                  <td className="p-3">{indexOfFirstEntry + index + 1}</td>
+                  <td className="p-3">{grievance.registrationNumber}</td>
+                  <td className="p-3">{grievance.receivedDate}</td>
+                  <td className="p-3">{grievance.description}</td>
+                  <td className="p-3 font-semibold">{grievance.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* Pagination */}
         <div className="mt-5 flex justify-between items-center">
           <button
             onClick={prevPage}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded ${currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"}`}
+            className={`px-4 py-2 rounded-md font-semibold transition-colors ${
+              currentPage === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 text-white"
+            }`}
           >
             Prev
           </button>
-          <p className="text-gray-600">
+          <p className="text-gray-700">
             Page {currentPage} of {Math.ceil(grievances.length / entriesPerPage)}
           </p>
           <button
             onClick={nextPage}
             disabled={currentPage === Math.ceil(grievances.length / entriesPerPage)}
-            className={`px-4 py-2 rounded ${
-              currentPage === Math.ceil(grievances.length / entriesPerPage) ? "bg-gray-300" : "bg-blue-500 text-white"
+            className={`px-4 py-2 rounded-md font-semibold transition-colors ${
+              currentPage === Math.ceil(grievances.length / entriesPerPage)
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 text-white"
             }`}
           >
             Next
           </button>
         </div>
       </div>
+
+    
     </div>
   );
 }
