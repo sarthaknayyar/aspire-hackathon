@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   // Grievance data
@@ -42,24 +43,48 @@ export default function Home() {
   const pendingGrievances = grievances.filter((g) => g.status === "Pending").length;
   const closedGrievances = grievances.filter((g) => g.status === "Closed").length;
 
+  // Array of card data for easy mapping + animation
+  const cardData = [
+    {
+      key: "total",
+      title: "Total Grievances Registered",
+      value: totalGrievances,
+      gradientClass: "from-indigo-500 to-indigo-600",
+    },
+    {
+      key: "pending",
+      title: "Number of Grievances Pending",
+      value: pendingGrievances,
+      gradientClass: "from-green-500 to-green-600",
+    },
+    {
+      key: "closed",
+      title: "Number of Grievances Closed",
+      value: closedGrievances,
+      gradientClass: "from-red-500 to-red-600",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-
       {/* Summary Cards */}
       <div className="mt-10 mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-5 px-5">
-        <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white p-6 rounded-xl shadow-xl transform transition duration-200 hover:scale-105">
-          <p className="text-3xl font-bold">{totalGrievances}</p>
-          <p className="mt-2">Total Grievances Registered</p>
-        </div>
-        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-xl shadow-xl transform transition duration-200 hover:scale-105">
-          <p className="text-3xl font-bold">{pendingGrievances}</p>
-          <p className="mt-2">Number of Grievances Pending</p>
-        </div>
-        <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-6 rounded-xl shadow-xl transform transition duration-200 hover:scale-105">
-          <p className="text-3xl font-bold">{closedGrievances}</p>
-          <p className="mt-2">Number of Grievances Closed</p>
-        </div>
+        {cardData.map((card, index) => (
+          <motion.div
+            key={card.key}
+            // Initial and animate state for each card
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            // Stagger the animations with a small delay for each card
+            transition={{ duration: 0.5, delay: 0.2 * index }}
+            // Scale up on hover
+            whileHover={{ scale: 1.05 }}
+            className={`bg-gradient-to-r ${card.gradientClass} text-white p-6 rounded-xl shadow-xl cursor-pointer`}
+          >
+            <p className="text-3xl font-bold">{card.value}</p>
+            <p className="mt-2">{card.title}</p>
+          </motion.div>
+        ))}
       </div>
 
       {/* Grievances Table */}
@@ -124,8 +149,6 @@ export default function Home() {
           </button>
         </div>
       </div>
-
-    
     </div>
   );
 }

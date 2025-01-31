@@ -7,10 +7,21 @@ import telecommunicationsGif from "../assets/Telecomm.gif";
 import housingUrbanAffairsGif from "../assets/Housing.gif";
 import healthWelfareGif from "../assets/Health.gif";
 import training from "../assets/Training.gif";
+import { motion } from "framer-motion";
 
-const Card = ({ icon, title }) => {
+const Card = ({ icon, title, delay = 0 }) => {
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-xs h-48 border-2 rounded-xl shadow-md hover:shadow-lg transition duration-300 hover:scale-105 hover:cursor-pointer">
+    <motion.div
+      // Initial and animate props control the fade/slide effect on mount
+      initial={{ opacity: 0, y: 25 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.5 }}
+      // Tailwind classes for hover transitions
+      className="flex flex-col items-center justify-center 
+                 w-full max-w-xs h-48 border-2 rounded-xl shadow-md 
+                 hover:shadow-lg hover:scale-105 transition-transform 
+                 duration-300 ease-in-out cursor-pointer"
+    >
       {/* Icon Section */}
       <div className="flex justify-center items-center w-full h-24 bg-blue-100 rounded-t-xl">
         <img src={icon} alt={title} className="w-16 h-16" />
@@ -19,7 +30,7 @@ const Card = ({ icon, title }) => {
       <div className="flex items-center justify-center w-full h-24 bg-blue-600 rounded-b-xl text-white text-center">
         <p className="text-base font-semibold px-2">{title}</p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -66,7 +77,13 @@ const NewGrievanceOrganisation = () => {
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {cards.map((card, index) => (
-          <Card key={index} icon={card.icon} title={card.title} />
+          // Pass index-based delay for stagger
+          <Card
+            key={index}
+            icon={card.icon}
+            title={card.title}
+            delay={index * 0.1} // 0.1s increment per card
+          />
         ))}
       </div>
     </div>
