@@ -12,6 +12,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">Username *</label>
               <input
                 type="text"
+                placeholder="Enter your username"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
@@ -21,6 +22,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">Name *</label>
               <input
                 type="text"
+                placeholder="Enter your full name"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
@@ -47,6 +49,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">State *</label>
               <input
                 type="text"
+                placeholder="Enter your state"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
@@ -56,6 +59,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">District *</label>
               <input
                 type="text"
+                placeholder="Enter your district"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
@@ -69,6 +73,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">Pincode</label>
               <input
                 type="text"
+                placeholder="Enter your pincode"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -77,6 +82,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">Address *</label>
               <input
                 type="text"
+                placeholder="Enter your address"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
@@ -90,6 +96,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">Phone Number</label>
               <input
                 type="tel"
+                placeholder="Enter your phone number"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -98,6 +105,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">Mobile Number *</label>
               <input
                 type="tel"
+                placeholder="Enter your mobile number"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
@@ -110,6 +118,7 @@ const ProfilePage = () => {
             <label className="block text-sm font-semibold text-gray-700">E-mail Address *</label>
             <input
               type="email"
+              placeholder="Enter your email address"
               className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
