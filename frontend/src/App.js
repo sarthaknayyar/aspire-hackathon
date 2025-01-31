@@ -14,31 +14,31 @@ function App() {
     <div className="flex flex-col min-h-screen bg-gray-100">
       <Header />
       <HomeHeader />
-      <div className="flex flex-row"> 
-        <div className="flex flex-col h-screen justify-start items-center">
-          <div className="mt-auto mb-56 ml-2">
+      <div className="flex flex-col lg:flex-row flex-grow">
+        {/* Sidebar */}
+        <div className="w-full lg:w-1/4 xl:w-1/5 bg-white shadow-md lg:min-h-screen">
+          <div className="mt-5 lg:mt-10 p-4">
             <Sidebar />
           </div>
         </div>
-        <div className="flex-grow">
+
+        {/* Main Content */}
+        <div className="flex-grow p-4">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/complaints" element={<Complaints />} />
             <Route path="/status" element={<Status />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/newGrievanceOrganisation" element={<NewGrievanceOrganisation />} />           
-          
+            <Route
+              path="/newGrievanceOrganisation"
+              element={<NewGrievanceOrganisation />}
+            />
           </Routes>
         </div>
       </div>
-      
       <Footer />
     </div>
   );
 }
 
 export default App;
-
-
-
-

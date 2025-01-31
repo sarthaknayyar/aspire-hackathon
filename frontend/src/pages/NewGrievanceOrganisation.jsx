@@ -1,15 +1,20 @@
 import React from "react";
+import financialServicesGif from "../assets/Bank.gif";
+import labourEmploymentGif from "../assets/Labour.gif";
+import taxesGif from "../assets/Income.gif";
+import postsGif from "../assets/Post.gif";
+import telecommunicationsGif from "../assets/Telecomm.gif";
+// import homeAffairsGif from "../assets/home-affairs.gif";
+import housingUrbanAffairsGif from "../assets/Housing.gif";
+import healthWelfareGif from "../assets/Health.gif";
+import training from "../assets/Training.gif";
 
 const Card = ({ icon, title }) => {
   return (
     <div className="flex flex-col items-center justify-center w-64 h-48 border-2 rounded-xl shadow-md hover:shadow-lg transition duration-300 hover:scale-105 hover:cursor-pointer">
       {/* Icon Section */}
-      <div className="flex justify-center items-center w-full h-24 border-2 rounded-xl  bg-blue-100">
-        <img
-          src={icon}
-          alt={title}
-          className="w-12 h-12"
-        />
+      <div className="flex justify-center items-center w-full h-24 border-2 rounded-xl bg-blue-100">
+        <img src={icon} alt={title} className="w-12 h-12" />
       </div>
       {/* Text Section */}
       <div className="flex items-center justify-center w-full h-24 bg-blue-600 border-2 rounded-md text-white text-center">
@@ -22,36 +27,36 @@ const Card = ({ icon, title }) => {
 const NewGrievanceOrganisation = () => {
   const cards = [
     {
-      icon: "https://via.placeholder.com/60", // Replace with actual image URL
-      title: "Financial Services (Banking Division)"
+      icon: financialServicesGif,
+      title: "Financial Services (Banking Division)",
     },
     {
-      icon: "https://via.placeholder.com/60", // Replace with actual image URL
-      title: "Labour and Employment"
+      icon: labourEmploymentGif,
+      title: "Labour and Employment",
     },
     {
-      icon: "https://via.placeholder.com/60", // Replace with actual image URL
-      title: "Central Board of Direct Taxes (Income Tax)"
+      icon: taxesGif,
+      title: "Central Board of Direct Taxes (Income Tax)",
     },
     {
-      icon: "https://via.placeholder.com/60", // Replace with actual image URL
-      title: "Posts"
+      icon: postsGif,
+      title: "Posts",
     },
     {
-      icon: "https://via.placeholder.com/60", // Replace with actual image URL
-      title: "Telecommunications"
+      icon: telecommunicationsGif,
+      title: "Telecommunications",
     },
     {
-      icon: "https://via.placeholder.com/60", // Replace with actual image URL
-      title: "Home Affairs"
+      icon: training,
+      title: "Personnel and Training",
     },
     {
-      icon: "https://via.placeholder.com/60", // Replace with actual image URL
-      title: "Housing and Urban Affairs"
+      icon: housingUrbanAffairsGif,
+      title: "Housing and Urban Affairs",
     },
     {
-      icon: "https://via.placeholder.com/60", // Replace with actual image URL
-      title: "Health & Family Welfare"
+      icon: healthWelfareGif,
+      title: "Health & Family Welfare",
     },
   ];
 
