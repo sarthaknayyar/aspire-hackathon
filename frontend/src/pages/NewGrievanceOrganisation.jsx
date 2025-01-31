@@ -4,21 +4,20 @@ import labourEmploymentGif from "../assets/Labour.gif";
 import taxesGif from "../assets/Income.gif";
 import postsGif from "../assets/Post.gif";
 import telecommunicationsGif from "../assets/Telecomm.gif";
-// import homeAffairsGif from "../assets/home-affairs.gif";
 import housingUrbanAffairsGif from "../assets/Housing.gif";
 import healthWelfareGif from "../assets/Health.gif";
 import training from "../assets/Training.gif";
 
 const Card = ({ icon, title }) => {
   return (
-    <div className="flex flex-col items-center justify-center w-64 h-48 border-2 rounded-xl shadow-md hover:shadow-lg transition duration-300 hover:scale-105 hover:cursor-pointer">
+    <div className="flex flex-col items-center justify-center w-full max-w-xs h-48 border-2 rounded-xl shadow-md hover:shadow-lg transition duration-300 hover:scale-105 hover:cursor-pointer">
       {/* Icon Section */}
-      <div className="flex justify-center items-center w-full h-24 border-2 rounded-xl bg-blue-100">
-        <img src={icon} alt={title} className="w-12 h-12" />
+      <div className="flex justify-center items-center w-full h-24 bg-blue-100 rounded-t-xl">
+        <img src={icon} alt={title} className="w-16 h-16" />
       </div>
       {/* Text Section */}
-      <div className="flex items-center justify-center w-full h-24 bg-blue-600 border-2 rounded-md text-white text-center">
-        <p className="text-base font-semibold">{title}</p>
+      <div className="flex items-center justify-center w-full h-24 bg-blue-600 rounded-b-xl text-white text-center">
+        <p className="text-base font-semibold px-2">{title}</p>
       </div>
     </div>
   );
@@ -61,9 +60,11 @@ const NewGrievanceOrganisation = () => {
   ];
 
   return (
-    <div className="bg-gray-200 p-10 m-10 h-auto rounded-xl">
-      <h1 className="text-2xl font-bold mb-6 text-center">New Grievance Organisation</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
+    <div className="bg-gray-200 p-6 sm:p-8 md:p-10 lg:p-12 rounded-xl">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 text-center">
+        New Grievance Organisation
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {cards.map((card, index) => (
           <Card key={index} icon={card.icon} title={card.title} />
         ))}
