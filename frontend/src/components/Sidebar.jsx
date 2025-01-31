@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
@@ -8,7 +9,7 @@ export default function Sidebar() {
       {/* Menu Items */}
       <ul className="space-y-3">
         <SidebarItem icon="📺" text="Appeal Dashboard" badge="NEW" />
-        <SidebarItem icon="➕" text="Lodge Public Grievance" />
+        <SidebarItem icon="➕" text={<Link to="/newGrievanceOrganisation"  className="no-underline text-inherit">Lodge Public Grievance</Link>} />
         <SidebarItem icon="➕" text="Lodge Pension Grievance" />
         <SidebarItem icon="➕" text="Lodge Appeal" />
         <SidebarItem icon="🔄" text="Account Activity" />

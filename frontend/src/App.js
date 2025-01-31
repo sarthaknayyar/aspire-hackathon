@@ -7,6 +7,7 @@ import Status from "./pages/Status";
 import Contact from "./pages/Contact";
 import Sidebar from "./components/Sidebar";
 import HomeHeader from "./components/HomeHeader";
+import NewGrievanceOrganisation from "./pages/NewGrievanceOrganisation";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/complaints" element={<Complaints />} />
             <Route path="/status" element={<Status />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/newGrievanceOrganisation" element={<NewGrievanceOrganisation />} />           
           
           </Routes>
         </div>
