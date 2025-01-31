@@ -29,8 +29,8 @@ function SidebarItem({ icon, text, badge, special }) {
         }`}
     >
       <div className="flex items-center space-x-3">
-        <span className="text-xl">{icon}</span>
-        <span className="text-sm font-medium">{text}</span>
+        <span className="text-md">{icon}</span>
+        <span className="text-sm font-small">{text}</span>
       </div>
       {badge && (
         <span className="ml-2 px-2 py-1 text-xs font-bold bg-red-100 text-red-600 rounded-full">

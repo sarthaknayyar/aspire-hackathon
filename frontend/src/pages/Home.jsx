@@ -45,10 +45,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-500 to-purple-600 py-10 text-center shadow-md">
-        <h1 className="text-4xl font-bold text-white">Welcome to the Grievance Portal</h1>
-        <p className="mt-2 text-white">Manage and view all your grievances in one place</p>
-      </header>
 
       {/* Summary Cards */}
       <div className="mt-10 mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-5 px-5">
