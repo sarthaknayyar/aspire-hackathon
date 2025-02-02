@@ -19,7 +19,7 @@ export default function Contact() {
             </p>
           </div>
           <a
-            href="#"
+            href="./faq"
             className="text-blue-600 font-medium underline hover:text-blue-700"
           >
             FAQ's

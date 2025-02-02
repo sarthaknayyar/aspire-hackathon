@@ -14,6 +14,7 @@ import ProfilePage from "./pages/ProfilePage"; // Import Profile Page
 import SignUp from "./pages/SignUp";
 import GrievanceForm from "./pages/GrievanceForm"; // Import Grievance Form Page
 import LoginForm from "./pages/login";
+import FAQPage from "./pages/FAQPage";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -78,6 +79,7 @@ function App() {
             <Route path="/SignUp" element={<SignUp/>} />
             <Route path="/grievance-form/:department" element={<GrievanceForm />} />
             <Route path="/login" element={<LoginForm/>}/> 
+            <Route path="/faq" element={<FAQPage />} />
           </Routes>
         </main>
       </div>
