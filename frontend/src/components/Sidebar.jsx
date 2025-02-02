@@ -10,7 +10,7 @@ export default function Sidebar() {
         <SidebarItem 
           icon="➕" 
           text={<Link to="/newGrievanceOrganisation" className="no-underline text-inherit">Lodge Public Grievance</Link>} 
-        />
+        /> 
         <SidebarItem icon="➕" text="Lodge Pension Grievance" />
         <SidebarItem icon="➕" text="Check Status" />
         <SidebarItem icon="🔄" text="Account Activity" />

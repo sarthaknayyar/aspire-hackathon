@@ -8,6 +8,7 @@ import housingUrbanAffairsGif from "../assets/Housing.gif";
 import healthWelfareGif from "../assets/Health.gif";
 import training from "../assets/Training.gif";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Card = ({ icon, title, delay = 0 }) => {
   return (
@@ -76,15 +77,19 @@ const NewGrievanceOrganisation = () => {
         New Grievance Organisation
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {cards.map((card, index) => (
-          // Pass index-based delay for stagger
+      {cards.map((card, index) => (
+        <Link
+          to={`/grievance-form/${card.title}`}
+          key={index}
+          className="block" // Make entire area clickable
+        >
           <Card
-            key={index}
             icon={card.icon}
             title={card.title}
-            delay={index * 0.1} // 0.1s increment per card
+            delay={index * 0.1}
           />
-        ))}
+        </Link>
+      ))}
       </div>
     </div>
   );
