@@ -12,10 +12,10 @@ export default function Sidebar() {
           text={<Link to="/newGrievanceOrganisation" className="no-underline text-inherit">Lodge Public Grievance</Link>} 
         />
         <SidebarItem icon="➕" text="Lodge Pension Grievance" />
-        <SidebarItem icon="➕" text="Lodge Appeal" />
+        <SidebarItem icon="➕" text="Check Status" />
         <SidebarItem icon="🔄" text="Account Activity" />
         <SidebarItem 
-          icon="✏️" 
+          icon="✏️"
           text={<Link to="/profile" className="no-underline text-inherit">Edit Profile</Link>} 
         />
         <SidebarItem icon="🔒" text="Change Password" />
