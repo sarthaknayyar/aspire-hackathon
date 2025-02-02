@@ -6,13 +6,13 @@ export default function Sidebar() {
     <div className="h-[65vh] w-64 p-5 rounded-2xl bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl backdrop-blur-md text-white">
       {/* Menu Items */}
       <ul className="space-y-3">
-        <SidebarItem icon="📺" text="Appeal Dashboard" badge="NEW" />
+        <SidebarItem icon="📺" text={<Link to="/" className="no-underline text-inherit">Appeal Dashboard</Link>} badge="NEW" />
         <SidebarItem 
           icon="➕" 
           text={<Link to="/newGrievanceOrganisation" className="no-underline text-inherit">Lodge Public Grievance</Link>} 
         /> 
         <SidebarItem icon="➕" text="Lodge Pension Grievance" />
-        <SidebarItem icon="➕" text="Check Status" />
+        <SidebarItem icon="➕" text="Check Status" /> 
         <SidebarItem icon="🔄" text="Account Activity" />
         <SidebarItem 
           icon="✏️"
