@@ -49,7 +49,7 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   const handleNavigate = async () => {
-    navigate("/homepage");
+    navigate("/login");
   };
 
   return (
