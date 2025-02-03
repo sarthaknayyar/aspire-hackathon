@@ -1,19 +1,25 @@
+import { ClipboardType } from "lucide-react";
 import React, { useState } from "react";
+
+import { useNavigate } from "react-router";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
     address: "",
-    locality: "",
+    // locality: "",
     state: "",
-    country: "India",
-    district: "",
-    pincode: "",
+    // country: "India",
+    // city: "",
+    // pincode: "",
     phone: "",
-    mobile: "",
+    // phone: "",
     email: "",
-    securityCode: "",
+    // password: "",
+    city: "",   
+    password: "",
+
   });
 
 
@@ -75,6 +81,27 @@ const SignupForm = () => {
     e.preventDefault();
     console.log("Form Submitted", formData);
   };
+  const navigate = useNavigate();
+  const [status, setStatus] = useState(null);
+
+  async function handleSignup(){
+    const response = await fetch('http://localhost:5000/user/signup',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json',
+        },
+        body : JSON.stringify(formData),
+    });
+    if(response.status === 200){
+        const data = await response.json();
+        console.log(data);
+        navigate('/login');
+    }
+    else if(response.status === 400){
+        console.log('User not found');
+        setStatus('User not found');
+    }
+  }
 
 
   return (
@@ -96,14 +123,10 @@ const SignupForm = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 gap-4 mt-4">
           <div>
             <label className="block font-semibold">Address *</label>
             <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold">Locality</label>
-            <input type="text" name="locality" value={formData.locality} onChange={handleChange} className="w-full p-2 border rounded" />
           </div>
         </div>
 
@@ -120,8 +143,8 @@ const SignupForm = () => {
             </select>
           </div>
           <div>
-            <label className="block font-semibold">District *</label>
-            <select name="district" value={formData.district} onChange={handleChange} className="w-full p-2 border rounded" required>
+            <label className="block font-semibold">City *</label>
+            <select name="city" value={formData.city} onChange={handleChange} className="w-full p-2 border rounded" required>
               <option value="">--Select a state first--</option>
               {list.map((item, index) => (
                 <option key={index} value={item}>
@@ -133,20 +156,13 @@ const SignupForm = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <div>
+          {/* <div>
             <label className="block font-semibold">Pincode</label>
             <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full p-2 border rounded" />
-          </div>
+          </div> */}
           <div>
-            <label className="block font-semibold">Mobile number *</label>
-            <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          <div>
-            <label className="block font-semibold">Phone number</label>
-            <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-2 border rounded" />
+            <label className="block font-semibold">Phone number *</label>
+            <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-2 border rounded" required />
           </div>
           <div>
             <label className="block font-semibold">E-mail address *</label>
@@ -154,12 +170,19 @@ const SignupForm = () => {
           </div>
         </div>
 
+        {/* <div className="grid grid-cols-2 gap-4 mt-4"> */}
+          {/* <div>
+            <label className="block font-semibold">Phone number</label>
+            <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-2 border rounded" />
+          </div> */}
+        {/* </div> */}
+
         <div className="mt-4">
-          <label className="block font-semibold">Security Code *</label>
-          <input type="text" name="securityCode" value={formData.securityCode} onChange={handleChange} className="w-full p-2 border rounded" required />
+          <label className="block font-semibold">Password *</label>
+          <input type="text" name="password" value={formData.password} onChange={handleChange} className="w-full p-2 border rounded" required />
         </div>
 
-        <button type="submit" className="mt-6 px-6 py-2 bg-purple-700 text-white rounded shadow">Submit</button>
+        <button type="submit" className="mt-6 px-6 py-2 bg-purple-700 text-white rounded shadow" onClick={handleSignup} >Submit</button>
       </form>
     </div>
   );
