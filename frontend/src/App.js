@@ -1,26 +1,22 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi"; // Import icons for burger menu
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "../../client/src/components/Header";
+import Footer from "../../client/src/components/Footer";
 import Home from "./pages/Home";
 import Complaints from "./pages/Complaints";
 import Status from "./pages/Status";
 import Contact from "./pages/Contact";
-import Sidebar from "./components/Sidebar";
-import HomeHeader from "./components/HomeHeader";
+import Sidebar from "../../client/src/components/Sidebar";
+import HomeHeader from "../../client/src/components/HomeHeader";
 import NewGrievanceOrganisation from "./pages/NewGrievanceOrganisation";
 import ProfilePage from "./pages/ProfilePage"; // Import Profile Page
 import SignUp from "./pages/SignUp";
 import GrievanceForm from "./pages/GrievanceForm"; // Import Grievance Form Page
 import LoginForm from "./pages/login";
 import FAQPage from "./pages/FAQPage";
-<<<<<<< HEAD
-import LandingPage from "./pages/LandingPage";
-=======
 import ChangePassword from "./pages/ChangePassword";
 import AccountDetails from "./pages/AccountDetails";
->>>>>>> 3c354e3fcfc2ede9caf9a747c68212bd0be927b0
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
