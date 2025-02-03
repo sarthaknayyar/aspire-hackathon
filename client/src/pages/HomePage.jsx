@@ -34,9 +34,17 @@ import LoginForm from "../components/login";
 import FAQPage from "../components/FAQPage";
 import ChangePassword from "../components/ChangePassword";
 import AccountDetails from "../components/AccountDetails";
+import { useNavigate } from 'react-router';
+import { deleteCookie } from "../utilities/cookie";
 
 
 function Sidebar({ setActivePage }) {
+  const navigate = useNavigate();
+  function logout(){
+    console.log("Logging out");
+    deleteCookie('token');
+    if(!document.cookie.includes('token')) navigate('/');
+  }
   return (
     <div className="h-[65vh] w-64 p-5 rounded-2xl bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl backdrop-blur-md text-white">
       {/* Menu Items */}
@@ -59,7 +67,7 @@ function Sidebar({ setActivePage }) {
           text={<span onClick={() => setActivePage("changePassword")} className="cursor-pointer">Change Password</span>} 
         />
 
-        <SidebarItem icon="🔌" text={<span className="cursor-pointer">Sign out</span>} special />
+        <span onClick={logout} ><SidebarItem icon="🔌" text={<span className="cursor-pointer">Sign out</span>} special /></span> 
       </ul>
     </div>
   );

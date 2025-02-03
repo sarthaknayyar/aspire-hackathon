@@ -2,6 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
+  function logout(){
+    console.log("Logging out");
+    deleteCookie('token');
+    if(!document.cookie.includes('token')) navigate('/');
+  }
   return (
     <div className="h-[65vh] w-64 p-5 rounded-2xl bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl backdrop-blur-md text-white">
       {/* Menu Items */}
@@ -24,7 +29,7 @@ export default function Sidebar() {
           text={<Link to="/change-password" className="no-underline text-inherit">Change Password</Link>} 
         />
 
-        <SidebarItem icon="🔌" text="Sign out" special />
+        <SidebarItem icon="🔌" text="Sign out" special  onClick={logout}/>
       </ul>
     </div>
   );
