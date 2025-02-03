@@ -18,7 +18,12 @@ export default function Sidebar() {
           icon="✏️"
           text={<Link to="/profile" className="no-underline text-inherit">Edit Profile</Link>} 
         />
-        <SidebarItem icon="🔒" text="Change Password" />
+        
+        <SidebarItem 
+          icon="🔒"
+          text={<Link to="/change-password" className="no-underline text-inherit">Change Password</Link>} 
+        />
+
         <SidebarItem icon="🔌" text="Sign out" special />
       </ul>
     </div>

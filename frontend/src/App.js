@@ -15,7 +15,12 @@ import SignUp from "./pages/SignUp";
 import GrievanceForm from "./pages/GrievanceForm"; // Import Grievance Form Page
 import LoginForm from "./pages/login";
 import FAQPage from "./pages/FAQPage";
+<<<<<<< HEAD
 import LandingPage from "./pages/LandingPage";
+=======
+import ChangePassword from "./pages/ChangePassword";
+import AccountDetails from "./pages/AccountDetails";
+>>>>>>> 3c354e3fcfc2ede9caf9a747c68212bd0be927b0
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -81,6 +86,8 @@ function App() {
             <Route path="/grievance-form/:department" element={<GrievanceForm />} />
             <Route path="/login" element={<LoginForm/>}/>
             <Route path="/faq" element={<FAQPage />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/account-details" element={<AccountDetails />} />
           </Routes>
         </main>
       </div>
