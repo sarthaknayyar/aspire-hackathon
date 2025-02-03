@@ -33,7 +33,7 @@ export default function LoginForm() {
     }
   }
 
-  return (
+  return ( 
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-xl font-bold text-purple-900 text-center">USER LOGIN</h2>

@@ -9,7 +9,7 @@ function checkLogin(req,res,next){
         const token = req.cookies?.token;
         const user = jwt.verify(token, secretkey);
         req.user = user;
-        next();
+        next(); 
     }catch(err){
         res.status(401).json({message : "Authentication failed"});
     }
