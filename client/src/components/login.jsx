@@ -1,7 +1,37 @@
-import { useState } from "react";
+import React from 'react'
+import { useNavigate } from 'react-router';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function LoginForm() {
   const [securityCode, setSecurityCode] = useState("");
+  const navigate = useNavigate();
+  const [status, setStatus] = useState(null);
+
+  async function handleLogin() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const response = await fetch('http://localhost:5000/user/login',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json',
+        },
+        body : JSON.stringify({email,password}),
+        credentials : 'include',
+    });
+    if(response.status === 200){
+        const data = await response.json();
+        // console.log("xyz")
+        // console.log(data);
+        const token = data.token;
+        document.cookie = `token=${token}; Secure; SameSite=None; Domain=sweet-dango-ca4344.netlify.app;`;
+        navigate('/homepage');
+    }
+    else if(response.status === 404){
+        console.log('User not found');
+        setStatus('User not found');
+    }
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -14,6 +44,7 @@ export default function LoginForm() {
           <div className="flex items-center border rounded-md p-2 mt-1">
             <input
               type="text"
+              id='email' name='email'
               placeholder="Enter your details"
               className="w-full outline-none"
             />
@@ -27,6 +58,7 @@ export default function LoginForm() {
           <div className="flex items-center border rounded-md p-2 mt-1">
             <input
               type="password"
+              id='password' name='password'
               placeholder="Enter your password"
               className="w-full outline-none"
             />
@@ -57,7 +89,7 @@ export default function LoginForm() {
         </div>
 
         {/* Login Button */}
-        <button className="w-full bg-purple-900 text-white py-2 rounded-md mt-4 hover:bg-purple-700">
+        <button className="w-full bg-purple-900 text-white py-2 rounded-md mt-4 hover:bg-purple-700" onClick={handleLogin}>
           Login ➜
         </button>
 

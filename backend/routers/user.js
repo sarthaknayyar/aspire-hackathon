@@ -7,7 +7,7 @@ const { setUser, getUser } = require('../authservice');
 
 
 router.post('/signup', async (req, res)=>{
-    const hashPassword = req.body.password;
+    const hashPassword = bcrypt.hashSync(req.body.password, 10);
     const user = await User.create
        ({ name: req.body.name,
         email: req.body.email,
