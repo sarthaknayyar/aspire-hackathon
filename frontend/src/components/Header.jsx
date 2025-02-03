@@ -11,6 +11,9 @@ export default function Header() {
               <Link to="/" className="hover:text-gray-300">Home</Link>
             </li>
             <li>
+              <Link to="/landingPage" className="hover:text-gray-300">Landing Page</Link>
+            </li>
+            <li>
               <Link to="/complaints" className="hover:text-gray-300">Complaints</Link>
             </li>
             <li>

@@ -15,6 +15,7 @@ import SignUp from "./pages/SignUp";
 import GrievanceForm from "./pages/GrievanceForm"; // Import Grievance Form Page
 import LoginForm from "./pages/login";
 import FAQPage from "./pages/FAQPage";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -70,15 +71,15 @@ function App() {
         <main className="flex-grow p-4">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/landingPage" element={<LandingPage />} />
             <Route path="/complaints" element={<Complaints />} />
             <Route path="/status" element={<Status />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/newGrievanceOrganisation" element={<NewGrievanceOrganisation />} />
-            <Route path="/profile" element={<ProfilePage />} /> 
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/SignUp" element={<SignUp/>} />
             <Route path="/grievance-form/:department" element={<GrievanceForm />} />
-            <Route path="/login" element={<LoginForm/>}/> 
+            <Route path="/login" element={<LoginForm/>}/>
             <Route path="/faq" element={<FAQPage />} />
           </Routes>
         </main>
