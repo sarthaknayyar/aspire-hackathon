@@ -11,6 +11,17 @@ const images = [
   "/images/bg4.jpg",
 ];
 
+const Card = ({ bgColor, imgSrc, text, link }) => {
+  return (
+    <a href={link} className={`flex flex-col items-center justify-center p-6 rounded-lg shadow-lg ${bgColor} transition-transform transform hover:scale-105`}>
+      <div className="bg-white rounded-full p-4 shadow-md">
+        <img src={imgSrc} alt={text} className="w-16 h-16" />
+      </div>
+      <button className="mt-4 bg-indigo-900 text-white font-semibold py-2 px-4 rounded">{text}</button>
+    </a>
+  );
+};
+
 const HeroSection = () => {
   const [index, setIndex] = useState(0);
 
@@ -53,21 +64,21 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="bg-gray-100 font-sans">
+    <div className="bg-[#fbfdff] font-sans">
       {/* Navbar */}
-      <header className="bg-green-900 text-white px-8 py-4 flex justify-between items-center shadow-md">
-        <div className="text-2xl font-bold">Mayorx</div>
+      <header className="bg-green-900 text-white px-8 py-4 flex justify-between items-center shadow-md customColor">
+        <div className="text-2xl font-bold">NAME</div>
         <nav className="space-x-6">
           <ul className="flex space-x-6">
-            <li className="hover:underline cursor-pointer">Home</li>
-            <li className="hover:underline cursor-pointer">Services</li>
-            <li className="hover:underline cursor-pointer">Pages</li>
-            <li className="hover:underline cursor-pointer">News</li>
-            <li className="hover:underline cursor-pointer">Contact</li>
+            <li className="hover:underline cursor-pointer cstFont">Home</li>
+            <li className="hover:underline cursor-pointer cstFont">Services</li>
+            <li className="hover:underline cursor-pointer cstFont">Pages</li>
+            <li className="hover:underline cursor-pointer cstFont">News</li>
+            <li className="hover:underline cursor-pointer cstFont">Contact</li>
           </ul>
         </nav>
         <button
-          className="bg-orange-500 px-6 py-3 rounded-md hover:bg-orange-600 transition"
+          className="bg-orange-500 px-6 py-3 rounded-md hover:bg-orange-600 transition cstBtnClr"
           onClick={handleNavigate}
         >
           Login
@@ -77,186 +88,75 @@ const LandingPage = () => {
       {/* Hero Section with Sliding Background */}
       <HeroSection />
 
-      {/* Features Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-blue-100 py-20 px-6 md:px-20">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-16">
-          The Growth of the Richest City of All Time
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div className="bg-white p-8 shadow-lg rounded-lg transition transform hover:-translate-y-2 hover:shadow-2xl">
-            <img
-              src="/images/bg4.jpg"
-              alt="Feature 1"
-              className="w-full h-48 object-cover rounded-t-lg mb-6"
-            />
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
-              The Proof of the Richest City
-            </h3>
-            <p className="text-gray-600">
-              Explore how this city became a beacon of success and wealth.
-            </p>
-          </div>
-          <div className="bg-white p-8 shadow-lg rounded-lg transition transform hover:-translate-y-2 hover:shadow-2xl">
-            <img
-              src="/images/bg5.jpg"
-              alt="Feature 2"
-              className="w-full h-48 object-cover rounded-t-lg mb-6"
-            />
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
-              City Highlights & Attractions
-            </h3>
-            <p className="text-gray-600">
-              Discover the must-see attractions and hidden gems of the city.
-            </p>
-          </div>
-          <div className="bg-white p-8 shadow-lg rounded-lg transition transform hover:-translate-y-2 hover:shadow-2xl">
-            <img
-              src="/images/bg1.jpg"
-              alt="Feature 3"
-              className="w-full h-48 object-cover rounded-t-lg mb-6"
-            />
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
-              Future Growth of the City
-            </h3>
-            <p className="text-gray-600">
-              Learn about upcoming developments that will shape the city’s future.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="bg-green-800 text-white py-20 px-6 md:px-20">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <h2 className="text-4xl font-extrabold">
-            Together, We Will Move Country Forward
+      {/* ABOUT US SECTION */}
+      <div className="bg-[#fbfdff] flex justify-center p-6">
+        <div className="p-6 ">
+          <h2 className="text-indigo-800 text-2xl font-bold border-b-2 border-indigo-800 pb-2">
+            ABOUT [Your Portal Name]
           </h2>
-          <p className="text-lg mt-4 text-green-200">
-            Explore the resources and services that help shape our country's future.
+          <p className="mt-4 text-gray-700">
+            [Your Portal Name] is an online grievance redressal platform that allows users to submit complaints regarding various services. Available 24x7, it provides a centralized system where grievances can be addressed efficiently by the relevant authorities. The portal ensures transparency, accountability, and timely resolution of complaints.
           </p>
-        </motion.div>
+          <p className="mt-2 text-gray-700">
+            Users can file grievances related to [mention specific areas your portal covers], and each complaint is assigned a unique registration ID for easy tracking. The platform also offers an appeal mechanism for users who are not satisfied with the initial resolution. If a grievance remains unresolved or receives a low rating, an option to file an appeal is enabled.
+          </p>
+          <p className="mt-2 text-gray-700">
+            Our system is accessible via [mention web portal, mobile app, or other platforms] to ensure ease of use for all citizens.
+          </p>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0, scale: 0.95 },
-            visible: {
-              opacity: 1,
-              scale: 1,
-              transition: {
-                delayChildren: 0.2,
-                staggerChildren: 0.2,
-              },
-            },
-          }}
-        >
-          {[
-            { title: "Your Government", description: "Learn more" },
-            { title: "Road & Transportation", description: "Explore options" },
-            { title: "Jobs & Unemployment", description: "Read more" },
-            { title: "Arts & Culture", description: "Check out" },
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              className="p-8 bg-green-700 rounded-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2"
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              <h3 className="text-xl font-bold mb-4">{item.title}</h3>
-              <p className="text-base text-green-100">{item.description}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* Online Services Section with Framer Motion Animations */}
-      {/* Online Services Section with Framer Motion Animations */}
-<section className="py-20 px-6 md:px-20 text-center bg-gradient-to-br from-blue-50 to-indigo-50">
-  <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-12">
-    Explore Online Services
-  </h2>
-  <motion.div
-    className="grid grid-cols-1 md:grid-cols-3 gap-10"
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true }}
-    variants={{
-      visible: {
-        transition: {
-          staggerChildren: 0.2,
-        },
-      },
-    }}
-  >
-    {[
-      {
-        title: "Building Permits",
-        description: "Apply for building permits with a streamlined process.",
-      },
-      {
-        title: "Parking Permits",
-        description: "Secure your parking permits quickly and efficiently.",
-      },
-      {
-        title: "Tax Permits",
-        description: "Manage your tax-related permits online with ease.",
-      },
-      {
-        title: "Apply City Job",
-        description: "Discover and apply for exciting career opportunities.",
-      },
-      {
-        title: "Planning Documents",
-        description: "Access all planning documents and guidelines in one place.",
-      },
-      {
-        title: "Report Issues",
-        description: "Report concerns or issues directly to city officials.",
-      },
-    ].map((item, idx) => {
-      // For md screens, the first three cards slide in from the left,
-      // and the next three slide in from the right.
-      const variant =
-        idx < 3
-          ? {
-              hidden: { opacity: 0, x: "-100vw" },
-              visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
-            }
-          : {
-              hidden: { opacity: 0, x: "100vw" },
-              visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
-            };
-
-      return (
-        <motion.div
-          key={idx}
-          className="bg-white p-8 rounded-xl shadow-md"
-          variants={variant}
-        >
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">
-            {item.title}
+          <h3 className="text-indigo-700 text-xl font-semibold mt-6">
+            ❗ Issues Not Considered for Redressal
           </h3>
-          <p className="text-gray-500 text-sm">{item.description}</p>
-        </motion.div>
-      );
-    })}
-  </motion.div>
-</section>
+          <ul className="list-disc pl-6 mt-2 text-gray-700">
+            <li>RTI-related queries</li>
+            <li>Court-related or sub judice matters</li>
+            <li>Religious concerns</li>
+            <li>General suggestions</li>
+            <li>Employee grievances (unless internal redressal channels have been exhausted)</li>
+          </ul>
 
+          <h3 className="text-indigo-700 text-xl font-semibold mt-6">📌 Note:</h3>
+          <ul className="list-decimal pl-6 mt-2 text-gray-700">
+            <li>
+              If your grievance is not resolved within a reasonable period, you may escalate it to higher authorities through the appropriate channels.
+            </li>
+            <li>
+              There are no charges for filing grievances. Any payment made is solely for processing via authorized service providers.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="px-4 md:px-12 py-10">
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center">
+    <Card
+      bgColor="bg-[#6A1B9A]"
+      imgSrc="https://res.cloudinary.com/dhgezdw5u/image/upload/v1738752155/Untitled_design_2_qhb3mm.png"
+      text="REGISTER / LOGIN"
+      link="/register"
+      className="max-w-xs mx-auto"
+    />
+    <Card
+      bgColor="bg-[#8E44AD]"
+      imgSrc="https://res.cloudinary.com/dhgezdw5u/image/upload/v1738750299/statusUpdate_r7mdhm.jpg"
+      text="VIEW STATUS"
+      link="/status"
+      className="max-w-xs mx-auto"
+    />
+    <Card
+      bgColor="bg-[#6A1B9A]"
+      imgSrc="https://res.cloudinary.com/dhgezdw5u/image/upload/v1738752054/Untitled_design_1_iuzdbq.png"
+      text="CONTACT US"
+      link="/contact"
+      className="max-w-xs mx-auto"
+    />
+  </div>
+</div>
 
 
       {/* Footer */}
-      <footer className="bg-green-900 text-white px-8 py-12">
-        <div className="text-center">
+      <footer className="bg-[#0f2a75] text-white px-8 py-12">
+        <div className="text-center bg-[#0f2a75]">
           <p className="text-lg mb-2">Address: Main Square Road, Region 12</p>
           <p className="text-lg mb-2">Contact: contact@mayorx.gov</p>
           <p className="text-lg">Clock: Open 9:00 AM - Close 6:00 PM</p>

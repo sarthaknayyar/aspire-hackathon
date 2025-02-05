@@ -1,0 +1,30 @@
+.customColor{
+    background-color: rgb(31, 76, 200);
+}
+
+.cstBtnClr{
+    background-color: #9333ea ;
+    color: #e7daf5;
+    font-weight: 600;
+}
+button {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.2s ease;
+  }
+  
+  button:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+.cstFont{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+.cstCard{
+    width: 300px;
+}
