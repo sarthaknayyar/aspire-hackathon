@@ -2,6 +2,33 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const ProfilePage = () => {
+  async function handleSaveProfile(event) {
+    const name = document.getElementById("name").value;
+    const gender = document.getElementById("gender").value;
+    const state = document.getElementById("state").value;
+    const district = document.getElementById("district").value;
+    const pincode = document.getElementById("pincode").value;
+    const address = document.getElementById("address").value;
+    const mobile = document.getElementById("mobile").value;
+    const response = await fetch("http://localhost:5000/user/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify
+      ({
+        name: name, 
+        gender:gender,
+        state:state,
+        district:district,
+        pincode:pincode,
+        address:address,
+        mobile:mobile
+      }),
+      
+    });
+
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center p-6">
       <motion.div
@@ -21,20 +48,12 @@ const ProfilePage = () => {
 
         <form className="space-y-6">
           {/* Username & Name */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
             <motion.div whileFocus={{ scale: 1.05 }}>
-              <label className="block text-sm font-semibold text-gray-700">Username *</label>
+              <label className="block text-sm font-semibold text-gray-700" >Name *</label>
               <input
                 type="text"
-                className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                required
-              />
-            </motion.div>
-            <motion.div whileFocus={{ scale: 1.05 }}>
-              <label className="block text-sm font-semibold text-gray-700">Name *</label>
-              <input
-                type="text"
+                id="name" name="name"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 required
@@ -49,6 +68,8 @@ const ProfilePage = () => {
                 <label className="block text-sm font-semibold text-gray-700">{field} *</label>
                 <input
                   type={field === "Gender" ? "select" : "text"}
+                  id = {field.toLowerCase()}
+                  name = {field.toLowerCase()}
                   className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
@@ -63,6 +84,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">Pincode</label>
               <input
                 type="text"
+                id="pincode" name="pincode"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
@@ -71,6 +93,7 @@ const ProfilePage = () => {
               <label className="block text-sm font-semibold text-gray-700">Address *</label>
               <input
                 type="text"
+                id="address" name="address"
                 className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 required
@@ -79,12 +102,13 @@ const ProfilePage = () => {
           </div>
 
           {/* Phone & Mobile Number */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {["Phone Number", "Mobile Number *"].map((field, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+            {["Mobile Number *"].map((field, index) => (
               <motion.div key={index} whileFocus={{ scale: 1.05 }}>
                 <label className="block text-sm font-semibold text-gray-700">{field}</label>
                 <input
                   type="tel"
+                  id="mobile" name="mobile"
                   className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
                              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required={field.includes("*")}
@@ -92,18 +116,6 @@ const ProfilePage = () => {
               </motion.div>
             ))}
           </div>
-
-          {/* Email */}
-          <motion.div whileFocus={{ scale: 1.05 }}>
-            <label className="block text-sm font-semibold text-gray-700">E-mail Address *</label>
-            <input
-              type="email"
-              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-              required
-            />
-          </motion.div>
-
           {/* Submit Button */}
           <div className="flex justify-center mt-8">
             <motion.button

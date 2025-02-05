@@ -10,7 +10,7 @@ export default function LoginForm() {
 
   async function handleLogin() {
     const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const password = document.getElementById('password').value; 
     const response = await fetch('http://localhost:5000/user/login',{
         method : 'POST',
         headers : {

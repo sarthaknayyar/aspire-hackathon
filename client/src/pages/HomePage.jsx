@@ -1,4 +1,4 @@
-  // import React, { useState } from 'react';
+// import React, { useState } from 'react';
 // import { FiMenu, FiX } from "react-icons/fi"; // Import icons for burger menu
 // import Header from "../../client/src/components/Header";
 // import Footer from "../../client/src/components/Footer";
@@ -41,9 +41,12 @@ import { deleteCookie } from "../utilities/cookie";
 function Sidebar({ setActivePage }) {
   const navigate = useNavigate();
   function logout(){
-    console.log("Logging out");
-    deleteCookie('token');
-    if(!document.cookie.includes('token')) navigate('/');
+    fetch("http://localhost:5000/user/logout", {
+      method: "GET",
+      credentials: "include", // Ensure credentials are included
+  })
+  .then(() => navigate("/"))
+  .catch(err => console.error("Logout error", err));
   }
   return (
     <div className="h-[65vh] w-64 p-5 rounded-2xl bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl backdrop-blur-md text-white">

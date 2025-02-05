@@ -6,6 +6,7 @@ function checkLogin(req,res,next){
             console.log("No cookie found");
             return next();
         }
+        console.log("Cookie found");
         const token = req.cookies?.token;
         const user = jwt.verify(token, secretkey);
         req.user = user;

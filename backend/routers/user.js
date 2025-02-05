@@ -39,13 +39,10 @@ router.post('/login', async (req, res)=>{
     }
     const token =  setUser(user);
     res.cookie("token", token, {
-        httpOnly: true,
-        secure: true, // Ensure it's true in production
-        sameSite: 'None', // Allow cross-site cookies
-        maxAge: 24 * 60 * 60 * 1000, // Cookie expiry (optional, here set to 1 day
-        path: '/', // Adjust the path as needed
-        // domain: 'admirable-quokka-c4bf0c.netlify.app', // Set your domain
-        partitioned: true // If required by browser policies
+        httpOnly: false,  // MUST be false for frontend JavaScript to access it
+        secure: true,  // MUST be true in production with HTTPS
+        sameSite: "None", // Allow cross-site access
+        path: "/" // Make it accessible site-wide
     });
     
     return res.status(200).json({token});
@@ -56,6 +53,16 @@ router.get('/token/:token', async (req, res)=>{
     const user = getUser(token);
     // console.log(user.user);
     return res.json(user.user);
+})
+
+router.get("/logout", async (req, res)=>{
+    res.clearCookie("token", {
+        httpOnly: true, // Ensure this matches your original cookie settings
+        secure: true,
+        sameSite: "None",
+        path: "/"
+    });
+    res.status(200).json({ message: "Logged out successfully" });
 })
 
 // router.get("/username/:username", async (req, res)=>{
