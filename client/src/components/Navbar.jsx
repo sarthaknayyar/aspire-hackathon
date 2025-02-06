@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [active, setActive] = useState("Home");
+  const navigate = useNavigate();
   const handleNavigate = async () => {
     navigate("/login");
   };
@@ -48,7 +49,7 @@ const Navbar = () => {
       </nav>
 
       {/* Login Button */}
-      <button className="bg-orange-500 px-6 py-3 rounded-md hover:bg-orange-600 transition">
+      <button className="bg-orange-500 px-6 py-3 rounded-md hover:bg-orange-600 transition" onClick={handleNavigate}>
         Login
       </button>
     </header>

@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 
 const ProfilePage = () => {
   async function handleSaveProfile(event) {
+    event.preventDefault(); // Prevents the form from submitting and refreshing the page
+    console.log("Saving profile...");
+
     const name = document.getElementById("name").value;
     const gender = document.getElementById("gender").value;
     const state = document.getElementById("state").value;
@@ -10,25 +13,25 @@ const ProfilePage = () => {
     const pincode = document.getElementById("pincode").value;
     const address = document.getElementById("address").value;
     const mobile = document.getElementById("mobile").value;
-    const response = await fetch("http://localhost:5000/user/profile", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify
-      ({
-        name: name, 
-        gender:gender,
-        state:state,
-        district:district,
-        pincode:pincode,
-        address:address,
-        mobile:mobile
-      }),
-      
+
+    const response = await fetch("http://localhost:5000/user/profileUpdate", {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name, gender, state, district, pincode, address, mobile
+        }),
     });
 
-  }
+    if (response.status === 200) {
+        console.log("Profile updated successfully");
+    } else {
+        console.error("Failed to update profile");
+    }
+}
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center p-6">
       <motion.div
@@ -117,7 +120,7 @@ const ProfilePage = () => {
             ))}
           </div>
           {/* Submit Button */}
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-8" onClick={handleSaveProfile}>
             <motion.button
               type="submit"
               whileHover={{ scale: 1.05 }}

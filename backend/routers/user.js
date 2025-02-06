@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const { setUser, getUser } = require('../authservice');
+const { checkLogin } = require('../middlewares/auth');
 
 
 
@@ -39,11 +40,12 @@ router.post('/login', async (req, res)=>{
     }
     const token =  setUser(user);
     res.cookie("token", token, {
-        httpOnly: false,  // MUST be false for frontend JavaScript to access it
-        secure: true,  // MUST be true in production with HTTPS
-        sameSite: "None", // Allow cross-site access
-        path: "/" // Make it accessible site-wide
+        httpOnly: false, // Security: prevents frontend JavaScript access
+        secure: true, // Must be true in production with HTTPS
+        sameSite: "None", // Required for cross-origin requests
+        path: "/", // Ensure it's accessible site-wide
     });
+    
     
     return res.status(200).json({token});
 })
@@ -65,19 +67,53 @@ router.get("/logout", async (req, res)=>{
     res.status(200).json({ message: "Logged out successfully" });
 })
 
-// router.get("/username/:username", async (req, res)=>{
-//     const username = req.params.username;
-//     const user = await User.findOne({username: username});
-//     // console.log("hi"+user);
-//     if(!user){
-//         return res.json({message: "User not found"});
-//     }
-//     return res.json(user);
-// })
+router.put("/profileUpdate", checkLogin, async (req, res) => {
+    try {
+        // Extract user ID from token (checkLogin middleware sets `req.user`)
+        const userId = req.user.user._id;
 
-// router.get('/allusers/contact', async (req, res)=>{
-//     const users = await User.find({});
-//     return res.json(users);
-// })
+        // Extract profile update data from request body
+        const { name, gender, state, district, pincode, address, mobile } = req.body;
+
+        // Find the user and update details
+        const updatedUser = await User.findByIdAndUpdate(
+            userId, 
+            { name, gender, state, district, pincode, address, phone: mobile }, // Update fields
+            { new: true, runValidators: true } // Return updated user & validate data
+        );
+
+        if (!updatedUser) {
+            console.log("User not found!");
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        console.log("Updated User:", updatedUser);
+        return res.status(200).json({
+            message: "Profile updated successfully",
+            user: updatedUser
+        });
+
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        return res.status(500).json({ message: "Server error", error });
+    }
+});
+
+
+
+router.get("/username", checkLogin, async (req, res)=>{
+    const username = req.params.username;
+    const user = await User.findOne({username: username});
+    // console.log("hi"+user);
+    if(!user){
+        return res.json({message: "User not found"});
+    }
+    return res.json(user);
+})
+
+router.get('/allusers/contact', async (req, res)=>{
+    const users = await User.find({});
+    return res.json(users);
+})
 
 module.exports = router;
