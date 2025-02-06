@@ -86,6 +86,13 @@ router.put("/profileUpdate", checkLogin, async (req, res) => {
             console.log("User not found!");
             return res.status(404).json({ message: "User not found" });
         }
+        const token =  setUser(updatedUser);
+    res.cookie("token", token, {
+        httpOnly: false, // Security: prevents frontend JavaScript access
+        secure: true, // Must be true in production with HTTPS
+        sameSite: "None", // Required for cross-origin requests
+        path: "/", // Ensure it's accessible site-wide
+    });
 
         console.log("Updated User:", updatedUser);
         return res.status(200).json({
@@ -102,8 +109,7 @@ router.put("/profileUpdate", checkLogin, async (req, res) => {
 
 
 router.get("/username", checkLogin, async (req, res)=>{
-    const username = req.params.username;
-    const user = await User.findOne({username: username});
+    const user = req.user.user;
     // console.log("hi"+user);
     if(!user){
         return res.json({message: "User not found"});
