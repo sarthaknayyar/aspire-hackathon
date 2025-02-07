@@ -1,27 +1,17 @@
-import { ClipboardType } from "lucide-react";
-import React, { useState } from "react";
-
-import { useNavigate } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
     address: "",
-    // locality: "",
     state: "",
-    // country: "India",
-    // city: "",
-    // pincode: "",
+    city: "",
     phone: "",
-    // phone: "",
     email: "",
-    // password: "",
-    city: "",   
     password: "",
-
   });
-
 
   const stateLists = {
     "Andhra Pradesh": ["Item1", "Item2", "Item3"],
@@ -52,19 +42,12 @@ const SignupForm = () => {
     "Uttar Pradesh": ["Item70", "Item71", "Item72"],
     "Uttarakhand": ["Item73", "Item74", "Item75"],
     "West Bengal": ["Item76", "Item77", "Item78"],
-    "Andaman and Nicobar Islands": ["Item79", "Item80", "Item81"],
-    "Chandigarh": ["Item82", "Item83", "Item84"],
-    "Dadra and Nagar Haveli and Daman and Diu": ["Item85", "Item86", "Item87"],
-    "Lakshadweep": ["Item88", "Item89", "Item90"],
     "Delhi": ["Item91", "Item92", "Item93"],
-    "Puducherry": ["Item94", "Item95", "Item96"],
-    "Ladakh": ["Item97", "Item98", "Item99"],
-    "Jammu and Kashmir": ["Item100", "Item101", "Item102"]
   };
 
-  const States  = Object.keys(stateLists);
-  const[selectedState, setSelectedState] = useState(States[0]);
-  const [list,setList] = useState(stateLists[selectedState]);
+  const States = Object.keys(stateLists);
+  const [selectedState, setSelectedState] = useState(States[0]);
+  const [list, setList] = useState(stateLists[selectedState]);
 
   const handleStateChange = (event) => {
     const newState = event.target.value;
@@ -77,113 +60,96 @@ const SignupForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Submitted", formData);
-  };
   const navigate = useNavigate();
   const [status, setStatus] = useState(null);
 
-  async function handleSignup(){
-    const response = await fetch('http://localhost:5000/user/signup',{
-        method : 'POST',
-        headers : {
-            'Content-Type' : 'application/json',
-        },
-        body : JSON.stringify(formData),
+  async function handleSignup() {
+    const response = await fetch("http://localhost:5000/user/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     });
-    if(response.status === 200){
-        const data = await response.json();
-        console.log(data);
-        navigate('/login');
-    }
-    else if(response.status === 400){
-        console.log('User not found');
-        setStatus('User not found');
+    if (response.status === 200) {
+      const data = await response.json();
+      console.log(data);
+      navigate("/login");
+    } else if (response.status === 400) {
+      setStatus("User already exists");
     }
   }
 
-
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold text-purple-700 mb-4">Registration/Sign-up Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-semibold">Name *</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold">Gender *</label>
-            <div className="flex space-x-4">
-              <label><input type="radio" name="gender" value="Male" onChange={handleChange} /> Male</label>
-              <label><input type="radio" name="gender" value="Female" onChange={handleChange} /> Female</label>
-              <label><input type="radio" name="gender" value="Transgender" onChange={handleChange} /> Transgender</label>
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-3xl">
+        <h2 className="text-2xl font-bold text-center text-gray-800">
+          Registration / Sign-up Form
+        </h2>
+        <p className="text-gray-500 text-center mt-1">
+          Fill in your details to create an account.
+        </p>
+
+        <form className="mt-6" onSubmit={(e) => e.preventDefault()}>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label className="text-sm font-semibold text-gray-600">Full Name *</label>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required />
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-gray-600">Gender *</label>
+              <div className="flex space-x-4 mt-1">
+                {["Male", "Female", "Transgender"].map((gender) => (
+                  <label key={gender} className="flex items-center space-x-2">
+                    <input type="radio" name="gender" value={gender} onChange={handleChange} className="text-indigo-500 focus:ring-indigo-400" />
+                    <span>{gender}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 gap-4 mt-4">
-          <div>
-            <label className="block font-semibold">Address *</label>
-            <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full p-2 border rounded" required />
+          <div className="mt-4">
+            <label className="text-sm font-semibold text-gray-600">Address *</label>
+            <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required />
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          <div>
-            <label className="block font-semibold">State/Union Territory *</label>
-            <select name="state" value={formData.state} onChange={(e) => { handleChange(e); handleStateChange(e); }} className="w-full p-2 border rounded" required>
-              <option value="">--Select a state--</option>
-              {States.map((state, index) => (
-                <option key={index} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
+          <div className="grid grid-cols-2 gap-6 mt-4">
+            <div>
+              <label className="text-sm font-semibold text-gray-600">State *</label>
+              <select name="state" value={formData.state} onChange={(e) => { handleChange(e); handleStateChange(e); }} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required>
+                {States.map((state, index) => (
+                  <option key={index} value={state}>{state}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-600">City *</label>
+              <select name="city" value={formData.city} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required>
+                {list.map((item, index) => (
+                  <option key={index} value={item}>{item}</option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div>
-            <label className="block font-semibold">City *</label>
-            <select name="city" value={formData.city} onChange={handleChange} className="w-full p-2 border rounded" required>
-              <option value="">--Select a state first--</option>
-              {list.map((item, index) => (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
+
+          <div className="grid grid-cols-2 gap-6 mt-4">
+            <div>
+              <label className="text-sm font-semibold text-gray-600">Phone *</label>
+              <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-600">Email *</label>
+              <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required />
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          {/* <div>
-            <label className="block font-semibold">Pincode</label>
-            <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full p-2 border rounded" />
-          </div> */}
-          <div>
-            <label className="block font-semibold">Phone number *</label>
-            <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold">E-mail address *</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-        </div>
-
-        {/* <div className="grid grid-cols-2 gap-4 mt-4"> */}
-          {/* <div>
-            <label className="block font-semibold">Phone number</label>
-            <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-2 border rounded" />
-          </div> */}
-        {/* </div> */}
-
-        <div className="mt-4">
-          <label className="block font-semibold">Password *</label>
-          <input type="text" name="password" value={formData.password} onChange={handleChange} className="w-full p-2 border rounded" required />
-        </div>
-
-        <button type="submit" className="mt-6 px-6 py-2 bg-purple-700 text-white rounded shadow" onClick={handleSignup} >Submit</button>
-      </form>
+          <button type="submit" className="w-full bg-gradient-to-r from-[#ffb703] to-[#fb8500] text-white py-3 rounded-full font-semibold shadow-md mt-6 hover:shadow-lg transition-all duration-300" onClick={handleSignup}>
+            Register ➜
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
