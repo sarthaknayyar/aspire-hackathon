@@ -40,11 +40,11 @@ const AccountDetails = () => {
 
   const addressInfo = user.address
     ? [
-        { label: "State", value: user.address.state || "N/A", icon: <MapPin size={20} /> },
-        { label: "District", value: user.address.district || "N/A", icon: <Landmark size={20} /> },
-        { label: "Pincode", value: user.address.pincode || "N/A", icon: <Edit3 size={20} /> },
-        { label: "Locality", value: user.address.locality || "N/A", icon: <MapPin size={20} /> },
-        { label: "Premise Name", value: user.address.premise || "N/A", icon: <MapPin size={20} /> },
+        { label: "State", value: user.address.state || `${user.address}`, icon: <MapPin size={20} /> },
+        { label: "District", value: user.address.district || `${user.city}`, icon: <Landmark size={20} /> },
+        { label: "Pincode", value: user.address.pincode || `${user.pincode}`, icon: <Edit3 size={20} /> },
+        { label: "State", value: user.address.locality || `${user.state}`, icon: <MapPin size={20} /> },
+        // { label: "Premise Name", value: user.address.premise || "N/A", icon: <MapPin size={20} /> },
       ]
     : [];
 

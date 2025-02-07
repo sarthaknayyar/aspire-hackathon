@@ -8,7 +8,7 @@ const userRouter = require('./routers/user');
 const grievanceRouter = require('./routers/grievance');
 const cookieParser = require('cookie-parser');
 // const { checkLogin } = require("./middlewares/auth");
-// const dotenv = require('dotenv');   
+// const dotenv = require('dotenv');
 
 
 
@@ -38,4 +38,3 @@ app.use('/grievance', grievanceRouter);
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
- 
