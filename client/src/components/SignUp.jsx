@@ -11,6 +11,7 @@ const SignupForm = () => {
     phone: "",
     email: "",
     password: "",
+    pincode: ""
   });
 
   const stateLists = {
@@ -65,6 +66,7 @@ const SignupForm = () => {
   const [status, setStatus] = useState(null);
 
   async function handleSignup() {
+    console.log(formData);
     const response = await fetch("http://localhost:5000/user/signup", {
       method: "POST",
       headers: {

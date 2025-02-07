@@ -17,7 +17,8 @@ router.post('/signup', async (req, res)=>{
         phone: req.body.phone,
         address: req.body.address,
         city: req.body.city,
-        state: req.body.state
+        state: req.body.state,
+        pincode: req.body.pincode
     });
         // console.log(user);
 
