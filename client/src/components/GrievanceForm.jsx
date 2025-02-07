@@ -5,30 +5,44 @@ const GrievanceForm = () => {
   const { department } = useParams();
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
-  const [complaint, setComplaint] = useState("");
+  const [description, setDescription] = useState("");
   const [remarks, setRemarks] = useState("");
   const [file, setFile] = useState(null);
+  const formData = new FormData();
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("department", department);
-    formData.append("category", category);
-    formData.append("subcategory", subcategory);
-    formData.append("complaint", complaint);
-    formData.append("remarks", remarks);
-    formData.append("file", file);
+    // console.log("Form data", formData);
 
-    console.log("Form data to be submitted:");
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
+    try {
+      const response = await fetch("http://localhost:5000/grievance", {
+        method: "POST",
+        body: JSON.stringify({
+          department,
+          category,
+          subcategory,
+          description,
+          remarks,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (response.status === 201) {
+        alert("Grievance submitted successfully!");
+      } else {
+        alert("Failed to submit grievance");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit grievance");
     }
-  };
-
+  }
   const mainCategories = [
     { value: "billing", label: "Billing Issues" },
     { value: "technical", label: "Technical Problems" },
@@ -129,9 +143,9 @@ const GrievanceForm = () => {
             Complaint
           </label>
           <textarea
-            value={complaint}
-            onChange={(e) => setComplaint(e.target.value)}
-            placeholder="Describe your complaint..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Describe your description..."
             rows="4"
             required
             className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
