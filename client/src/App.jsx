@@ -6,23 +6,21 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import LoginForm from './components/login';
 import SignupForm from './components/SignUp';
 import Navbar from './components/Navbar';
+import GrievanceForm from './components/GrievanceForm';
 
 
 function App() {
 
   return (
    <div>
-
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/homepage" element={<HomePage />} />
       <Route path='/login' element={<LoginForm/>} />
       <Route path='/signup' element={<SignupForm/>} />
       <Route path='/navbar' element={<Navbar/>} />
+      <Route path='/grievance-form/:department' element={<GrievanceForm/>} />
     </Routes>
-
-
-
    </div>
   )
 }
