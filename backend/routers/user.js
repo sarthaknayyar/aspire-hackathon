@@ -41,10 +41,11 @@ router.post('/login', async (req, res)=>{
     }
     const token =  setUser(user);
     res.cookie("token", token, {
-        httpOnly: false, // Security: prevents frontend JavaScript access
-        secure: true, // Must be true in production with HTTPS
+        httpOnly: false, // Prevents frontend JavaScript access
+        secure: true,  // Must be true in production (HTTPS)
         sameSite: "None", // Required for cross-origin requests
         path: "/", // Ensure it's accessible site-wide
+        maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
     });
     
     
