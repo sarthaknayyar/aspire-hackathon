@@ -4,7 +4,9 @@ export default function Header() {
   return (
     <header className="bg-blue-700 text-white py-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center px-4">
-        <h1 className="text-2xl font-bold">Grievance Portal</h1>
+        <h1 className="text-2xl font-bold">
+          <Link to="/" className="hover:text-gray-300">Grievance Portal</Link>
+        </h1>
         <nav>
           <ul className="flex space-x-6">
             <li>

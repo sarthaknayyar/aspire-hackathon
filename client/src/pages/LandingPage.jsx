@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, stagger } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import footer from "../components/footer";
-import Footer from "../components/footer";
+// import footer from "../components/footer";
+import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 const images = [

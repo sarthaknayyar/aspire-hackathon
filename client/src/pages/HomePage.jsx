@@ -94,7 +94,7 @@ function HomePage() {
     switch (activePage) {
       case "home":
         return <Home />;
-      case "complaints":
+      case "Submit":
         return <Complaints />;
       case "status":
         return <Status />;
