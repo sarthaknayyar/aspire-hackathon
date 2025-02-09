@@ -17,10 +17,12 @@ import ChangePassword from "../components/ChangePassword";
 import AccountDetails from "../components/AccountDetails";
 import { useNavigate } from 'react-router';
 import { deleteCookie, getCookie } from "../utilities/cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import { set } from 'mongoose';
 
 function Sidebar({ setActivePage }) {
   const navigate = useNavigate();
-
   function logout() {
     fetch("https://aspire-hackathon.onrender.com/user/logout", {
       method: "GET",
@@ -48,8 +50,8 @@ function Sidebar({ setActivePage }) {
 function SidebarItem({ icon, text, special, onClick }) {
   return (
     <li
-      onClick={onClick}
-      className={`flex justify-center items-center p-4 rounded-xl cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-md text-lg ${
+    onClick={onClick}
+    className={`flex justify-center items-center p-4 rounded-xl cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-md text-lg ${
         special ? "bg-red-600 hover:bg-red-700 text-white" : "bg-white/20 hover:bg-white/30 text-white"
       }`}
     >
@@ -63,6 +65,18 @@ function SidebarItem({ icon, text, special, onClick }) {
 
 
 function HomePage() {
+  useEffect(() => {
+    const showToast = localStorage.getItem("showLoginToast"); // ✅ Check flag in localStorage
+    console.log("🚀 Checking Local Storage:", showToast); 
+    if (showToast === "true") {
+        toast.success("Welcome back!", { position: "top-center" }); // ✅ Show toast
+        // localStorage.removeItem("showLoginToast"); // ✅ Remove flag to prevent duplicate toasts
+        setTimeout(()=>{
+          localStorage.removeItem("showLoginToast");
+        }
+        , 3000);
+    }
+}, []);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState("home");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -88,39 +102,40 @@ function HomePage() {
         </div>
       );
     }
-
+    
     switch (activePage) {
       case "home":
         return <Home />;
-      case "Submit":
-        return <Complaints />;
-      case "status":
-        return <Status />;
-      case "contact":
-        return <Contact />;
-      case "newGrievanceOrganisation":
-        return <NewGrievanceOrganisation />;
-      case "profile":
-        return <ProfilePage />;
-      case "signUp":
+        case "Submit":
+          return <Complaints />;
+          case "status":
+            return <Status />;
+            case "contact":
+              return <Contact />;
+              case "newGrievanceOrganisation":
+                return <NewGrievanceOrganisation />;
+                case "profile":
+                  return <ProfilePage />;
+                  case "signUp":
         return <SignUp />;
-      case "grievanceForm":
-        return <GrievanceForm />;
-      case "login":
-        return <LoginForm />;
-      case "faq":
-        return <FAQPage />;
-      case "changePassword":
-        return <ChangePassword />;
-      case "accountDetails":
+        case "grievanceForm":
+          return <GrievanceForm />;
+          case "login":
+            return <LoginForm />;
+            case "faq":
+              return <FAQPage />;
+              case "changePassword":
+                return <ChangePassword />;
+                case "accountDetails":
         return <AccountDetails />;
       default:
         return <Home />;
-    }
-  };
-
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+      }
+    };
+    
+    return (
+      <div className="flex flex-col min-h-screen bg-gray-100">
+      <ToastContainer autoClose={3000} position="top-center" />
 
       <Header />
 

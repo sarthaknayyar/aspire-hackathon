@@ -11,12 +11,15 @@ import Home from "./components/Home";
 import FAQPage from "./components/FAQPage";
 import Complaints from "./components/Complaints";
 import Contact from "./components/Contact";
+import { ToastContainer } from "react-toastify";
 
 
 function App() {
 
   return (
+    
    <div>
+    <ToastContainer autoClose={3000} position="top-center" />
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/homepage" element={<HomePage />} />
