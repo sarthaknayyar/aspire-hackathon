@@ -1,7 +1,12 @@
 import { useNavigate } from "react-router-dom";
+
+// import footer from "../components/footer";
+import Footer from "../components/Footer";
+
 // components
 import footer from "../components/footer";
 import Footer from "../components/footer";
+
 import Navbar from "../components/Navbar";
 import Features from "../components/Features";
 import Services from "../components/Services";
