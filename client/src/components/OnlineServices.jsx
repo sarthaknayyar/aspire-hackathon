@@ -53,13 +53,13 @@ const OnlineServices = () => {
             ? {
               hidden: { opacity: 0, x: "-100vw" },
               ease: "easeInOut",
-              visible: { opacity: 1, x: 0, transition: { duration: 1.5 } },
+              visible: { opacity: 1, x: 0, transition: { duration: 1 } },
               stagger: { duration: 0.5 },
             }
             : {
               hidden: { opacity: 0, x: "100vw" },
               ease: "easeInOut  ",
-              visible: { opacity: 1, x: 0, transition: { duration: 1.5 } },
+              visible: { opacity: 1, x: 0, transition: { duration: 1 } },
               stagger: { duration: 0.5 },
             };
 

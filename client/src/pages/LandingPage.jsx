@@ -1,28 +1,30 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// import footer from "../components/footer";
-// import Footer from "../components/footer";
-
-// components
-// import footer from "../components/footer";
+// Components
 import Footer from "../components/footer";
-
 import Navbar from "../components/Navbar";
 import Features from "../components/Features";
 import Services from "../components/Services";
 import OnlineServices from "../components/OnlineServices";
 import HeroSection from "../components/HeroSection";
 
-
 const LandingPage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.body.style.overflowX = "hidden"; // Prevent horizontal scrolling
+    return () => {
+      document.body.style.overflowX = "auto"; // Re-enable scrolling when component unmounts
+    };
+  }, []);
 
   const handleNavigate = async () => {
     navigate("/login");
   };
 
   return (
-    <div>
+    <div className="overflow-x-hidden w-full">
       {/* Navbar */}
       <Navbar />
       {/* Hero Section with Sliding Background */}
@@ -31,7 +33,7 @@ const LandingPage = () => {
       <Features />
       {/* Services Section */}
       <Services />
-       {/* Online Services Section with Framer Motion Animations */}
+      {/* Online Services Section with Framer Motion Animations */}
       <OnlineServices />
       {/* Footer */}
       <Footer />
