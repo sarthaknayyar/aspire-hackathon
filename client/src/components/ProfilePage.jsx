@@ -14,7 +14,7 @@ const ProfilePage = () => {
     const address = document.getElementById("address").value;
     const mobile = document.getElementById("mobile").value;
 
-    const response = await fetch("http://localhost:5000/user/profileUpdate", {
+    const response = await fetch("https://aspire-hackathon.onrender.com/user/profileUpdate", {
         method: "PUT",
         credentials: "include",
         headers: {

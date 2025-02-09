@@ -70,7 +70,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchGrievances = async () => {
-      const response = await fetch("http://localhost:5000/grievance", {
+      const response = await fetch("https://aspire-hackathon.onrender.com/grievance", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

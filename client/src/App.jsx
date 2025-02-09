@@ -7,6 +7,10 @@ import LoginForm from './components/login';
 import SignupForm from './components/SignUp';
 import Navbar from './components/Navbar';
 import GrievanceForm from './components/GrievanceForm';
+import Home from "./components/Home";
+import FAQPage from "./components/FAQPage";
+import Complaints from "./components/Complaints";
+import Contact from "./components/Contact";
 
 
 function App() {
@@ -20,6 +24,11 @@ function App() {
       <Route path='/signup' element={<SignupForm/>} />
       <Route path='/navbar' element={<Navbar/>} />
       <Route path='/grievance-form/:department' element={<GrievanceForm/>} />
+      {/* <Route path="/Home" element={<Home />} /> */}
+        <Route path="/faqs" element={<FAQPage />} />
+        <Route path="/complaints" element={<Complaints />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path='/status' element={<Home/>}/>
     </Routes>
    </div>
   )

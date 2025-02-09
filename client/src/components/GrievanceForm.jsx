@@ -18,7 +18,7 @@ const GrievanceForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/grievance", {
+      const response = await fetch("https://aspire-hackathon.onrender.com/grievance", {
         method: "POST",
         body: JSON.stringify({
           department,
