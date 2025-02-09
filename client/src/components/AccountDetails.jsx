@@ -12,7 +12,7 @@ const AccountDetails = () => {
 
     if (token) {
       console.log("Fetching user data...");
-      fetch(`http://localhost:5000/user/token/${token}`)
+      fetch(`https://aspire-hackathon.onrender.com/user/token/${token}`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch user data");
           return res.json();

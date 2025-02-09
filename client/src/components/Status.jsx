@@ -10,8 +10,8 @@ export default function Status() {
     setError(null); // Reset any previous errors
 
     try {
-      const response = await fetch(`http://localhost:5000/grievance/${grievanceCode}`);
-
+      const response = await fetch(`https://aspire-hackathon.onrender.com/grievance/${grievanceCode}`);
+      
       if (!response.ok) {
         throw new Error("Grievance not found");
       }

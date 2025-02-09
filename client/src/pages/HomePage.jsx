@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiMenu, FiX } from "react-icons/fi"; // Import icons for burger menu
 import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Footer from "../components/footer";
 import HomeHeader from "../components/HomeHeader";
 import Home from "../components/Home";
 import Complaints from "../components/Complaints";
@@ -20,38 +20,128 @@ import { deleteCookie, getCookie } from "../utilities/cookie";
 
 function Sidebar({ setActivePage }) {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   function logout() {
-    fetch("http://localhost:5000/user/logout", {
+    fetch("https://aspire-hackathon.onrender.com/user/logout", {
       method: "GET",
-      credentials: "include",
+      credentials: "include", // Ensure credentials are included
     })
-    .then(() => navigate("/"))
-    .catch(err => console.error("Logout error", err));
+      .then(() => navigate("/"))
+      .catch((err) => console.error("Logout error", err));
   }
 
   return (
-    <div className="h-auto w-auto p-5 bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl backdrop-blur-md text-white">
-      <ul className="space-y-3">
-        <SidebarItem icon="📺" text="Appeal Dashboard" onClick={() => setActivePage("home")} />
-        <SidebarItem icon="➕" text="Lodge Public Grievance" onClick={() => setActivePage("newGrievanceOrganisation")} /> 
-        <SidebarItem icon="➕" text="Check Status" onClick={() => setActivePage("status")} /> 
-        <SidebarItem icon="🔄" text="Account Activity" onClick={() => setActivePage("accountDetails")} />
-        <SidebarItem icon="✏️" text="Edit Profile" onClick={() => setActivePage("profile")} />
-        <SidebarItem icon="🔒" text="Change Password" onClick={() => setActivePage("changePassword")} />
-        <SidebarItem icon="🔌" text="Sign out" special onClick={logout} /> 
-      </ul>
-    </div>
+    <>
+      {/* Toggle Button (visible on smaller screens) */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-600 text-white rounded-md"
+      >
+        {isOpen ? "✖ Close" : "☰ Menu"}
+      </button>
+
+      {/* Sidebar Container */}
+      <div
+        className={`
+          fixed top-0 left-0 h-full w-64 p-5 rounded-r-2xl
+          bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl
+          backdrop-blur-md text-white transform transition-transform
+          duration-300 ease-in-out
+          ${isOpen ? "translate-x-0" : "-translate-x-72"}
+          lg:translate-x-0 lg:static
+          flex flex-col
+        `}
+      >
+        {/* Sidebar Menu */}
+        <ul className="space-y-3 mt-12 overflow-y-auto flex-grow">
+          <SidebarItem
+            icon="📺"
+            text={
+              <span onClick={() => setActivePage("home")} className="cursor-pointer">
+                Appeal Dashboard
+              </span>
+            }
+          />
+          <SidebarItem
+            icon="➕"
+            text={
+              <span onClick={() => setActivePage("newGrievanceOrganisation")} className="cursor-pointer">
+                Lodge Public Grievance
+              </span>
+            }
+          />
+          <SidebarItem
+            icon="➕"
+            text={
+              <span onClick={() => setActivePage("grievanceForm")} className="cursor-pointer">
+                Lodge Pension Grievance
+              </span>
+            }
+          />
+          <SidebarItem
+            icon="➕"
+            text={
+              <span onClick={() => setActivePage("status")} className="cursor-pointer">
+                Check Status
+              </span>
+            }
+          />
+          <SidebarItem
+            icon="🔄"
+            text={
+              <span onClick={() => setActivePage("accountDetails")} className="cursor-pointer">
+                Account Activity
+              </span>
+            }
+          />
+          <SidebarItem
+            icon="✏️"
+            text={
+              <span onClick={() => setActivePage("profile")} className="cursor-pointer">
+                Edit Profile
+              </span>
+            }
+          />
+          <SidebarItem
+            icon="🔒"
+            text={
+              <span onClick={() => setActivePage("changePassword")} className="cursor-pointer">
+                Change Password
+              </span>
+            }
+          />
+          <div onClick={logout}>
+            <SidebarItem
+              icon="🔌"
+              text={<span className="cursor-pointer">Sign out</span>}
+              special
+            />
+          </div>
+        </ul>
+      </div>
+
+      {/* Overlay on Mobile (closes sidebar when clicked) */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+    </>
   );
 }
 
 function SidebarItem({ icon, text, special, onClick }) {
   return (
     <li
-      onClick={onClick}
-      className={`flex justify-center items-center p-4 rounded-xl cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-md text-lg font-bold ${
-        special ? "bg-red-600 hover:bg-red-700 text-white" : "bg-white/20 hover:bg-white/30 text-white"
-      }`}
+      className={`flex justify-between items-center p-3 rounded-xl
+        transition-all duration-200 transform hover:scale-105
+        hover:shadow-md cursor-pointer ${
+          special
+            ? "bg-red-600 hover:bg-red-700 text-white"
+            : "bg-white/20 hover:bg-white/30 text-white"
+        }`}
     >
       <div className="flex items-center space-x-4">
         <span className="text-xl">{icon}</span>
