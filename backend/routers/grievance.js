@@ -27,9 +27,10 @@ router.post("/", checkLogin,  async (req, res) => {
 });
 
 // Fetch All Grievances
-router.get("/", async (req, res) => {
+router.get("/", checkLogin, async (req, res) => {
   try {
-    const grievances = await Grievance.find();
+    const useremail = req.user.user.email;
+    const grievances = await Grievance.find({ complainantEmail: useremail });
     res.json(grievances);
   } catch (err) {
     res.status(500).json({ error: err.message });
