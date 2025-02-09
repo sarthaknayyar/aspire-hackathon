@@ -49,17 +49,18 @@ function SidebarItem({ icon, text, special, onClick }) {
   return (
     <li
       onClick={onClick}
-      className={`flex justify-between items-center p-3 rounded-xl cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-md ${
+      className={`flex justify-center items-center p-4 rounded-xl cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-md text-lg font-bold ${
         special ? "bg-red-600 hover:bg-red-700 text-white" : "bg-white/20 hover:bg-white/30 text-white"
       }`}
     >
-      <div className="flex items-center space-x-3">
-        <span className="text-md">{icon}</span>
-        <span className="text-sm font-small">{text}</span>
+      <div className="flex items-center space-x-4">
+        <span className="text-xl">{icon}</span>
+        <span className="text-lg font-bold text-center">{text}</span>
       </div>
     </li>
   );
 }
+
 
 function HomePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -120,7 +121,9 @@ function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
+
       <Header />
+
       <HomeHeader />
 
       <div className="lg:hidden flex justify-between items-center p-4 bg-white shadow-md">
