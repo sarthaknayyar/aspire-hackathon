@@ -27,12 +27,14 @@ const GrievanceForm = () => {
           subcategory,
           description,
           remarks,
+          file,
         }),
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
+      console.log(file);
       if (response.status === 201) {
         alert("Grievance submitted successfully!");
       } else {

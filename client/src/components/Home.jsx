@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 export default function Home() {
   // Grievance data
-  const [grievances] = useState([
-    { id: 1, registrationNumber: "DOUR/E/2025/0000837", receivedDate: "15/01/2025", description: "Housing and Urban Affairs", status: "Under process" },
-    { id: 2, registrationNumber: "DOUR/E/2025/0000838", receivedDate: "16/01/2025", description: "Water Supply Issue", status: "Pending" },
-    { id: 3, registrationNumber: "DOUR/E/2025/0000839", receivedDate: "17/01/2025", description: "Street Light Issue", status: "Closed" },
-    { id: 4, registrationNumber: "DOUR/E/2025/0000840", receivedDate: "18/01/2025", description: "Road Repair Issue", status: "Pending" },
-    { id: 5, registrationNumber: "DOUR/E/2025/0000841", receivedDate: "19/01/2025", description: "Electricity Issue", status: "Under process" },
-    { id: 6, registrationNumber: "DOUR/E/2025/0000842", receivedDate: "20/01/2025", description: "Garbage Collection", status: "Pending" },
-    { id: 7, registrationNumber: "DOUR/E/2025/0000843", receivedDate: "21/01/2025", description: "Public Park Maintenance", status: "Closed" },
-    { id: 8, registrationNumber: "DOUR/E/2025/0000844", receivedDate: "22/01/2025", description: "Water Contamination", status: "Under process" },
-    { id: 9, registrationNumber: "DOUR/E/2025/0000845", receivedDate: "23/01/2025", description: "Street Nameplate Missing", status: "Pending" },
-    { id: 10, registrationNumber: "DOUR/E/2025/0000846", receivedDate: "24/01/2025", description: "Broken Traffic Lights", status: "Closed" },
-  ]);
-
+  // const [grievances] = useState([
+  //   { id: 1, registrationNumber: "DOUR/E/2025/0000837", receivedDate: "15/01/2025", description: "Housing and Urban Affairs", status: "Under process" },
+  //   { id: 2, registrationNumber: "DOUR/E/2025/0000838", receivedDate: "16/01/2025", description: "Water Supply Issue", status: "Pending" },
+  //   { id: 3, registrationNumber: "DOUR/E/2025/0000839", receivedDate: "17/01/2025", description: "Street Light Issue", status: "Closed" },
+  //   { id: 4, registrationNumber: "DOUR/E/2025/0000840", receivedDate: "18/01/2025", description: "Road Repair Issue", status: "Pending" },
+  //   { id: 5, registrationNumber: "DOUR/E/2025/0000841", receivedDate: "19/01/2025", description: "Electricity Issue", status: "Under process" },
+  //   { id: 6, registrationNumber: "DOUR/E/2025/0000842", receivedDate: "20/01/2025", description: "Garbage Collection", status: "Pending" },
+  //   { id: 7, registrationNumber: "DOUR/E/2025/0000843", receivedDate: "21/01/2025", description: "Public Park Maintenance", status: "Closed" },
+  //   { id: 8, registrationNumber: "DOUR/E/2025/0000844", receivedDate: "22/01/2025", description: "Water Contamination", status: "Under process" },
+  //   { id: 9, registrationNumber: "DOUR/E/2025/0000845", receivedDate: "23/01/2025", description: "Street Nameplate Missing", status: "Pending" },
+  //   { id: 10, registrationNumber: "DOUR/E/2025/0000846", receivedDate: "24/01/2025", description: "Broken Traffic Lights", status: "Closed" },
+  // ]);
+  
+  const [grievances, setGrievances] = useState([]);
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const entriesPerPage = 5;
@@ -40,8 +42,8 @@ export default function Home() {
 
   // Dynamic card calculations
   const totalGrievances = grievances.length;
-  const pendingGrievances = grievances.filter((g) => g.status === "Pending").length;
-  const closedGrievances = grievances.filter((g) => g.status === "Closed").length;
+  const pendingGrievances = grievances.filter((g) => g.currentStatus === "Under process").length;
+  const closedGrievances = totalGrievances - pendingGrievances;
 
   // Array of card data for easy mapping + animation
   const cardData = [
@@ -64,6 +66,25 @@ export default function Home() {
       gradientClass: "from-red-500 to-red-600",
     },
   ];
+
+
+  useEffect(() => {
+    const fetchGrievances = async () => {
+      const response = await fetch("http://localhost:5000/grievance", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log(data);
+        setGrievances(data);
+      }
+    };
+    fetchGrievances();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -110,10 +131,19 @@ export default function Home() {
                   } hover:bg-gray-100`}
                 >
                   <td className="p-3">{indexOfFirstEntry + index + 1}</td>
-                  <td className="p-3">{grievance.registrationNumber}</td>
-                  <td className="p-3">{grievance.receivedDate}</td>
-                  <td className="p-3">{grievance.description}</td>
-                  <td className="p-3 font-semibold">{grievance.status}</td>
+                  <td className="p-3">{grievance.grievanceCode}</td>
+                  <td className="p-3">{new Date(grievance.createdAt
+                    
+                  ).toISOString().split("T")[0]}</td>
+                  <td className="p-3">
+                    {(() => {
+                      const words = grievance.description.split(" ");
+                      return words.length > 3
+                        ? words.slice(0, 3).join(" ") + "..."
+                        : grievance.description;
+                    })()}
+                  </td>
+                  <td className="p-3 font-semibold">{grievance.currentStatus}</td>
                 </tr>
               ))}
             </tbody>
