@@ -23,6 +23,7 @@ function Sidebar({ setActivePage }) {
   const [isOpen, setIsOpen] = useState(false);
 
   function logout() {
+    deleteCookie("token");
     fetch("https://aspire-hackathon.onrender.com/user/logout", {
       method: "GET",
       credentials: "include", // Ensure credentials are included

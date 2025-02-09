@@ -42,14 +42,14 @@ router.post('/login', async (req, res)=>{
     const token =  setUser(user);
     console.log(token);
     res.cookie("token", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true, // Ensure it's true in production
         sameSite: 'None', // Allow cross-site cookies
         maxAge: 24 * 60 * 60 * 1000, // Cookie expiry (optional, here set to 1 day
         path: '/', // Adjust the path as needed
         // domain: 'admirable-quokka-c4bf0c.netlify.app', // Set your domain
-        // partitioned: true // If required by browser policies
-    });  
+        partitioned: true // If required by browser policies
+    }); 
     
     return res.status(200).json({token});
 })

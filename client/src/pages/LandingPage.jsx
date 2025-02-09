@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
 // import footer from "../components/footer";
-import Footer from "../components/Footer";
+// import Footer from "../components/footer";
 
 // components
-import footer from "../components/footer";
+// import footer from "../components/footer";
 import Footer from "../components/footer";
 
 import Navbar from "../components/Navbar";

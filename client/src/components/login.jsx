@@ -21,7 +21,7 @@ export default function LoginForm() {
     if (response.status === 200) {
       const data = await response.json();
       const token = data.token;
-      document.cookie = `token=${token}; Secure; SameSite=None; Domain=.onrender.com; Path=/;`;
+      document.cookie = `token=${token}; Secure; SameSite=None; Domain=localhost;`;
       navigate("/homepage");
     } else if (response.status === 404) {
       setStatus("User not found");
