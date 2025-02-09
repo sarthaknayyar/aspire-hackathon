@@ -164,7 +164,7 @@ export default function Home() {
             Prev
           </button>
           <p className="text-gray-700">
-            Page {currentPage} of {Math.ceil(grievances.length / entriesPerPage)}
+            Page {currentPage} of {Math.max(1, Math.ceil(grievances.length / entriesPerPage))}
           </p>
           <button
             onClick={nextPage}

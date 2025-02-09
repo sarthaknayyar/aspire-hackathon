@@ -9,6 +9,8 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  
+
   return (
     <header className="bg-blue-900 text-white px-8 py-4 flex justify-between items-center shadow-md">
       {/* Logo */}

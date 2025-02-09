@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, stagger } from "framer-motion";
 import { useNavigate } from "react-router-dom";
