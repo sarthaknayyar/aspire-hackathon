@@ -5,33 +5,11 @@ const Header = () => {
   const [active, setActive] = useState("");
 
   return (
-    
-    <header className="bg-blue-700 text-white py-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        <h1 className="text-2xl font-bold">
-          <Link to="/" className="hover:text-gray-300">Grievance Portal</Link>
-        </h1>
-        <nav>
-          <ul className="flex space-x-6">
-            <li>
-              <Link to="/" className="hover:text-gray-300">Home</Link>
-            </li>
-            {/* <li>
-              <Link to="/landingPage" className="hover:text-gray-300">Landing Page</Link>
-            </li> */}
-            <li>
-              <Link to="/complaints" className="hover:text-gray-300">Complaints</Link>
-            </li>
-            <li>
-              <Link to="/status" className="hover:text-gray-300">Check Status</Link>
-            </li>
-            <li>
-              <Link to="/contact" className="hover:text-gray-300">Contact Us</Link>
-
-
     <header className="bg-blue-900 text-white px-8 py-4 flex justify-between items-center shadow-md">
       {/* Logo */}
-      <div className="text-2xl font-bold">Grievance Portal</div>
+      <div className="text-2xl font-bold">
+        <Link to="/" className="hover:text-gray-300">Grievance Portal</Link>
+      </div>
 
       {/* Navigation Menu */}
       <nav className="relative">
@@ -66,7 +44,6 @@ const Header = () => {
               >
                 {item.name}
               </Link>
-
             </li>
           ))}
         </ul>
