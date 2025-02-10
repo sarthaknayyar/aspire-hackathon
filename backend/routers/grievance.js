@@ -1,23 +1,36 @@
 const express = require("express");
 const Grievance = require("../models/grievance");
+const { checkLogin } = require("../middlewares/auth");
 
 const router = express.Router();
 
 // Create Grievance
-router.post("/", async (req, res) => {
+router.post("/", checkLogin,  async (req, res) => {
+  const username = req.user.user.name;
+  const email = req.user.user.email;
+  const { department, description } = req.body;
+  const grievance = new Grievance({
+    complainantName: username,
+    complainantEmail: email,
+    department,
+    description,
+  });
+  console.log(grievance);
+  console.log(req.body);
   try {
-    const newGrievance = new Grievance(req.body);
-    await newGrievance.save();
+    const newGrievance = await grievance.save();
     res.status(201).json(newGrievance);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
+
 });
 
 // Fetch All Grievances
-router.get("/", async (req, res) => {
+router.get("/", checkLogin, async (req, res) => {
   try {
-    const grievances = await Grievance.find();
+    const useremail = req.user.user.email;
+    const grievances = await Grievance.find({ complainantEmail: useremail });
     res.json(grievances);
   } catch (err) {
     res.status(500).json({ error: err.message });

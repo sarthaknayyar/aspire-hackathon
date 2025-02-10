@@ -12,7 +12,7 @@ const AccountDetails = () => {
 
     if (token) {
       console.log("Fetching user data...");
-      fetch(`http://localhost:5000/user/token/${token}`)
+      fetch(`https://aspire-hackathon.onrender.com/user/token/${token}`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch user data");
           return res.json();
@@ -50,7 +50,7 @@ const AccountDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-8">
-      <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl p-6 flex">
+      <div className=" min-h-[65vh] max-w-6xl mx-auto bg-white shadow-xl rounded-2xl p-6 flex">
         {/* Left Sidebar */}
         <div className="w-1/4 pr-8 border-r">
           <h1 className="text-lg font-bold text-gray-800 mb-6">Account Details</h1>

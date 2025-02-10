@@ -7,10 +7,11 @@ const mongouri = process.env.MONGO_URI;
 const userRouter = require('./routers/user');
 const grievanceRouter = require('./routers/grievance');
 const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
 // const { checkLogin } = require("./middlewares/auth");
 // const dotenv = require('dotenv');
 
-
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +27,7 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 // Connect to MongoDB
 connectDB(mongouri);

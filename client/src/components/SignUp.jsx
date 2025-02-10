@@ -11,39 +11,42 @@ const SignupForm = () => {
     phone: "",
     email: "",
     password: "",
+    pincode: ""
   });
 
   const stateLists = {
-    "Andhra Pradesh": ["Item1", "Item2", "Item3"],
-    "Arunachal Pradesh": ["ItemA", "ItemB", "ItemC"],
-    "Assam": ["ItemX", "ItemY", "ItemZ"],
-    "Bihar": ["Item4", "Item5", "Item6"],
-    "Chhattisgarh": ["Item7", "Item8", "Item9"],
-    "Goa": ["Item10", "Item11", "Item12"],
-    "Gujarat": ["Item13", "Item14", "Item15"],
-    "Haryana": ["Item16", "Item17", "Item18"],
-    "Himachal Pradesh": ["Item19", "Item20", "Item21"],
-    "Jharkhand": ["Item22", "Item23", "Item24"],
-    "Karnataka": ["Item25", "Item26", "Item27"],
-    "Kerala": ["Item28", "Item29", "Item30"],
-    "Madhya Pradesh": ["Item31", "Item32", "Item33"],
-    "Maharashtra": ["Item34", "Item35", "Item36"],
-    "Manipur": ["Item37", "Item38", "Item39"],
-    "Meghalaya": ["Item40", "Item41", "Item42"],
-    "Mizoram": ["Item43", "Item44", "Item45"],
-    "Nagaland": ["Item46", "Item47", "Item48"],
-    "Odisha": ["Item49", "Item50", "Item51"],
-    "Punjab": ["Item52", "Item53", "Item54"],
-    "Rajasthan": ["Item55", "Item56", "Item57"],
-    "Sikkim": ["Item58", "Item59", "Item60"],
-    "Tamil Nadu": ["Item61", "Item62", "Item63"],
-    "Telangana": ["Item64", "Item65", "Item66"],
-    "Tripura": ["Item67", "Item68", "Item69"],
-    "Uttar Pradesh": ["Item70", "Item71", "Item72"],
-    "Uttarakhand": ["Item73", "Item74", "Item75"],
-    "West Bengal": ["Item76", "Item77", "Item78"],
-    "Delhi": ["Item91", "Item92", "Item93"],
+    "choose": ["choose"],
+    "Andhra Pradesh": ["choose","Visakhapatnam", "Vijayawada", "Guntur", "Tirupati", "Rajahmundry", "Kakinada", "Anantapur", "Nellore", "Kadapa", "Chittoor"],
+    "Arunachal Pradesh": ["choose","Itanagar", "Tawang", "Ziro", "Pasighat", "Bomdila", "Roing", "Tezu", "Along", "Seppa", "Changlang"],
+    "Assam": ["choose","Guwahati", "Dibrugarh", "Jorhat", "Silchar", "Tezpur", "Tinsukia", "Nagaon", "Diphu", "Bongaigaon", "Sivasagar"],
+    "Bihar": ["choose","Patna", "Gaya", "Muzaffarpur", "Bhagalpur", "Darbhanga", "Begusarai", "Purnia", "Samastipur", "Ara", "Chhapra"],
+    "Chhattisgarh": ["choose","Raipur", "Bhilai", "Bilaspur", "Korba", "Durg", "Jagdalpur", "Rajnandgaon", "Raigarh", "Ambikapur", "Dhamtari"],
+    "Goa": ["choose","Panaji", "Margao", "Vasco da Gama", "Mapusa", "Ponda", "Calangute", "Bicholim", "Canacona", "Curchorem", "Sanguem"],
+    "Gujarat": ["choose","Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhinagar", "Jamnagar", "Bhavnagar", "Anand", "Junagadh", "Bhuj"],
+    "Haryana": ["choose","Gurugram", "Faridabad", "Panipat", "Ambala", "Karnal", "Rohtak", "Hisar", "Yamunanagar", "Sonipat", "Panchkula"],
+    "Himachal Pradesh": ["choose","Shimla", "Manali", "Dharamshala", "Kullu", "Solan", "Mandi", "Chamba", "Bilaspur", "Hamirpur", "Una"],
+    "Jharkhand": ["choose","Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Hazaribagh", "Deoghar", "Giridih", "Ramgarh", "Palamu", "Dumka"],
+    "Karnataka": ["choose","Bengaluru", "Mysuru", "Hubballi", "Mangaluru", "Belagavi", "Shivamogga", "Davanagere", "Ballari", "Tumakuru", "Udupi"],
+    "Kerala": ["choose","Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur", "Alappuzha", "Palakkad", "Kollam", "Kannur", "Kottayam", "Malappuram"],
+    "Madhya Pradesh": ["choose","Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Ratlam", "Rewa", "Sagar", "Satna", "Chhindwara"],
+    "Maharashtra": ["choose","Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad", "Thane", "Solapur", "Kolhapur", "Amravati", "Navi Mumbai"],
+    "Manipur": ["choose","Imphal", "Bishnupur", "Thoubal", "Churachandpur", "Ukhrul", "Tamenglong", "Senapati", "Kakching", "Jiribam", "Moreh"],
+    "Meghalaya": ["choose","Shillong", "Tura", "Nongpoh", "Baghmara", "Jowai", "Williamnagar", "Resubelpara", "Mairang", "Nongstoin", "Khliehriat"],
+    "Mizoram": ["choose","Aizawl", "Lunglei", "Champhai", "Serchhip", "Kolasib", "Lawngtlai", "Saiha", "Mamit", "Bairabi", "Saitual"],
+    "Nagaland": ["choose","Kohima", "Dimapur", "Mokokchung", "Tuensang", "Mon", "Wokha", "Zunheboto", "Phek", "Kiphire", "Longleng"],
+    "Odisha": ["choose","Bhubaneswar", "Cuttack", "Rourkela", "Sambalpur", "Berhampur", "Puri", "Balasore", "Bhadrak", "Angul", "Jeypore"],
+    "Punjab": ["choose","Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Pathankot", "Hoshiarpur", "Moga", "Ferozepur"],
+    "Rajasthan": ["choose","Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner", "Ajmer", "Alwar", "Bharatpur", "Sikar", "Chittorgarh"],
+    "Sikkim": ["choose","Gangtok", "Namchi", "Mangan", "Gyalshing", "Pelling", "Rangpo", "Jorethang", "Ravangla", "Lachen", "Lachung"],
+    "Tamil Nadu": ["choose","Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Vellore", "Tirunelveli", "Erode", "Thoothukudi", "Dindigul"],
+    "Telangana": ["choose","Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar", "Mahbubnagar", "Siddipet", "Ramagundam", "Mancherial", "Adilabad"],
+    "Tripura": ["choose","Agartala", "Udaipur", "Kailashahar", "Dharmanagar", "Ambassa", "Belonia", "Kamalpur", "Sonamura", "Khowai", "Bishalgarh"],
+    "Uttar Pradesh": ["choose","Lucknow", "Kanpur", "Agra", "Varanasi", "Prayagraj", "Meerut", "Ghaziabad", "Gorakhpur", "Bareilly", "Aligarh"],
+    "Uttarakhand": ["choose","Dehradun", "Haridwar", "Nainital", "Almora", "Rishikesh", "Mussoorie", "Pithoragarh", "Rudrapur", "Haldwani", "Tehri"],
+    "West Bengal": ["choose","Kolkata", "Howrah", "Durgapur", "Asansol", "Siliguri", "Malda", "Kharagpur", "Bardhaman", "Midnapore", "Berhampore"],
+    "Delhi": ["choose","New Delhi", "Connaught Place", "Chandni Chowk", "Saket", "Karol Bagh", "Rohini", "Dwarka", "Lajpat Nagar", "Hauz Khas", "Janakpuri"]
   };
+  
 
   const States = Object.keys(stateLists);
   const [selectedState, setSelectedState] = useState(States[0]);
@@ -64,7 +67,8 @@ const SignupForm = () => {
   const [status, setStatus] = useState(null);
 
   async function handleSignup() {
-    const response = await fetch("http://localhost:5000/user/signup", {
+    console.log(formData);
+    const response = await fetch("https://aspire-hackathon.onrender.com/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,8 +85,9 @@ const SignupForm = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-3xl">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 bg-fill bg-center relative"
+    style={{ backgroundImage: "url('/images/login-bg.jpg')" }}>
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-2xl">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Registration / Sign-up Form
         </h2>
@@ -91,64 +96,141 @@ const SignupForm = () => {
         </p>
 
         <form className="mt-6" onSubmit={(e) => e.preventDefault()}>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <label className="text-sm font-semibold text-gray-600">Full Name *</label>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required />
-            </div>
+  <div className="grid grid-cols-2 gap-6">
+    <div>
+      <label className="text-sm font-semibold text-gray-600">Full Name *</label>
+      <input 
+        type="text" 
+        name="name" 
+        value={formData.name} 
+        onChange={handleChange} 
+        className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" 
+        required 
+      />
+    </div>
+    <div>
+      <label className="text-sm font-semibold text-gray-600">Password *</label>
+      <input 
+        type="password" 
+        name="password" 
+        value={formData.password} 
+        onChange={handleChange} 
+        className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" 
+        required 
+      />
+    </div>
+  </div>
 
-            <div>
-              <label className="text-sm font-semibold text-gray-600">Gender *</label>
-              <div className="flex space-x-4 mt-1">
-                {["Male", "Female", "Transgender"].map((gender) => (
-                  <label key={gender} className="flex items-center space-x-2">
-                    <input type="radio" name="gender" value={gender} onChange={handleChange} className="text-indigo-500 focus:ring-indigo-400" />
-                    <span>{gender}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
+  <div className="grid grid-cols-2 gap-6 mt-4">
+    <div>
+      <label className="text-sm font-semibold text-gray-600">Gender *</label>
+      <div className="flex space-x-4 mt-1">
+        {["Male", "Female", "Transgender"].map((gender) => (
+          <label key={gender} className="flex items-center space-x-2">
+            <input 
+              type="radio" 
+              name="gender" 
+              value={gender} 
+              onChange={handleChange} 
+              className="text-indigo-500 focus:ring-indigo-400" 
+            />
+            <span>{gender}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+    <div>
+      <label className="text-sm font-semibold text-gray-600">Pincode *</label>
+      <input 
+        type="text" 
+        name="pincode" 
+        value={formData.pincode} 
+        onChange={handleChange} 
+        className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" 
+        pattern="[0-9]{6}" 
+        maxLength="6"
+        required 
+      />
+    </div>
+  </div>
 
-          <div className="mt-4">
-            <label className="text-sm font-semibold text-gray-600">Address *</label>
-            <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required />
-          </div>
+  <div className="mt-4">
+    <label className="text-sm font-semibold text-gray-600">Address *</label>
+    <input 
+      type="text" 
+      name="address" 
+      value={formData.address} 
+      onChange={handleChange} 
+      className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" 
+      required 
+    />
+  </div>
 
-          <div className="grid grid-cols-2 gap-6 mt-4">
-            <div>
-              <label className="text-sm font-semibold text-gray-600">State *</label>
-              <select name="state" value={formData.state} onChange={(e) => { handleChange(e); handleStateChange(e); }} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required>
-                {States.map((state, index) => (
-                  <option key={index} value={state}>{state}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="text-sm font-semibold text-gray-600">City *</label>
-              <select name="city" value={formData.city} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required>
-                {list.map((item, index) => (
-                  <option key={index} value={item}>{item}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+  <div className="grid grid-cols-2 gap-6 mt-4">
+    <div>
+      <label className="text-sm font-semibold text-gray-600">State *</label>
+      <select 
+        name="state" 
+        value={formData.state} 
+        onChange={(e) => { handleChange(e); handleStateChange(e); }} 
+        className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" 
+        required
+      >
+        {States.map((state, index) => (
+          <option key={index} value={state}>{state}</option>
+        ))}
+      </select>
+    </div>
+    <div>
+      <label className="text-sm font-semibold text-gray-600">City *</label>
+      <select 
+        name="city" 
+        value={formData.city} 
+        onChange={handleChange} 
+        className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" 
+        required
+      >
+        {list.map((item, index) => (
+          <option key={index} value={item}>{item}</option>
+        ))}
+      </select>
+    </div>
+  </div>
 
-          <div className="grid grid-cols-2 gap-6 mt-4">
-            <div>
-              <label className="text-sm font-semibold text-gray-600">Phone *</label>
-              <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required />
-            </div>
-            <div>
-              <label className="text-sm font-semibold text-gray-600">Email *</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" required />
-            </div>
-          </div>
+  <div className="grid grid-cols-2 gap-6 mt-4">
+    <div>
+      <label className="text-sm font-semibold text-gray-600">Phone *</label>
+      <input 
+        type="text" 
+        name="phone" 
+        value={formData.phone} 
+        onChange={handleChange} 
+        className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" 
+        required 
+      />
+    </div>
+    <div>
+      <label className="text-sm font-semibold text-gray-600">Email *</label>
+      <input 
+        type="email" 
+        name="email" 
+        value={formData.email} 
+        onChange={handleChange} 
+        className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-indigo-400 outline-none" 
+        required 
+      />
+    </div>
+  </div>
 
-          <button type="submit" className="w-full bg-gradient-to-r from-[#ffb703] to-[#fb8500] text-white py-3 rounded-full font-semibold shadow-md mt-6 hover:shadow-lg transition-all duration-300" onClick={handleSignup}>
-            Register ➜
-          </button>
-        </form>
+  <button 
+    type="submit" 
+    className="w-full bg-gradient-to-r from-[#ffb703] to-[#fb8500] text-white py-3 rounded-full font-semibold shadow-md mt-6 hover:shadow-lg transition-all duration-300" 
+    onClick={handleSignup}
+  >
+    Register ➜
+  </button>
+</form>
+
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function LoginForm() {
@@ -10,7 +11,7 @@ export default function LoginForm() {
   async function handleLogin() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const response = await fetch("http://localhost:5000/user/login", {
+    const response = await fetch("https://aspire-hackathon.onrender.com/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +22,8 @@ export default function LoginForm() {
     if (response.status === 200) {
       const data = await response.json();
       const token = data.token;
-      document.cookie = `token=${token}; Secure; SameSite=None; Domain=sweet-dango-ca4344.netlify.app;`;
+      document.cookie = `token=${token}; Secure; SameSite=None; Domain=localhost;`;
+      localStorage.setItem("showLoginToast", "true");
       navigate("/homepage");
     } else if (response.status === 404) {
       setStatus("User not found");
@@ -77,6 +79,7 @@ export default function LoginForm() {
         >
           Login ➜
         </button>
+        <ToastContainer />
 
         {/* Links */}
         <div className="text-center mt-4 text-sm text-gray-600">
