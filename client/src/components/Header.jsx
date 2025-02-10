@@ -16,9 +16,9 @@ const Header = () => {
         <ul className="flex space-x-6">
           {[
             { name: "Home", path: "/" },
-            { name: "Complaints", path: "/complaints" },
-            { name: "Check Status", path: "/status" },
-            { name: "Contact Us", path: "/contact" },
+            { name: "Complaints", path: "/homepage/complaints" },
+            { name: "Check Status", path: "/homepage/status" },
+            { name: "Contact Us", path: "/homepage/contact" },
           ].map((item, index) => (
             <li
               key={index}

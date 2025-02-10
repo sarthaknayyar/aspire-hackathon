@@ -33,6 +33,7 @@ function Sidebar({ setActivePage }) {
   }
 
   return (
+
     <div className="h-auto w-auto p-5 bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl backdrop-blur-md text-white">
       <ul className="space-y-3">
         <SidebarItem icon="📺" text="Appeal Dashboard" onClick={() => setActivePage("home")} />
@@ -137,7 +138,7 @@ function HomePage() {
       <div className="flex flex-col min-h-screen bg-gray-100">
       <ToastContainer autoClose={3000} position="top-center" />
 
-      <Header />
+      {/* <Header /> */}
 
       <HomeHeader />
 

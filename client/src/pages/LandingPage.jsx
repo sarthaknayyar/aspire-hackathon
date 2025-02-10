@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Components
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Features from "../components/Features";
 import Services from "../components/Services";
@@ -26,7 +26,7 @@ const LandingPage = () => {
   return (
     <div className="overflow-x-hidden w-full">
       {/* Navbar */}
-      <Navbar />
+      {/* <Navbar /> */}
       {/* Hero Section with Sliding Background */}
       <HeroSection />
       {/* Features Section */}

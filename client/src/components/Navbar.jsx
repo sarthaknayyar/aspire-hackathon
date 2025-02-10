@@ -13,7 +13,7 @@ const Navbar = () => {
         <ul className="flex space-x-6">
           {[
             { name: "Home", path: "/homepage" },
-            {name: "How it works", path: "/how-does-it-work"},
+            {name: "How it works", path: "/how-it-works"},
             { name: "FAQs", path: "/faqs" },
             { name: "Submit Complaints", path: "/complaints" },
             
