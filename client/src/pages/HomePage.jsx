@@ -24,7 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Sidebar({ setActivePage }) {
   const navigate = useNavigate();
   function logout() {
-    fetch("https://aspire-hackathon.onrender.com/user/logout", {
+    fetch("http://localhost:5000/user/logout", {
       method: "GET",
       credentials: "include",
     })

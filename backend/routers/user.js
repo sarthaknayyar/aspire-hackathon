@@ -40,16 +40,14 @@ router.post('/login', async (req, res)=>{
         return res.json({message: "Invalid Password"});
     }
     const token =  setUser(user);
-    console.log(token);
     res.cookie("token", token, {
-        httpOnly: true,
-        secure: true, // Ensure it's true in production
-        sameSite: 'None', // Allow cross-site cookies
-        maxAge: 24 * 60 * 60 * 1000, // Cookie expiry (optional, here set to 1 day
-        path: '/', // Adjust the path as needed
-        // domain: 'admirable-quokka-c4bf0c.netlify.app', // Set your domain
-        partitioned: true // If required by browser policies
-    }); 
+        httpOnly: false, // Prevents frontend JavaScript access
+        secure: true,  // Must be true in production (HTTPS)
+        sameSite: "None", // Required for cross-origin requests
+        path: "/", // Ensure it's accessible site-wide
+        maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
+    });
+    
     
     return res.status(200).json({token});
 })
@@ -61,20 +59,15 @@ router.get('/token/:token', async (req, res)=>{
     return res.json(user.user);
 })
 
-router.get("/logout", async (req, res) => {
-    console.log("🚀 Logging out user...");
-
+router.get("/logout", async (req, res)=>{
     res.clearCookie("token", {
-        httpOnly: true,  // ✅ Must match the settings used when setting the cookie
-        secure: true,   // ✅ Must be `true` for HTTPS (on Render)
-        sameSite: "None", // ✅ Required for cross-origin requests
-        path: "/" // ✅ Must match the original cookie path
+        httpOnly: true, // Ensure this matches your original cookie settings
+        secure: true,
+        sameSite: "None",
+        path: "/"
     });
-
-    console.log("✅ Cookie cleared");
-    return res.status(200).json({ message: "Logged out successfully" });
-});
-
+    res.status(200).json({ message: "Logged out successfully" });
+})
 
 router.put("/profileUpdate", checkLogin, async (req, res) => {
     try {
