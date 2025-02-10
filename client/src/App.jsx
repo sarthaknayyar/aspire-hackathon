@@ -22,7 +22,7 @@ function App() {
   return (
     <div>
       {showNavbar ? <Navbar /> : <Header />}
-      <ToastContainer autoClose={3000} position="top-center" />
+      {/* <ToastContainer autoClose={3000} position="top-center" /> */}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/homepage" element={<HomePage />} />

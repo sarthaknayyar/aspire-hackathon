@@ -28,7 +28,12 @@ function Sidebar({ setActivePage }) {
       method: "GET",
       credentials: "include",
     })
-    .then(() => navigate("/"))
+    .then(() =>{
+      localStorage.setItem("showLoginToast", "true");
+      deleteCookie("token");
+      navigate("/");
+    }
+    )
     .catch(err => console.error("Logout error", err));
   }
 
@@ -69,15 +74,19 @@ function HomePage() {
   useEffect(() => {
     const showToast = localStorage.getItem("showLoginToast"); // ✅ Check flag in localStorage
     console.log("🚀 Checking Local Storage:", showToast); 
+
     if (showToast === "true") {
-        toast.success("Welcome back!", { position: "top-center" }); // ✅ Show toast
-        // localStorage.removeItem("showLoginToast"); // ✅ Remove flag to prevent duplicate toasts
-        setTimeout(()=>{
+      console.log("🚀 Showing toast");
+        // localStorage.removeItem("showLoginToast"); // ✅ Remove flag before showing toast
+        toast.success("Welcome back!", { position: "top-center", autoClose: 3000 }); // ✅ Show toast
+        setTimeout(() => {
           localStorage.removeItem("showLoginToast");
         }
         , 3000);
+        
     }
 }, []);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState("home");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
