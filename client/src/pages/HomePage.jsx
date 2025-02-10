@@ -73,6 +73,7 @@ function SidebarItem({ icon, text, special, onClick }) {
 function HomePage() {
   useEffect(() => {
     const showToast = localStorage.getItem("showLoginToast"); // ✅ Check flag in localStorage
+    const profileUpdateToast = localStorage.getItem("showProfileUpdateToast");
     console.log("🚀 Checking Local Storage:", showToast); 
 
     if (showToast === "true") {
@@ -85,6 +86,12 @@ function HomePage() {
         , 3000);
         
     }
+    // if(profileUpdateToast==="true"){
+    //   toast.success("Profile updated successfully", { position: "top-center", autoClose: 3000 });
+    //   setTimeout(() => {
+    //     localStorage.removeItem("showProfileUpdateToast");
+    //   },3000);
+    // }
 }, []);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -125,7 +132,8 @@ function HomePage() {
               case "newGrievanceOrganisation":
                 return <NewGrievanceOrganisation />;
                 case "profile":
-                  return <ProfilePage />;
+                  return <ProfilePage setActivePage={setActivePage} />;
+                  
                   case "signUp":
         return <SignUp />;
         case "grievanceForm":
