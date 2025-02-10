@@ -8,12 +8,16 @@ export default function Contact() {
             Get in Touch
           </h1>
           <p className="text-lg text-gray-600">
-          Contact us through email, phone, or fill out the form below to submit your grievance. Our team will address your concerns promptly.
+            Contact us through email, phone, or fill out the form below to submit your grievance. Our team will address your concerns promptly.
           </p>
           <div>
             <p className="text-lg text-gray-800 font-semibold">
-              Email: <span className="text-blue-600">grievances@uttarpradeshgovt.com</span>
+              Email:
+              <a href="mailto:grievances@uttarpradeshgovt.com" className="text-blue-600">
+                grievances@uttarpradeshgovt.com
+              </a>
             </p>
+
             <p className="text-lg text-gray-800 font-semibold">
               Phone: <span className="text-blue-600">+1 800-123-4567</span>
             </p>
@@ -27,10 +31,10 @@ export default function Contact() {
           <div className="space-y-4">
             <div>
               <h2 className="text-xl font-bold text-gray-800">
-                 Support Hours
+                Support Hours
               </h2>
               <p className="text-gray-600">
-              Monday to Friday, 9 AM to 6 PM
+                Monday to Friday, 9 AM to 6 PM
               </p>
             </div>
             <div>
@@ -43,10 +47,13 @@ export default function Contact() {
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-800">Media Inquiries</h2>
-              <p className="text-gray-600">
-                For media-related questions, email us at{" "}
-                <span className="text-blue-600">media@uttarpradeshgovt.com</span>.
+              <p className="text-lg text-gray-800 font-semibold">
+                Email:
+                <a href="mailto: mediasupport@uttarpradeshgovt.com" className="text-blue-600">
+                  mediasupport@uttarpradeshgovt.com
+                </a>
               </p>
+
             </div>
           </div>
         </div>
