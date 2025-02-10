@@ -1,9 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-const ProfilePage = () => {
+const ProfilePage = ({ setActivePage, showToast }) => {
+  const navigate = useNavigate(); // ✅ Move useNavigate outside the function
+
   async function handleSaveProfile(event) {
-    event.preventDefault(); // Prevents the form from submitting and refreshing the page
+    event.preventDefault(); // Prevents form submission from refreshing the page
     console.log("Saving profile...");
 
     const name = document.getElementById("name").value;
@@ -26,12 +29,14 @@ const ProfilePage = () => {
     });
 
     if (response.status === 200) {
-        console.log("Profile updated successfully");
+        localStorage.setItem("showProfileUpdateToast", "true");
+        setActivePage("home");
+        console.log("Profile updated successfullyyy");
+        // navigate("/homepage"); // ✅ Works correctly now
     } else {
         console.error("Failed to update profile");
     }
-}
-
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center p-6">
       <motion.div
