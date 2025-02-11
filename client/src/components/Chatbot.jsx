@@ -1,7 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { Mic, MicOff } from "lucide-react";
 import DOMPurify from "dompurify";
+
+
+const ASSEMBLYAI_API_KEY = import.meta.env.VITE_ASSEMBLY_API_KEY;
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
 
 const Chatbot = () => {
   const [question, setQuestion] = useState("");
@@ -45,7 +50,7 @@ const Chatbot = () => {
       const uploadResponse = await fetch("https://api.assemblyai.com/v2/upload", {
         method: "POST",
         headers: {
-          Authorization: "YOUR_ASSEMBLYAI_API_KEY",
+          Authorization: ASSEMBLYAI_API_KEY,
         },
         body: audioBlob,
       });
@@ -58,7 +63,7 @@ const Chatbot = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "YOUR_ASSEMBLYAI_API_KEY",
+          Authorization: ASSEMBLYAI_API_KEY,
         },
         body: JSON.stringify({
           audio_url: audioUrl,
@@ -73,7 +78,7 @@ const Chatbot = () => {
       let transcriptText = "";
       while (!transcriptText) {
         const checkResponse = await fetch(`https://api.assemblyai.com/v2/transcript/${transcriptId}`, {
-          headers: { Authorization: "YOUR_ASSEMBLYAI_API_KEY" },
+          headers: { Authorization: ASSEMBLYAI_API_KEY },
         });
 
         const checkData = await checkResponse.json();
@@ -100,7 +105,7 @@ const Chatbot = () => {
     setLoading(true);
     try {
       const response = await axios({
-        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY",
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
