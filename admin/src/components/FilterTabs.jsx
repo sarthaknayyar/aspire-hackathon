@@ -3,15 +3,20 @@ import React, { useState } from "react";
 const FilterTabs = ({ grievances, setFilteredGrievances }) => {
   const [selectedTab, setSelectedTab] = useState("All");
 
-  const tabs = ["All", "Resolved", "Pending"];
+  const tabs = ["All", "Rejected", "Under process"];
 
   const filterGrievances = (status) => {
     setSelectedTab(status);
     if (status === "All") {
+        // console.log("bye");
       setFilteredGrievances(grievances);
     } else {
+        // console.log("hi");
+        // console.log(status);
+        // console.log(grievances);
+        // grievances.filter((g) => console.log(g.currentStatus));
       setFilteredGrievances(
-        grievances.filter((g) => g.currentStatus.toLowerCase() === status.toLowerCase())
+        grievances.filter((g) => g.currentStatus === status)
       );
     }
   };
