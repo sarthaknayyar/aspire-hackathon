@@ -15,39 +15,72 @@ import LoginForm from "../components/login";
 import FAQPage from "../components/FAQPage";
 import ChangePassword from "../components/ChangePassword";
 import AccountDetails from "../components/AccountDetails";
+import Chatbot from "../components/Chatbot"; // <-- Import your new Chatbot component
 import { useNavigate } from 'react-router';
 import { deleteCookie, getCookie } from "../utilities/cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { set } from 'mongoose';
 
 function Sidebar({ setActivePage }) {
   const navigate = useNavigate();
+
   function logout() {
     fetch("http://localhost:5000/user/logout", {
       method: "GET",
       credentials: "include",
     })
-    .then(() =>{
-      localStorage.setItem("showLoginToast", "true");
-      deleteCookie("token");
-      navigate("/");
-    }
-    )
-    .catch(err => console.error("Logout error", err));
+      .then(() => {
+        localStorage.setItem("showLoginToast", "true");
+        deleteCookie("token");
+        navigate("/");
+      })
+      .catch(err => console.error("Logout error", err));
   }
 
   return (
-
     <div className="h-auto w-auto p-5 bg-gradient-to-b from-blue-900 to-blue-600 shadow-xl backdrop-blur-md text-white">
       <ul className="space-y-3">
-        <SidebarItem icon="📺" text="Appeal Dashboard" onClick={() => setActivePage("home")} />
-        <SidebarItem icon="➕" text="Lodge Public Grievance" onClick={() => setActivePage("newGrievanceOrganisation")} /> 
-        <SidebarItem icon="➕" text="Check Status" onClick={() => setActivePage("status")} /> 
-        <SidebarItem icon="🔄" text="Account Activity" onClick={() => setActivePage("accountDetails")} />
-        <SidebarItem icon="✏️" text="Edit Profile" onClick={() => setActivePage("profile")} />
-        <SidebarItem icon="🔒" text="Change Password" onClick={() => setActivePage("changePassword")} />
-        <SidebarItem icon="🔌" text="Sign out" special onClick={logout} /> 
+        <SidebarItem
+          icon="💬"
+          text="Chatbot"
+          onClick={() => setActivePage("chatbot")}
+        />
+        <SidebarItem
+          icon="📺"
+          text="Appeal Dashboard"
+          onClick={() => setActivePage("home")}
+        />
+        <SidebarItem
+          icon="➕"
+          text="Lodge Public Grievance"
+          onClick={() => setActivePage("newGrievanceOrganisation")}
+        />
+        <SidebarItem
+          icon="➕"
+          text="Check Status"
+          onClick={() => setActivePage("status")}
+        />
+        <SidebarItem
+          icon="🔄"
+          text="Account Activity"
+          onClick={() => setActivePage("accountDetails")}
+        />
+        <SidebarItem
+          icon="✏️"
+          text="Edit Profile"
+          onClick={() => setActivePage("profile")}
+        />
+        <SidebarItem
+          icon="🔒"
+          text="Change Password"
+          onClick={() => setActivePage("changePassword")}
+        />
+        <SidebarItem
+          icon="🔌"
+          text="Sign out"
+          special
+          onClick={logout}
+        />
       </ul>
     </div>
   );
@@ -56,8 +89,8 @@ function Sidebar({ setActivePage }) {
 function SidebarItem({ icon, text, special, onClick }) {
   return (
     <li
-    onClick={onClick}
-    className={`flex justify-center items-center p-4 rounded-xl cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-md text-lg ${
+      onClick={onClick}
+      className={`flex justify-center items-center p-4 rounded-xl cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-md text-lg ${
         special ? "bg-red-600 hover:bg-red-700 text-white" : "bg-white/20 hover:bg-white/30 text-white"
       }`}
     >
@@ -69,30 +102,18 @@ function SidebarItem({ icon, text, special, onClick }) {
   );
 }
 
-
 function HomePage() {
   useEffect(() => {
-    const showToast = localStorage.getItem("showLoginToast"); // ✅ Check flag in localStorage
+    const showToast = localStorage.getItem("showLoginToast");
     const profileUpdateToast = localStorage.getItem("showProfileUpdateToast");
-    console.log("🚀 Checking Local Storage:", showToast); 
 
     if (showToast === "true") {
-      console.log("🚀 Showing toast");
-        // localStorage.removeItem("showLoginToast"); // ✅ Remove flag before showing toast
-        toast.success("Welcome back!", { position: "top-center", autoClose: 3000 }); // ✅ Show toast
-        setTimeout(() => {
-          localStorage.removeItem("showLoginToast");
-        }
-        , 3000);
-        
+      toast.success("Welcome back!", { position: "top-center", autoClose: 3000 });
+      setTimeout(() => {
+        localStorage.removeItem("showLoginToast");
+      }, 3000);
     }
-    // if(profileUpdateToast==="true"){
-    //   toast.success("Profile updated successfully", { position: "top-center", autoClose: 3000 });
-    //   setTimeout(() => {
-    //     localStorage.removeItem("showProfileUpdateToast");
-    //   },3000);
-    // }
-}, []);
+  }, []);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState("home");
@@ -119,46 +140,48 @@ function HomePage() {
         </div>
       );
     }
-    
+
     switch (activePage) {
       case "home":
         return <Home />;
-        case "Submit":
-          return <Complaints />;
-          case "status":
-            return <Status />;
-            case "contact":
-              return <Contact />;
-              case "newGrievanceOrganisation":
-                return <NewGrievanceOrganisation />;
-                case "profile":
-                  return <ProfilePage setActivePage={setActivePage} />;
-                  
-                  case "signUp":
+      case "Submit":
+        return <Complaints />;
+      case "status":
+        return <Status />;
+      case "contact":
+        return <Contact />;
+      case "newGrievanceOrganisation":
+        return <NewGrievanceOrganisation />;
+      case "profile":
+        return <ProfilePage setActivePage={setActivePage} />;
+      case "signUp":
         return <SignUp />;
-        case "grievanceForm":
-          return <GrievanceForm />;
-          case "login":
-            return <LoginForm />;
-            case "faq":
-              return <FAQPage />;
-              case "changePassword":
-                return <ChangePassword />;
-                case "accountDetails":
+      case "grievanceForm":
+        return <GrievanceForm />;
+      case "login":
+        return <LoginForm />;
+      case "faq":
+        return <FAQPage />;
+      case "changePassword":
+        return <ChangePassword />;
+      case "accountDetails":
         return <AccountDetails />;
+      // NEW Chatbot case
+      case "chatbot":
+        return <Chatbot />; 
       default:
         return <Home />;
-      }
-    };
-    
-    return (
-      <div className="flex flex-col min-h-screen bg-gray-100">
+    }
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gray-100">
       <ToastContainer autoClose={3000} position="top-center" />
 
       {/* <Header /> */}
-
       <HomeHeader />
 
+      {/* Mobile Menu Icon */}
       <div className="lg:hidden flex justify-between items-center p-4 bg-white shadow-md">
         <button onClick={() => setIsSidebarOpen(true)} className="text-2xl focus:outline-none">
           <FiMenu />
@@ -166,11 +189,13 @@ function HomePage() {
       </div>
 
       {isAuthenticated && (
-        <div className="flex flex-col lg:flex-row flex-grow">     
+        <div className="flex flex-col lg:flex-row flex-grow">
+          {/* Desktop Sidebar */}
           <aside className="hidden lg:block w-1/4 xl:w-1/5 bg-white shadow-md lg:min-h-screen">
             <Sidebar setActivePage={setActivePage} />
           </aside>
 
+          {/* Mobile Sidebar */}
           {isSidebarOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex">
               <div className="w-68 bg-white p-2 h-full shadow-md flex flex-col">
@@ -186,6 +211,7 @@ function HomePage() {
           <main className="flex-grow p-4">{renderContent()}</main>
         </div>
       )}
+
       {!isAuthenticated && <div className="flex-grow p-4">{renderContent()}</div>}
 
       <Footer />

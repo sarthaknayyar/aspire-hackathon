@@ -5,7 +5,7 @@ const Header = () => {
     <header className="flex justify-between items-center bg-white p-6 shadow">
       <div>
         <h1 className="text-2xl font-bold">Department of Agriculture</h1>
-        <p className="text-gray-600">Rohan Prakash Rand</p>
+        <p className="text-gray-600">Rohan Prakash </p>
       </div>
       <div className="flex items-center space-x-4">
         <img
