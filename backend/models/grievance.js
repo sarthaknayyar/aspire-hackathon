@@ -6,6 +6,9 @@ const GrievanceSchema = new mongoose.Schema({
   complainantEmail: String,
   dateOfReceipt: Date,
   department: String,
+  percentageCompletion: Number,
+  isSpam: Boolean,
+  aiResolved:Boolean,
   description: String,
   currentStatus: { type: String, enum: ["Under process", "Resolved", "Rejected"], default: "Under process" },
 }, { timestamps: true });

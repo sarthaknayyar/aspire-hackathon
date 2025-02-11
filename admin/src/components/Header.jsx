@@ -4,16 +4,16 @@ const Header = () => {
   return (
     <header className="flex justify-between items-center bg-white p-6 shadow">
       <div>
-        <h1 className="text-2xl font-bold">Hi Jacob Dominic</h1>
-        <p className="text-gray-600">Here's all your clients</p>
+        <h1 className="text-2xl font-bold">Department of Agriculture</h1>
+        <p className="text-gray-600">Rohan Prakash Rand</p>
       </div>
       <div className="flex items-center space-x-4">
         <img
-          src="https://via.placeholder.com/40"
+          src="/assets/image.png"
           alt="profile"
-          className="w-10 h-10 rounded-full"
+          className="w-20 h-15 rounded-full"
         />
-        <span>jacob.d@gmail.com</span>
+        <span>rohanPrakash@gmail.com</span>
       </div>
     </header>
   );

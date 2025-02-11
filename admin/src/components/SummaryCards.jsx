@@ -1,10 +1,14 @@
 import React from "react";
 
-const SummaryCards = () => {
+const SummaryCards = ({grievances}) => {
+    console.log(grievances);
+    const totalGrievances = grievances.length;
+      const pendingGrievances = grievances.filter((g) => g.currentStatus === "Under process").length;
+      const closedGrievances = totalGrievances - pendingGrievances;
   const cards = [
-    { title: "Money transfer using bank", value: "$948" },
-    { title: "Premium this month", value: "$145.50" },
-    { title: "Active Clients", value: "14" },
+    { title: "Total Grievances", value: totalGrievances },
+    { title: "Pending Grievances", value: pendingGrievances },
+    { title: "Resolved Grievances", value: closedGrievances },
   ];
 
   return (

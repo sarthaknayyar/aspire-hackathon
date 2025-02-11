@@ -15,7 +15,7 @@ const MetricsCards = () => {
           key={index}
           className="bg-white shadow p-4 rounded-lg text-center border-t-4 border-green-500"
         >
-          <p className="text-gray-600">{metric.title}</p>
+          <p className="text-gray-600">hello</p>
           <h2 className="text-2xl font-bold text-green-700">{metric.value}</h2>
         </div>
       ))}

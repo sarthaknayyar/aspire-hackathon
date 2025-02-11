@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SummaryCards from "../components/SummaryCards";
 import FilterTabs from "../components/FilterTabs";
 import ClientTable from "../components/ClientTable";
 
 const Clients = () => {
+  const [grievances, setGrievances] = useState([]);
+
+  useEffect(() => {
+    const fetchGrievances = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/grievance/allGrievances", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setGrievances(data);
+        } else {
+          console.error("Error fetching grievances:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+      }
+    };
+    fetchGrievances();
+  }, []);
+
   return (
-    <div >
-      <SummaryCards />
-      <FilterTabs />
-      <ClientTable />
+    <div>
+      <SummaryCards grievances={grievances} />
+      <ClientTable grievances={grievances} /> {/* ✅ Pass grievances as a prop */}
     </div>
   );
 };
