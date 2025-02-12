@@ -1,7 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { Mic, MicOff } from "lucide-react";
 import DOMPurify from "dompurify";
+
+
+const ASSEMBLYAI_API_KEY = import.meta.env.VITE_ASSEMBLY_API_KEY;
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
 
 const Chatbot = () => {
   const [question, setQuestion] = useState("");
@@ -45,7 +50,7 @@ const Chatbot = () => {
       const uploadResponse = await fetch("https://api.assemblyai.com/v2/upload", {
         method: "POST",
         headers: {
-          Authorization: "YOUR_ASSEMBLYAI_API_KEY",
+          Authorization: ASSEMBLYAI_API_KEY,
         },
         body: audioBlob,
       });
@@ -58,7 +63,7 @@ const Chatbot = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "YOUR_ASSEMBLYAI_API_KEY",
+          Authorization: ASSEMBLYAI_API_KEY,
         },
         body: JSON.stringify({
           audio_url: audioUrl,
@@ -73,7 +78,7 @@ const Chatbot = () => {
       let transcriptText = "";
       while (!transcriptText) {
         const checkResponse = await fetch(`https://api.assemblyai.com/v2/transcript/${transcriptId}`, {
-          headers: { Authorization: "YOUR_ASSEMBLYAI_API_KEY" },
+          headers: { Authorization: ASSEMBLYAI_API_KEY },
         });
 
         const checkData = await checkResponse.json();
@@ -100,7 +105,7 @@ const Chatbot = () => {
     setLoading(true);
     try {
       const response = await axios({
-        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY",
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,22 +144,22 @@ const Chatbot = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-lg">
+      <div className="bg-white shadow-lg rounded-xl p-6 w-250 border-5">
         <h1 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
           Government Grievance Chatbot
         </h1>
-        <div className="flex items-center border border-gray-300 rounded-lg p-2">
+        <div className="flex items-center border border-gray-300 rounded-lg p-10">
           {/* Mic Button (Toggle Recording) */}
           <button
             onClick={handleVoiceInput}
-            className={`mr-2 text-gray-600 transition duration-300 ${
+            className={`mr-5 text-gray-600 transition duration-300 p-5 border rounded-2xl ${
               isRecording ? "text-red-500 animate-pulse" : "hover:text-blue-500"
             }`}
           >
             {isRecording ? <MicOff size={24} /> : <Mic size={24} />}
           </button>
           <textarea
-            className="w-full p-2 border-none outline-none resize-none"
+            className="w-full p-2 border-none outline-none resize-none text-2xl mt-12"
             placeholder="Describe your issue (e.g., passport delay, electricity problem, etc.)"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
@@ -162,7 +167,7 @@ const Chatbot = () => {
           ></textarea>
         </div>
         <button
-          className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 flex justify-center items-center"
+          className="w-full h-15 mt-4 bg-blue-500  hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 flex justify-center items-center"
           onClick={fetchGrievanceResponse}
           disabled={loading}
         >
