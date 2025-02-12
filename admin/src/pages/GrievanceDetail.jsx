@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import AIPDFAnalyzer from "../components/AIPDFAnalyzer";
 
 function GrievanceDetail() {
     const { grievanceCode } = useParams();
@@ -42,6 +43,7 @@ function GrievanceDetail() {
             <p><strong>Email:</strong> {grievance.complainantEmail}</p>
             <p><strong>AI Resolved:</strong> {grievance.aiResolved ? "Yes" : "No"}</p>
             <p><strong>Status:</strong> {grievance.currentStatus}</p>
+            <AIPDFAnalyzer/>
         </div>
     );
 }
