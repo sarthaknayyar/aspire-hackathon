@@ -77,8 +77,18 @@ function GrievanceDetail() {
         "Resolution Provided"
     ];
 
-    const handleStageClick = (stage) => {
+    const handleStageClick = async(stage) => {
         setCurrentStage(stage);
+        const response = await fetch(`http://localhost:5000/grievance/grievanceCode/${grievanceCode}`, {
+            method: "PUT",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                currentStatus: stage,
+            }),
+        });
 
         // Show confetti & popup when "Resolution Provided" is clicked 🎊
         if (stage === "Resolution Provided") {

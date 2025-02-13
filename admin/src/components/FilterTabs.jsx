@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const FilterTabs = ({ grievances, setFilteredGrievances }) => {
   const [selectedTab, setSelectedTab] = useState("All");
 
-  const tabs = ["All", "Rejected", "Under process"];
+  const tabs = ["All", "Rejected", "Under Review"];
 
   const filterGrievances = (status) => {
     setSelectedTab(status);

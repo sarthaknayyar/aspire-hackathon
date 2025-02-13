@@ -5,14 +5,14 @@ import { useEffect } from "react";
 export default function Home() {
   // Grievance data
   // const [grievances] = useState([
-  //   { id: 1, registrationNumber: "DOUR/E/2025/0000837", receivedDate: "15/01/2025", description: "Housing and Urban Affairs", status: "Under process" },
+  //   { id: 1, registrationNumber: "DOUR/E/2025/0000837", receivedDate: "15/01/2025", description: "Housing and Urban Affairs", status: "Under Review" },
   //   { id: 2, registrationNumber: "DOUR/E/2025/0000838", receivedDate: "16/01/2025", description: "Water Supply Issue", status: "Pending" },
   //   { id: 3, registrationNumber: "DOUR/E/2025/0000839", receivedDate: "17/01/2025", description: "Street Light Issue", status: "Closed" },
   //   { id: 4, registrationNumber: "DOUR/E/2025/0000840", receivedDate: "18/01/2025", description: "Road Repair Issue", status: "Pending" },
-  //   { id: 5, registrationNumber: "DOUR/E/2025/0000841", receivedDate: "19/01/2025", description: "Electricity Issue", status: "Under process" },
+  //   { id: 5, registrationNumber: "DOUR/E/2025/0000841", receivedDate: "19/01/2025", description: "Electricity Issue", status: "Under Review" },
   //   { id: 6, registrationNumber: "DOUR/E/2025/0000842", receivedDate: "20/01/2025", description: "Garbage Collection", status: "Pending" },
   //   { id: 7, registrationNumber: "DOUR/E/2025/0000843", receivedDate: "21/01/2025", description: "Public Park Maintenance", status: "Closed" },
-  //   { id: 8, registrationNumber: "DOUR/E/2025/0000844", receivedDate: "22/01/2025", description: "Water Contamination", status: "Under process" },
+  //   { id: 8, registrationNumber: "DOUR/E/2025/0000844", receivedDate: "22/01/2025", description: "Water Contamination", status: "Under Review" },
   //   { id: 9, registrationNumber: "DOUR/E/2025/0000845", receivedDate: "23/01/2025", description: "Street Nameplate Missing", status: "Pending" },
   //   { id: 10, registrationNumber: "DOUR/E/2025/0000846", receivedDate: "24/01/2025", description: "Broken Traffic Lights", status: "Closed" },
   // ]);
@@ -42,7 +42,7 @@ export default function Home() {
 
   // Dynamic card calculations
   const totalGrievances = grievances.length;
-  const pendingGrievances = grievances.filter((g) => g.currentStatus === "Under process").length;
+  const pendingGrievances = grievances.filter((g) => (g.currentStatus !== "Resolved" || g.currentStatus !== "Rejected")).length;
   const closedGrievances = totalGrievances - pendingGrievances;
 
   // Array of card data for easy mapping + animation

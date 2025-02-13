@@ -10,7 +10,7 @@ const GrievanceSchema = new mongoose.Schema({
   isSpam: Boolean,
   aiResolved:Boolean,
   description: String,
-  currentStatus: { type: String, enum: ["Under process", "Resolved", "Rejected"], default: "Under process" },
+  currentStatus: { type: String, enum: ["Complaint Filed", "Under Review", "Investigation", "Resolved" , "Rejected"], default: "Complaint Filed" },
 }, { timestamps: true });
 
 // Pre-save middleware to generate grievanceCode

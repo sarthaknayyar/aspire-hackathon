@@ -3,9 +3,7 @@ import { CheckCircle, Hourglass, List } from "lucide-react";
 
 const SummaryCards = ({ grievances }) => {
   const totalGrievances = grievances.length;
-  const pendingGrievances = grievances.filter(
-    (g) => g.currentStatus === "Under process"
-  ).length;
+  const pendingGrievances = grievances.filter((g) => (g.currentStatus !== "Resolved" || g.currentStatus !== "Rejected")).length;
   const closedGrievances = totalGrievances - pendingGrievances;
 
   const cards = [

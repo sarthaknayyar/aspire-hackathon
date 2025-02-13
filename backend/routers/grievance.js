@@ -51,17 +51,28 @@ router.get("/grievanceCode/:grievanceCode", async (req, res) => {
 // Update Grievance Status
 router.put("/grievanceCode/:grievanceCode", async (req, res) => {
     try {
+        const { currentStatus } = req.body; // Extract only the currentStatus field
+
+        if (!currentStatus) {
+            return res.status(400).json({ message: "currentStatus is required" });
+        }
+
         const grievance = await Grievance.findOneAndUpdate(
             { grievanceCode: req.params.grievanceCode },
-            { $set: req.body },
+            { $set: { currentStatus } }, // Only update currentStatus
             { new: true }
         );
-        if (!grievance) return res.status(404).json({ message: "Grievance not found" });
+
+        if (!grievance) {
+            return res.status(404).json({ message: "Grievance not found" });
+        }
+
         res.json(grievance);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
+
 
 router.get("/allGrievances", async (req, res) => {
     // console.log("hi");
