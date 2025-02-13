@@ -36,25 +36,50 @@ const ClientTable = () => {
         };
         fetchGrievances();
     }, []);
+    const fetchAISolution = async (description) => {
+        try {
+          const response = await axios({
+            url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCHK_9m7dwti-kYYWmr-ciR-Kp9_QTgvOc",
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: {
+              contents: [
+                {
+                  parts: [{ text: `Analyze the problem and provide a detailed solution with highlighted points regarding how to solve the problem from the perspective of a Government officer: ${description}` }],
+                },
+              ],
+            },
+          });
+          return response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "Error generating AI solution";
+        } catch (error) {
+          console.error("Error fetching AI solution:", error);
+          return "Error generating AI solution";
+        }
+      };
 
-    const generatePDF = async (grievance) => {
-        setLoadingGrievance(grievance.grievanceCode);
+      const generatePDF = async (grievance) => {
+        const aiSolution = await fetchAISolution(grievance.description);
+    
         const doc = new jsPDF();
         doc.setFontSize(16);
         doc.text("Grievance Report", 14, 20);
+    
+        const tableColumn = ["Field", "Value"];
         const tableRows = [
-            ["Grievance Code", grievance.grievanceCode],
-            ["Complainant Name", grievance.complainantName],
-            ["Description", grievance.description || "No description available"],
-            ["Date of Receipt", new Date(grievance.createdAt).toISOString().split("T")[0]],
-            ["Complainant Email", grievance.complainantEmail],
-            ["AI Resolved", grievance.aiResolved ? "Yes" : "No"],
-            ["Current Status", grievance.currentStatus],
+          ["Grievance Code", grievance.grievanceCode],
+          ["Complainant Name", grievance.complainantName],
+          ["Description", grievance.description || "No description available"],
+          ["Date of Receipt", new Date(grievance.createdAt).toISOString().split("T")[0]],
+          ["Complainant Email", grievance.complainantEmail],
+          ["AI Resolved", grievance.aiResolved ? "Yes" : "No"],
+          ["Current Status", grievance.currentStatus],
+          ["AI Proposed Solution", aiSolution],
         ];
-        doc.autoTable({ startY: 30, head: [["Field", "Value"]], body: tableRows });
+        doc.autoTable({ startY: 30, head: [tableColumn], body: tableRows });
         doc.save(`Grievance_${grievance.grievanceCode}.pdf`);
-        setLoadingGrievance(null);
-    };
+      };
 
     // Handle AI Resolved Toggle
     const toggleAIResolved = (index, event) => {
