@@ -42,7 +42,7 @@ export default function Home() {
 
   // Dynamic card calculations
   const totalGrievances = grievances.length;
-  const pendingGrievances = grievances.filter((g) => (g.currentStatus !== "Resolved" || g.currentStatus !== "Rejected")).length;
+  const pendingGrievances = grievances.filter((g) => (g.currentStatus !== "Resolution Provided" || g.currentStatus !== "Rejected")).length;
   const closedGrievances = totalGrievances - pendingGrievances;
 
   // Array of card data for easy mapping + animation

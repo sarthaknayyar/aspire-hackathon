@@ -3,7 +3,7 @@ import { CheckCircle, Hourglass, List } from "lucide-react";
 
 const SummaryCards = ({ grievances }) => {
   const totalGrievances = grievances.length;
-  const pendingGrievances = grievances.filter((g) => (g.currentStatus !== "Resolved" || g.currentStatus !== "Rejected")).length;
+  const pendingGrievances = grievances.filter((g) => (g.currentStatus !== "Resolution Provided" || g.currentStatus !== "Rejected")).length;
   const closedGrievances = totalGrievances - pendingGrievances;
 
   const cards = [
@@ -18,7 +18,7 @@ const SummaryCards = ({ grievances }) => {
       icon: <Hourglass size={36} className="text-yellow-500" />,
     },
     {
-      title: "Resolved Grievances",
+      title: "Resolution Provided Grievances",
       value: closedGrievances,
       icon: <CheckCircle size={36} className="text-green-500" />,
     },
