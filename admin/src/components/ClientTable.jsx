@@ -36,6 +36,8 @@ const ClientTable = () => {
         };
         fetchGrievances();
     }, []);
+
+    
     const fetchAISolution = async (description) => {
         try {
           const response = await axios({
@@ -58,6 +60,28 @@ const ClientTable = () => {
           return "Error generating AI solution";
         }
       };
+
+      useEffect(() => {
+        const fetchGrievances = async () => {
+          try {
+            const response = await fetch("http://localhost:5000/grievance/allGrievances", {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+            });
+            if (response.ok) {
+              const data = await response.json();
+              setGrievances(data);
+              setFilteredGrievances(data);
+            } else {
+              console.error("Error fetching grievances:", response.statusText);
+            }
+          } catch (error) {
+            console.error("Network error:", error);
+          }
+        };
+        fetchGrievances();
+      }, []);
 
       const generatePDF = async (grievance) => {
         const aiSolution = await fetchAISolution(grievance.description);
