@@ -60,7 +60,7 @@ const colors = ["#6366F1", "#10B981", "#F59E0B", "#EF4444", "#6B7280", "#D946EF"
 
 const AdminDashboard = () => {
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
+    <div className="p-8 overflow-y-hidden bg-gray-100">
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
         🏛️ Platform Insights 
       </h2>
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
         {/* Grievance Status Overview */}
         <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
           <h3 className="text-xl font-semibold text-gray-700 mb-4">📊 Grievance Status Overview</h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={barData}>
               <XAxis dataKey="name" />
               <YAxis />
@@ -83,7 +83,7 @@ const AdminDashboard = () => {
         {/* Grievance Categories Breakdown */}
         <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
           <h3 className="text-xl font-semibold text-gray-700 mb-4">📌 Grievance Categories</h3>
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
                 data={pieData}
@@ -113,7 +113,7 @@ const AdminDashboard = () => {
         {/* Monthly Grievance Trends */}
         <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
           <h3 className="text-xl font-semibold text-gray-700 mb-4">📅 Monthly Grievance Trends</h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <LineChart data={lineData}>
               <XAxis dataKey="name" />
               <YAxis />
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
         {/* AI Resolution Efficiency */}
         <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
           <h3 className="text-xl font-semibold text-gray-700 mb-4">🤖 AI Resolution Efficiency</h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <ScatterChart>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis type="number" dataKey="x" name="Days Taken" />
