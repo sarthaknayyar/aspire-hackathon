@@ -8,7 +8,7 @@ const GrievanceSchema = new mongoose.Schema({
   department: String,
   percentageCompletion: Number,
   isSpam: {type: Boolean, default: false},
-  aiResolved:Boolean,
+  aiResolved:{type: Boolean, default: false},
   description: String,
   fileName: String,
   currentStatus: { type: String, enum: ["Complaint Filed", "Under Review", "Investigation", "Resolved" , "Rejected"], default: "Complaint Filed" },
