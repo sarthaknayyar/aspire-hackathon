@@ -10,6 +10,7 @@ const GrievanceSchema = new mongoose.Schema({
   isSpam: Boolean,
   aiResolved:Boolean,
   description: String,
+  fileName: String,
   currentStatus: { type: String, enum: ["Complaint Filed", "Under Review", "Investigation", "Resolved" , "Rejected"], default: "Complaint Filed" },
 }, { timestamps: true });
 

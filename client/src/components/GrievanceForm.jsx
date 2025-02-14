@@ -11,14 +11,36 @@ const GrievanceForm = () => {
   const [file, setFile] = useState(null);
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFile(e.target.files[0]); // Store selected file
   };
-
+  
   async function handleSubmit(e) {
     e.preventDefault();
-
+  
     try {
-      const response = await fetch("http://localhost:5000/grievance", {
+      let uploadedFileName = null;
+  
+      // ✅ Step 1: Upload the file if selected
+      if (file) {
+        const fileFormData = new FormData();
+        fileFormData.append("file", file);
+  
+        const uploadResponse = await fetch("http://localhost:5000/upload", {
+          method: "POST",
+          body: fileFormData,
+          credentials: "include",
+        });
+  
+        const uploadData = await uploadResponse.json();
+        if (uploadResponse.status !== 201) {
+          alert("❌ Failed to upload file");
+          return;
+        }
+        uploadedFileName = uploadData.filename; // Get uploaded file name
+      }
+  
+      // ✅ Step 2: Submit grievance with uploaded file reference
+      const grievanceResponse = await fetch("http://localhost:5000/grievance", {
         method: "POST",
         body: JSON.stringify({
           department,
@@ -26,24 +48,25 @@ const GrievanceForm = () => {
           subcategory,
           description,
           remarks,
-          file,
+          fileName: uploadedFileName, // Send uploaded file name, if available
         }),
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
-
-      if (response.status === 201) {
-        alert("Grievance submitted successfully!");
+  
+      if (grievanceResponse.status === 201) {
+        alert("✅ Grievance submitted successfully!");
       } else {
-        alert("Failed to submit grievance");
+        alert("❌ Failed to submit grievance.");
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to submit grievance");
+      alert("❌ Error submitting grievance.");
     }
   }
+  
 
   const mainCategories = [
     { value: "billing", label: "Billing Issues" },

@@ -14,6 +14,7 @@ router.post("/", checkLogin, async (req, res) => {
         complainantEmail: email,
         department,
         description,
+        fileName: req.body.fileName,
     });
     console.log(grievance);
     console.log(req.body);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AIPDFAnalyzer from "../components/AIPDFAnalyzer";
 import Confetti from "react-confetti"; // 🎊 Import Confetti animation
+import { useNavigate } from "react-router-dom";
 
 function GrievanceDetail() {
     const { grievanceCode } = useParams();
@@ -10,6 +11,7 @@ function GrievanceDetail() {
     const [currentStage, setCurrentStage] = useState("Complaint Filed");
     const [showPopup, setShowPopup] = useState(false); // Popup visibility
     const [showConfetti, setShowConfetti] = useState(false); // Confetti effect
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchGrievance = async () => {
@@ -77,6 +79,26 @@ function GrievanceDetail() {
         "Resolution Provided"
     ];
 
+    const showFile = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/download/${grievance.fileName}`, {
+                method: "GET",
+            });
+    
+            if (response.ok) {
+                const blob = await response.blob(); // Convert to a Blob
+                const url = URL.createObjectURL(blob);
+                window.open(url, "_blank"); // ✅ Opens the file in a new tab
+            } else {
+                alert("❌ File not found.");
+            }
+        } catch (error) {
+            console.error("❌ Error fetching file:", error);
+            alert("❌ Failed to open file.");
+        }
+    };
+    
+
     const handleStageClick = async(stage) => {
         setCurrentStage(stage);
         const response = await fetch(`http://localhost:5000/grievance/grievanceCode/${grievanceCode}`, {
@@ -101,6 +123,11 @@ function GrievanceDetail() {
                 setShowConfetti(false);
             }, 3000);
         }
+        setTimeout(() => {
+            navigate("/");
+        }, 1000);
+
+
     };
 
     return (
@@ -149,7 +176,9 @@ function GrievanceDetail() {
                             className="ml-2 w-5 h-5 cursor-pointer accent-green-500"
                         />
                     </p>
+                    <p className="text-lg hover:text-blue-700 hover:underline cursor-pointer" onClick={showFile} ><strong>View Uploaded Document</strong></p>
                 </div>
+                
             </div>
 
             {/* Progress Stages Section */}
