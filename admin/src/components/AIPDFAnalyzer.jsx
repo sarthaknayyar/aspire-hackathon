@@ -89,7 +89,7 @@ const askQuestion = async () => {
 
 
     return (
-        <div style={{ maxWidth: "400px", margin: "auto", padding: "20px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#fff", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
+        <div style={{ maxWidth: "650px", margin: "auto", padding: "20px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#fff", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
             <h2 style={{ textAlign: "center" }}>AI PDF Analyzer</h2>
 
             {/* 📌 File Upload */}

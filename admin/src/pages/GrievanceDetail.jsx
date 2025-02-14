@@ -167,15 +167,15 @@ function GrievanceDetail() {
     };
 
     return (
-        <div className="overflow-x-hidden max-w-4xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-3xl border border-gray-200">
+        <div className="w-full mx-auto mt-10 p-8 bg-white shadow-lg rounded-3xl border border-gray-200">
            
-           {/* 🎊 Confetti Animation (Above Everything) */}
-           {showConfetti && (
+            {/* 🎊 Confetti Animation */}
+            {showConfetti && (
                 <div className="fixed inset-0 z-50 pointer-events-none">
                     <Confetti numberOfPieces={600} recycle={false} />
                 </div>
             )}
-           
+
             {/* Black Opaque Overlay */}
             {showPopup && <div className="fixed inset-0 bg-black opacity-50 z-40"></div>}
 
@@ -191,56 +191,41 @@ function GrievanceDetail() {
 
             {/* Header Section */}
             <h2 className="text-2xl font-bold text-gray-800 mb-6">📑 Grievance Details</h2>
-
             <p className="text-gray-500 text-sm mb-6">Tracking ID: <span className="font-medium">{grievance.grievanceCode}</span></p>
 
-            {/* Grid Layout for Complaint Details */}
+            {/* Grid Layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                     <p className="text-lg"><strong>Complainant Name:</strong> {grievance.complainantName}</p>
                     <p className="text-lg"><strong>Registered Email:</strong> {grievance.complainantEmail}</p>
                     <p className="text-lg"><strong>Date of Filing:</strong> {new Date(grievance.createdAt).toISOString().split("T")[0]}</p>
-                </div>
-                <div className="space-y-4">
+                    
                     <p className="text-lg"><strong>Issue Description:</strong> {grievance.description}</p>
                     <p className="text-lg flex items-center">
                         <strong>AI Assistance Used:</strong>
-                        <input
-                            type="checkbox"
-                            checked={grievance.aiResolved}
-                            // readOnly
-                            className="ml-2 w-5 h-5 cursor-pointer accent-green-500"
-                            onClick={aiResolvedTick}
-                        />
+                        <input type="checkbox" checked={grievance.aiResolved} className="ml-2 w-5 h-5 cursor-pointer accent-green-500" />
                     </p>
-                    <p className="text-lg hover:text-blue-700 hover:underline cursor-pointer" onClick={showFile} ><strong>View Uploaded Document</strong></p>
+                    <p className="text-lg hover:text-blue-700 hover:underline cursor-pointer" onClick={showFile}>
+                        <strong>View Uploaded Document</strong>
+                    </p>
                 </div>
-                
-            </div>
 
-            {/* Progress Stages Section */}
-            <div className="mt-6 p-5 bg-gray-100 rounded-xl">
-                <h3 className="text-lg font-semibold text-gray-700 mb-3">📌 Grievance Progress</h3>
-                <div className="flex flex-wrap gap-3">
-                    {stages.map((stage) => (
-                        <button
-                            key={stage}
-                            onClick={() => handleStageClick(stage)}
-                            className={`px-4 py-2 text-sm font-medium rounded-full transition cursor-pointer transform duration-200 ${
-                                currentStage === stage
-                                    ? `scale-105 shadow-lg ${stageColors[stage].active}`
-                                    : `${stageColors[stage].default}`
-                            }`}
-                        >
-                            {stage}
-                        </button>
-                    ))}
+                <div className="space-y-6 ">
+                    <div className="p-5 bg-gray-100 rounded-xl">
+                        <h3 className="text-lg font-semibold text-gray-700 mb-3">📌 Grievance Progress</h3>
+                        <div className="flex flex-wrap gap-3">
+                            {Object.keys(stageColors).map((stage) => (
+                                <button key={stage} onClick={() => handleStageClick(stage)}
+                                    className={`px-4 py-2 text-sm font-medium rounded-full transition cursor-pointer transform duration-200 ${
+                                        currentStage === stage ? `scale-105 shadow-lg ${stageColors[stage].active}` : `${stageColors[stage].default}`
+                                    }`}
+                                >{stage}</button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <AIPDFAnalyzer />
                 </div>
-            </div>
-
-            {/* AI PDF Analyzer Section */}
-            <div className="mt-8">
-                <AIPDFAnalyzer />
             </div>
         </div>
     );
