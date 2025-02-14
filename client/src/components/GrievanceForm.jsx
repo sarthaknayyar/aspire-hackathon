@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import toast, { Toaster } from "react-hot-toast"; // For notifications
+
 
 const GrievanceForm = () => {
   const { department } = useParams();
@@ -18,6 +20,25 @@ const GrievanceForm = () => {
     e.preventDefault();
 
     try {
+      // Step 1: Check if the description is spam
+      const spamResponse = await fetch("http://localhost:5000/predict", {
+        method: "POST",
+        body: JSON.stringify({ description }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const spamResult = await spamResponse.json();
+
+      if (spamResult.spam) {
+        toast.error("Spam detected! Cannot submit grievance.", {
+          style: { backgroundColor: "#ff4d4d", color: "white" },
+        });
+        return;
+      }
+
+      // Step 2: If not spam, submit the grievance
       const response = await fetch("http://localhost:5000/grievance", {
         method: "POST",
         body: JSON.stringify({
@@ -35,15 +56,16 @@ const GrievanceForm = () => {
       });
 
       if (response.status === 201) {
-        alert("Grievance submitted successfully!");
+        toast.success("Grievance submitted successfully!");
       } else {
-        alert("Failed to submit grievance");
+        toast.error("Failed to submit grievance");
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to submit grievance");
+      toast.error("Failed to submit grievance");
     }
   }
+
 
   const mainCategories = [
     { value: "billing", label: "Billing Issues" },
