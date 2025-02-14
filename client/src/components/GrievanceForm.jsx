@@ -60,7 +60,7 @@ const GrievanceForm = () => {
   
       if (grievanceResponse.status === 201) {
         alert("✅ Grievance submitted successfully!");
-        navigate("/"); // Redirect to home page
+        navigate("/homepage"); // Redirect to home page
       } else {
         alert("❌ Failed to submit grievance.");
       }

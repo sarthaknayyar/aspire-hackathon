@@ -100,7 +100,7 @@ const AdminDashboard = () => {
   return (
     <div className="p-8 overflow-y-hidden bg-gray-100">
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-        🏛️ Platform Insights 
+        🏛️ Insights 
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173", // Allow frontend requests
+    origin: ["http://localhost:5173", "http://localhost:5174"],// Allow frontend requests
     credentials: true,
     optionsSuccessStatus: 200
 }));
