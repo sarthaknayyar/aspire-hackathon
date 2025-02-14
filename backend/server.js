@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173", // Allow frontend requests
+    origin: ["http://localhost:5173", "http://localhost:5174"],// Allow frontend requests
     credentials: true,
     optionsSuccessStatus: 200
 }));
@@ -65,6 +65,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 // 📌 **Retrieve and Open File (GET /file/:filename)**
 app.get("/file/:filename", async (req, res) => {
     try {
+        console.log("🔍 Searching for file:", req.params.filename);
         const file = await mongoose.connection.db.collection("uploads.files").findOne({ filename: req.params.filename });
         if (!file) {
             return res.status(404).json({ error: "File not found" });
@@ -94,6 +95,7 @@ app.get("/download/:filename", async (req, res) => {
 
         const downloadStream = bucket.openDownloadStream(file._id);
         downloadStream.pipe(res);
+        console.log("📥 File sent for download:", req.params.filename);
     } catch (err) {
         console.error("❌ Error downloading file:", err);
         res.status(500).json({ error: "Internal server error" });

@@ -15,9 +15,7 @@ const Header = () => {
       <nav className="relative">
         <ul className="flex space-x-6">
           {[
-            { name: "Home", path: "/" },
-            { name: "Complaints", path: "/homepage/complaints" },
-            { name: "Check Status", path: "/homepage/status" },
+            { name: "Home", path: "/homepage" },
             { name: "Contact Us", path: "/homepage/contact" },
           ].map((item, index) => (
             <li

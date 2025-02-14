@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; // For notifications
 
 
@@ -11,9 +12,10 @@ const GrievanceForm = () => {
   const [description, setDescription] = useState("");
   const [remarks, setRemarks] = useState("");
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFile(e.target.files[0]); // Store selected file
   };
 
   async function handleSubmit(e) {
@@ -66,7 +68,6 @@ const GrievanceForm = () => {
     }
   }
 
-
   const mainCategories = [
     { value: "billing", label: "Billing Issues" },
     { value: "technical", label: "Technical Problems" },
@@ -96,6 +97,8 @@ const GrievanceForm = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Background Image */}
+      <Toaster />
+
       <div
         className="w-1/2 bg-cover bg-center"
         style={{ backgroundImage: "url('/images/bgg.jpg')" }}
