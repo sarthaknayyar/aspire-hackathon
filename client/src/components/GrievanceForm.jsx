@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; // For notifications
 
 
@@ -12,7 +11,6 @@ const GrievanceForm = () => {
   const [description, setDescription] = useState("");
   const [remarks, setRemarks] = useState("");
   const [file, setFile] = useState(null);
-  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]); // Store selected file
@@ -23,7 +21,7 @@ const GrievanceForm = () => {
 
     try {
       // Step 1: Check if the description is spam
-      const spamResponse = await fetch("http://localhost:5000/predict", {
+      const spamResponse = await fetch("http://localhost:8000/predict", {
         method: "POST",
         body: JSON.stringify({ description }),
         headers: {

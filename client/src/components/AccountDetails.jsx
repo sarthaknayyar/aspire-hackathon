@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { User, Phone, Mail, Globe, Calendar, MapPin, Landmark, Edit3 } from "lucide-react"; // Icons for cards
+import { useState, useEffect } from "react";
+import { User, Mail, Globe, Calendar, MapPin, Landmark, Edit3 } from "lucide-react"; // Icons for cards
 import { getCookie } from "../utilities/cookie";
 
 const AccountDetails = () => {

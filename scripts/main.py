@@ -2,12 +2,20 @@ from fastapi import FastAPI
 import pickle
 from pydantic import BaseModel
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load the trained spam detection model
 with open("model.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Adjust for your React app
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class GrievanceRequest(BaseModel):
     description: str
@@ -22,4 +30,4 @@ async def predict(request: GrievanceRequest):
     return {"spam": bool(prediction)}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
