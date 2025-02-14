@@ -162,12 +162,12 @@ const ClientTable = () => {
                                     <td className="py-3 px-4 text-center">
                                         <input
                                             type="checkbox"
-                                            checked={client.aiResolved}
-                                            onClick={(e) => e.stopPropagation()} // Prevent row click
-                                            onChange={(e) => toggleAIResolved(index, e)}
-                                            className="w-5 h-5 cursor-pointer"
+                                            checked={client.aiResolved} // ✅ Checkbox is controlled by `aiResolved`
+                                            readOnly // ✅ Prevents manual changes
+                                            className="w-5 h-5 cursor-default" // ✅ Removes pointer cursor
                                         />
                                     </td>
+
                                     <td className="py-3 px-4">{client.currentStatus}</td>
                                     <td className="py-3 px-4">
                                         <button

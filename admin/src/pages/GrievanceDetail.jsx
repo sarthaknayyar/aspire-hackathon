@@ -9,6 +9,7 @@ function GrievanceDetail() {
     const [grievance, setGrievance] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentStage, setCurrentStage] = useState("Complaint Filed");
+    const [currentStatus, setCurrentStatus] = useState("Complaint Filed");
     const [showPopup, setShowPopup] = useState(false); // Popup visibility
     const [showConfetti, setShowConfetti] = useState(false); // Confetti effect
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ function GrievanceDetail() {
                     const data = await response.json();
                     setGrievance(data);
                     setCurrentStage(data.currentStage || "Complaint Filed");
+                    setCurrentStage(data.currentStatus || "Complaint Filed");
                 } else {
                     console.error("Error fetching grievance:", response.statusText);
                 }
@@ -97,6 +99,40 @@ function GrievanceDetail() {
             alert("❌ Failed to open file.");
         }
     };
+
+    const aiResolvedTick = async () => {
+        setCurrentStage("Resolution Provided");
+        setCurrentStatus("Resolution Provided");
+        console.log("currentStage", currentStage);
+        try {
+            const response = await fetch(`http://localhost:5000/grievance/grievanceCode/${grievanceCode}`, {
+                method: "PUT",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    currentStatus: "Resolution Provided",
+                    aiResolved: true,
+                }),
+            });
+            if (response.ok) {
+                alert("✅ AI Assistance flag updated successfully!");
+                setTimeout(() => {
+                    navigate("/");
+                }, 1000);
+
+            } else {
+                alert("❌ Failed to update AI flag.");
+            }
+
+        }
+        catch (error) {
+            console.error("❌ Error updating AI flag:", error);
+            alert("❌ Failed to update AI flag.");
+        }
+    };
+
     
 
     const handleStageClick = async(stage) => {
@@ -172,8 +208,9 @@ function GrievanceDetail() {
                         <input
                             type="checkbox"
                             checked={grievance.aiResolved}
-                            readOnly
+                            // readOnly
                             className="ml-2 w-5 h-5 cursor-pointer accent-green-500"
+                            onClick={aiResolvedTick}
                         />
                     </p>
                     <p className="text-lg hover:text-blue-700 hover:underline cursor-pointer" onClick={showFile} ><strong>View Uploaded Document</strong></p>

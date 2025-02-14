@@ -7,7 +7,7 @@ const GrievanceSchema = new mongoose.Schema({
   dateOfReceipt: Date,
   department: String,
   percentageCompletion: Number,
-  isSpam: Boolean,
+  isSpam: {type: Boolean, default: false},
   aiResolved:Boolean,
   description: String,
   fileName: String,

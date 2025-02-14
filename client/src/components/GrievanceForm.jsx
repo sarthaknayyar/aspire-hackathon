@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const GrievanceForm = () => {
   const { department } = useParams();
@@ -9,6 +10,7 @@ const GrievanceForm = () => {
   const [description, setDescription] = useState("");
   const [remarks, setRemarks] = useState("");
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]); // Store selected file
@@ -58,6 +60,7 @@ const GrievanceForm = () => {
   
       if (grievanceResponse.status === 201) {
         alert("✅ Grievance submitted successfully!");
+        navigate("/"); // Redirect to home page
       } else {
         alert("❌ Failed to submit grievance.");
       }

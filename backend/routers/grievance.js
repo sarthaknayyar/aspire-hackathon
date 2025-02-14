@@ -52,15 +52,22 @@ router.get("/grievanceCode/:grievanceCode", async (req, res) => {
 // Update Grievance Status
 router.put("/grievanceCode/:grievanceCode", async (req, res) => {
     try {
-        const { currentStatus } = req.body; // Extract only the currentStatus field
+        const { currentStatus, aiResolved } = req.body; // Extract both fields
 
         if (!currentStatus) {
             return res.status(400).json({ message: "currentStatus is required" });
         }
 
+        const updateFields = { currentStatus }; // Initialize update object
+
+        // ✅ Update `aiResolved` only if it is provided in the request
+        if (aiResolved !== undefined) {
+            updateFields.aiResolved = aiResolved;
+        }
+
         const grievance = await Grievance.findOneAndUpdate(
             { grievanceCode: req.params.grievanceCode },
-            { $set: { currentStatus } }, // Only update currentStatus
+            { $set: updateFields }, // Update only provided fields
             { new: true }
         );
 
@@ -73,6 +80,7 @@ router.put("/grievanceCode/:grievanceCode", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
 
 
 router.get("/allGrievances", async (req, res) => {

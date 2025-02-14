@@ -6,7 +6,7 @@ const Sidebar = () => {
   const menuItems = [
     { name: "My Clients", path: "/", icon: <Home size={20} /> },
     { name: "Platform Insights", path: "/quotes", icon: <BarChart3 size={20} /> },
-    { name: "Billing", path: "/billing", icon: <CreditCard size={20} /> },
+    // { name: "Billing", path: "/billing", icon: <CreditCard size={20} /> },
   ];
 
   return (
