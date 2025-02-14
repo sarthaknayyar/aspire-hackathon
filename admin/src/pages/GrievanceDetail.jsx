@@ -161,7 +161,7 @@ function GrievanceDetail() {
         }
         setTimeout(() => {
             navigate("/");
-        }, 1000);
+        }, 4000);
 
 
     };
@@ -203,7 +203,7 @@ function GrievanceDetail() {
                     <p className="text-lg"><strong>Issue Description:</strong> {grievance.description}</p>
                     <p className="text-lg flex items-center">
                         <strong>AI Assistance Used:</strong>
-                        <input type="checkbox" checked={grievance.aiResolved} className="ml-2 w-5 h-5 cursor-pointer accent-green-500" />
+                        <input type="checkbox" checked={grievance.aiResolved} className="ml-2 w-5 h-5 cursor-pointer accent-green-500" onClick={aiResolvedTick} />
                     </p>
                     <p className="text-lg hover:text-blue-700 hover:underline cursor-pointer" onClick={showFile}>
                         <strong>View Uploaded Document</strong>
