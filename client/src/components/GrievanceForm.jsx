@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast"; // For notifications
-
-
+import { useNavigate } from "react-router-dom";
 const GrievanceForm = () => {
   const { department } = useParams();
   const [category, setCategory] = useState("");
@@ -11,6 +10,7 @@ const GrievanceForm = () => {
   const [description, setDescription] = useState("");
   const [remarks, setRemarks] = useState("");
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]); // Store selected file
@@ -57,6 +57,9 @@ const GrievanceForm = () => {
 
       if (response.status === 201) {
         toast.success("Grievance submitted successfully!");
+        setTimeout(() => {
+          navigate("/homepage");
+      }, 1000);
       } else {
         toast.error("Failed to submit grievance");
       }

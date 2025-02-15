@@ -41,7 +41,8 @@ const AdminDashboard = () => {
           const total = data.length;
           const pending = data.filter((g) => g.currentStatus !== "Resolution Provided" && g.currentStatus !== "Rejected" && g.currentStatus !== "Under Review").length;
           const closed = data.filter((g) => g.currentStatus === "Resolution Provided" || g.currentStatus === "Rejected").length;
-          const spam = data.filter((g) => g.isspam !== false).length;
+          // const spam = data.filter((g) => g.isspam === false).length;
+          const spam = 1;
           setSpam(spam);
           setTotal(total);
           setPendingGrievances(pending);

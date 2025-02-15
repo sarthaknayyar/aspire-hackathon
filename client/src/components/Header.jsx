@@ -8,7 +8,7 @@ const Header = () => {
     <header className="bg-blue-900 text-white px-8 py-4 flex justify-between items-center shadow-md">
       {/* Logo */}
       <div className="text-2xl font-bold">
-        <Link to="/" className="hover:text-gray-300">Grievance Portal</Link>
+        <Link to="/" className="hover:text-gray-300">JansunwahAI</Link>
       </div>
 
       {/* Navigation Menu */}

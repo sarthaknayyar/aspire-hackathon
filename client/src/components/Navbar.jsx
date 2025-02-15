@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <header className="bg-blue-900 text-white px-8 py-4 flex justify-between items-center shadow-md">
-      <Link to={"/"} className="text-2xl font-bold">Grievance Portal</Link>
+      <Link to={"/"} className="text-2xl font-bold">JansunwAI</Link>
 
       <nav className="relative">
         <ul className="flex space-x-6 relative">
