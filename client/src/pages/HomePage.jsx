@@ -25,7 +25,7 @@ function Sidebar({ setActivePage }) {
   const navigate = useNavigate();
 
   function logout() {
-    fetch("http://localhost:5000/user/logout", {
+    fetch("https://aspire-hackathon.onrender.com/user/logout", {
       method: "GET",
       credentials: "include",
     })
