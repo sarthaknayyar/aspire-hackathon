@@ -52,6 +52,19 @@ router.post('/login', async (req, res)=>{
     return res.status(200).json({token});
 })
 
+router.get("/validate", (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ error: "Unauthorized" });
+  
+    try {
+      const user = getUser(token); // jwt.verify
+      res.status(200).json({ user });
+    } catch (err) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+  });
+  
+
 router.get('/token/:token', async (req, res)=>{
     const token = req.params.token;
     const user = getUser(token);
