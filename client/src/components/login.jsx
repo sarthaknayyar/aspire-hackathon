@@ -17,12 +17,12 @@ export default function LoginForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-      credentials: "include",
+      credentials: "include", // ✅ needed for cookie
     });
     if (response.status === 200) {
       const data = await response.json();
       const token = data.token;
-      document.cookie = `token=${token}; Secure; SameSite=None; Domain=localhost;`;
+      // document.cookie = `token=${token}; Secure; SameSite=None; Domain=localhost;`;
       localStorage.setItem("showLoginToast", "true");
       navigate("/homepage");
     } else if (response.status === 404) {
