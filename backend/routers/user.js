@@ -59,6 +59,7 @@ router.get("/validate", (req, res) => {
     try {
       const user = getUser(token); // jwt.verify
       res.status(200).json({ user });
+      console.log(user);
     } catch (err) {
       return res.status(401).json({ error: "Invalid token" });
     }

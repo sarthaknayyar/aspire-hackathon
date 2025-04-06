@@ -7,24 +7,24 @@ const AccountDetails = () => {
   const [activeTab, setActiveTab] = useState("personal");
 
   useEffect(() => {
-    const token = getCookie('token');
-    console.log("Token: ");
-
-    if (token) {
-      console.log("Fetching user data...");
-      fetch(`https://aspire-hackathon.onrender.com/user/token/${token}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch user data");
-          return res.json();
-        })
-        .then((data) => {
-          setUser(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching user:", error);
-        });
-    }
+    console.log("Validating user...");
+  
+    fetch("https://aspire-hackathon.onrender.com/user/validate", {
+      method: "GET",
+      credentials: "include", // <-- include cookies
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+      })
+      .then((data) => {
+        setUser(data); // set the user object
+      })
+      .catch((err) => {
+        console.error("User not logged in", err);
+      });
   }, []);
+  
 
   // Show loading if user is null
   if (!user) {
