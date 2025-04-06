@@ -18,6 +18,7 @@ const AccountDetails = () => {
         return res.json();
       })
       .then((data) => {
+        console.log("User validated:", data);
         setUser(data); // set the user object
       })
       .catch((err) => {
@@ -31,11 +32,16 @@ const AccountDetails = () => {
     return <div className="text-center text-gray-500 mt-10">Loading...</div>;
   }
 
+  const dob = "01/01/2006"; // Placeholder for date of birth
+  const name = user.complainantName || "N/A"; // Fallback to "N/A" if name is not available
+  const email = user.complainantEmail || "N/A"; // Fallback to "N/A" if email is not available
+
+
   const personalInfo = [
-    { label: "Name", value: user.name || "N/A", icon: <User size={20} /> },
-    { label: "Date of Birth", value: user.dob || "N/A", icon: <Calendar size={20} /> },
+    { label: "Name", value: {name} || "N/A", icon: <User size={20} /> },
+    { label: "Date of Birth", value: {dob} || "N/A", icon: <Calendar size={20} /> },
     { label: "Language", value: user.language || "English (US)", icon: <Globe size={20} /> },
-    { label: "Contactable at", value: user.email || "N/A", icon: <Mail size={20} /> },
+    { label: "Contactable at", value: {email} || "N/A", icon: <Mail size={20} /> },
   ];
 
   const addressInfo = user.address

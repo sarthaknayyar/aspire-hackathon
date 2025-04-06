@@ -7,6 +7,7 @@ function setUser(user){
 }
 
 function getUser(token){
+    console.log(token);
     if(!token) return null;
     return jwt.verify(token, secretkey);
 }
