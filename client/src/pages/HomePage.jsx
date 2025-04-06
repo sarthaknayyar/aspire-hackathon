@@ -121,9 +121,25 @@ function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = getCookie("token");
-    console.log("Token", token);
-    setIsAuthenticated(!!token);
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("https://aspire-hackathon.onrender.com/user/validate", {
+          credentials: "include"
+        });
+  
+        if (res.ok) {
+          console.log('cookie found');
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error("Error checking auth:", error);
+        setIsAuthenticated(false);
+      }
+    };
+  
+    checkAuth();
   }, []);
 
   const renderContent = () => {

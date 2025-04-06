@@ -17,12 +17,13 @@ export default function LoginForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-      credentials: "include", // ✅ needed for cookie
+      credentials: "include",
     });
     if (response.status === 200) {
       const data = await response.json();
       const token = data.token;
-      // document.cookie = `token=${token}; Secure; SameSite=None; Domain=localhost;`;
+      console.log("data" + data)
+      // document.cookie = `token=${token}; Secure; SameSite=None; Domain=aspire-hackathon.onrender.com;`;
       localStorage.setItem("showLoginToast", "true");
       navigate("/homepage");
     } else if (response.status === 404) {
