@@ -21,22 +21,22 @@ const GrievanceForm = () => {
 
     try {
       // Step 1: Check if the description is spam
-      const spamResponse = await fetch("http://localhost:8000/predict", {
-        method: "POST",
-        body: JSON.stringify({ description }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // const spamResponse = await fetch("http://localhost:8000/predict", {
+      //   method: "POST",
+      //   body: JSON.stringify({ description }),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
 
-      const spamResult = await spamResponse.json();
+      // const spamResult = await spamResponse.json();
 
-      if (spamResult.spam) {
-        toast.error("Spam detected! Cannot submit grievance.", {
-          style: { backgroundColor: "#ff4d4d", color: "white" },
-        });
-        return;
-      }
+      // if (spamResult.spam) {
+      //   toast.error("Spam detected! Cannot submit grievance.", {
+      //     style: { backgroundColor: "#ff4d4d", color: "white" },
+      //   });
+      //   return;
+      // }
 
       // Step 2: If not spam, submit the grievance
       const response = await fetch("https://aspire-hackathon.onrender.com/grievance", {
