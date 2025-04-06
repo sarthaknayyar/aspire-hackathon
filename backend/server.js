@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: ["https://aspire-hackathon-one.vercel.app/", "http://localhost:5174", "http://localhost:5173"],// Allow frontend requests
+    origin: "https://aspire-hackathon-one.vercel.app/",// Allow frontend requests
     credentials: true,
     optionsSuccessStatus: 200
 }));
@@ -27,80 +27,80 @@ app.use(express.urlencoded({ extended: false }));
 // Connect to MongoDB
 connectDB(mongouri);
 
-// let bucket;
-// mongoose.connection.once("open", () => {
-//     bucket = new GridFSBucket(mongoose.connection.db, { bucketName: "uploads" });
-//     console.log("✅ GridFSBucket initialized!");
-// });
+let bucket;
+mongoose.connection.once("open", () => {
+    bucket = new GridFSBucket(mongoose.connection.db, { bucketName: "uploads" });
+    console.log("✅ GridFSBucket initialized!");
+});
 
-// // Configure Multer (Memory Storage for direct GridFS upload)
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage });
+// Configure Multer (Memory Storage for direct GridFS upload)
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-// // 📌 **Upload File (POST /upload)**
-// app.post("/upload", upload.single("file"), async (req, res) => {
-//     if (!req.file) {
-//         return res.status(400).json({ error: "No file uploaded" });
-//     }
+// 📌 **Upload File (POST /upload)**
+app.post("/upload", upload.single("file"), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+    }
 
-//     try {
-//         const uploadStream = bucket.openUploadStream(req.file.originalname);
-//         uploadStream.end(req.file.buffer);
+    try {
+        const uploadStream = bucket.openUploadStream(req.file.originalname);
+        uploadStream.end(req.file.buffer);
 
-//         uploadStream.on("finish", () => {
-//             console.log("✅ File uploaded:", req.file.originalname);
-//             res.status(201).json({ message: "File uploaded successfully", filename: req.file.originalname });
-//         });
+        uploadStream.on("finish", () => {
+            console.log("✅ File uploaded:", req.file.originalname);
+            res.status(201).json({ message: "File uploaded successfully", filename: req.file.originalname });
+        });
 
-//         uploadStream.on("error", (err) => {
-//             console.error("❌ Upload error:", err);
-//             res.status(500).json({ error: "File upload failed" });
-//         });
-//     } catch (err) {
-//         console.error("❌ Error uploading file:", err);
-//         res.status(500).json({ error: "Internal server error" });
-//     }
-// });
+        uploadStream.on("error", (err) => {
+            console.error("❌ Upload error:", err);
+            res.status(500).json({ error: "File upload failed" });
+        });
+    } catch (err) {
+        console.error("❌ Error uploading file:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
-// // 📌 **Retrieve and Open File (GET /file/:filename)**
-// app.get("/file/:filename", async (req, res) => {
-//     try {
-//         console.log("🔍 Searching for file:", req.params.filename);
-//         const file = await mongoose.connection.db.collection("uploads.files").findOne({ filename: req.params.filename });
-//         if (!file) {
-//             return res.status(404).json({ error: "File not found" });
-//         }
+// 📌 **Retrieve and Open File (GET /file/:filename)**
+app.get("/file/:filename", async (req, res) => {
+    try {
+        console.log("🔍 Searching for file:", req.params.filename);
+        const file = await mongoose.connection.db.collection("uploads.files").findOne({ filename: req.params.filename });
+        if (!file) {
+            return res.status(404).json({ error: "File not found" });
+        }
 
-//         res.set("Content-Type", "application/pdf");
-//         res.set("Content-Disposition", `inline; filename="${file.filename}"`);
+        res.set("Content-Type", "application/pdf");
+        res.set("Content-Disposition", `inline; filename="${file.filename}"`);
 
-//         const downloadStream = bucket.openDownloadStream(file._id);
-//         downloadStream.pipe(res);
-//     } catch (err) {
-//         console.error("❌ Error retrieving file:", err);
-//         res.status(500).json({ error: "Internal server error" });
-//     }
-// });
+        const downloadStream = bucket.openDownloadStream(file._id);
+        downloadStream.pipe(res);
+    } catch (err) {
+        console.error("❌ Error retrieving file:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
-// // 📌 **Download File as Attachment (GET /download/:filename)**
-// app.get("/download/:filename", async (req, res) => {
-//     try {
-//         const file = await mongoose.connection.db.collection("uploads.files").findOne({ filename: req.params.filename });
-//         if (!file) {
-//             return res.status(404).json({ error: "File not found" });
-//         }
+// 📌 **Download File as Attachment (GET /download/:filename)**
+app.get("/download/:filename", async (req, res) => {
+    try {
+        const file = await mongoose.connection.db.collection("uploads.files").findOne({ filename: req.params.filename });
+        if (!file) {
+            return res.status(404).json({ error: "File not found" });
+        }
 
-//         res.set("Content-Type", "application/pdf");
-//         res.set("Content-Disposition", `attachment; filename="${file.filename}"`);
+        res.set("Content-Type", "application/pdf");
+        res.set("Content-Disposition", `attachment; filename="${file.filename}"`);
 
-//         const downloadStream = bucket.openDownloadStream(file._id);
-//         downloadStream.pipe(res);
-//         console.log("📥 File sent for download:", req.params.filename);
-//     } catch (err) {
-//         console.error("❌ Error downloading file:", err);
-//         res.status(500).json({ error: "Internal server error" });
-//     }
-// });
+        const downloadStream = bucket.openDownloadStream(file._id);
+        downloadStream.pipe(res);
+        console.log("📥 File sent for download:", req.params.filename);
+    } catch (err) {
+        console.error("❌ Error downloading file:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 // Routes
 app.use("/user", userRouter);
