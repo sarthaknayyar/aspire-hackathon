@@ -19,7 +19,9 @@ const AccountDetails = () => {
       })
       .then((data) => {
         console.log("User validated:", data);
-        setUser(data.user); // set the user object
+        console.log("User validated:", data.user);
+        console.log("User validated:", data.user.user);
+        setUser(data.user.user); // set the user object
       })
       .catch((err) => {
         console.error("User not logged in", err);
