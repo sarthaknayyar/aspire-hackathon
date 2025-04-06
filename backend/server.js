@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: "https://aspire-hackathon-one.vercel.app/",// Allow frontend requests
+    origin: "https://aspire-hackathon-one.vercel.app",// Allow frontend requests
     credentials: true,
     optionsSuccessStatus: 200
 }));
