@@ -84,7 +84,7 @@ const Navbar = () => {
   return (
     <header className=" text-white px-8 py-4 flex justify-between items-center shadow-md"
      style={{ backgroundColor: "#83a2d4" }}>
-      <Link to={"/"} className="text-2xl font-bold">e-Jansamvad</Link>
+      <Link to={"/"} className="text-2xl font-bold">JansunwAI</Link>
 
       <nav className="relative">
         <ul className="flex space-x-6 relative">
