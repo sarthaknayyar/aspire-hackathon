@@ -18,7 +18,7 @@ export default function LoginForm() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      const response = await fetch("https://e-jansamvad-1.onrender.com/user/login", {
+      const response = await fetch("http://localhost:5000/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

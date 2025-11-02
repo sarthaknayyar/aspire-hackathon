@@ -10,7 +10,7 @@ export default function Status() {
     setError(null);
 
     try {
-      const response = await fetch(`https://e-jansamvad-1.onrender.com/grievance/grievanceCode/${grievanceCode}`);
+      const response = await fetch(`http://localhost:5000/grievance/grievanceCode/${grievanceCode}`);
       
       if (!response.ok) {
         throw new Error("Grievance not found");

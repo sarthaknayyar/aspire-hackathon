@@ -17,7 +17,7 @@ const ProfilePage = ({ setActivePage, showToast }) => {
     const address = document.getElementById("address").value;
     const mobile = document.getElementById("mobile").value;
 
-    const response = await fetch("https://e-jansamvad-1.onrender.com/user/profileUpdate", {
+    const response = await fetch("http://localhost:5000/user/profileUpdate", {
         method: "PUT",
         credentials: "include",
         headers: {
