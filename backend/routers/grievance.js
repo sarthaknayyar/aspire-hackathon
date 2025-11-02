@@ -1,13 +1,15 @@
 const express = require("express");
 const Grievance = require("../models/grievance");
 const { checkLogin } = require("../middlewares/auth");
+const authMiddleware = require('../middlewares/authcheck');
 
 const router = express.Router();
 
 // Create Grievance
-router.post("/", checkLogin, async (req, res) => {
-    const username = req.user.user.name;
-    const email = req.user.user.email;
+router.post("/", authMiddleware, async (req, res) => {
+    console.log(req.user);
+    const username = req.user.name;
+    const email = req.user.email;
     const { department, description } = req.body;
     const grievance = new Grievance({
         complainantName: username,
@@ -28,9 +30,9 @@ router.post("/", checkLogin, async (req, res) => {
 });
 
 // Fetch All Grievances
-router.get("/", checkLogin, async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
     try {
-        const useremail = req.user.user.email;
+        const useremail = req.user.email;
         const grievances = await Grievance.find({ complainantEmail: useremail });
         res.json(grievances);
     } catch (err) {

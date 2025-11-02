@@ -57,10 +57,11 @@ export default function Home() {
 
   useEffect(() => {
     const fetchGrievances = async () => {
-      const response = await fetch("https://aspire-hackathon.onrender.com/grievance", {
+      const response = await fetch("https://e-jansamvad-1.onrender.com/grievance", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         credentials: "include",
       });

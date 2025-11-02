@@ -5,10 +5,13 @@ const Header = () => {
   const [active, setActive] = useState("");
 
   return (
-    <header className="bg-blue-900 text-white px-8 py-4 flex justify-between items-center shadow-md">
+    <header className=" text-white px-8 py-4 flex justify-between items-center shadow-md"
+    style={{ backgroundColor: "#83a2d4" }}>
       {/* Logo */}
-      <div className="text-2xl font-bold">
-        <Link to="/" className="hover:text-gray-300">JansunwahAI</Link>
+      <div 
+      className="text-2xl font-bold"
+  >
+        <Link to="/" className="hover:text-gray-300">e-Jansamvad</Link>
       </div>
 
       {/* Navigation Menu */}

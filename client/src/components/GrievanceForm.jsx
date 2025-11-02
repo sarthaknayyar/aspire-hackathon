@@ -39,7 +39,7 @@ const GrievanceForm = () => {
       // }
 
       // Step 2: If not spam, submit the grievance
-      const response = await fetch("https://aspire-hackathon.onrender.com/grievance", {
+      const response = await fetch("https://e-jansamvad-1.onrender.com/grievance", {
         method: "POST",
         body: JSON.stringify({
           department,
@@ -51,6 +51,7 @@ const GrievanceForm = () => {
         }),
         headers: {
           "Content-Type": "application/json",
+           Authorization: `Bearer ${localStorage.getItem("token")}`
         },
         credentials: "include",
       });

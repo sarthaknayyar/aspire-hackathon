@@ -13,14 +13,18 @@ import Complaints from "./components/Complaints";
 import Contact from "./components/Contact";
 import { ToastContainer } from "react-toastify";
 import Header from './components/Header';
+import { AuthProvider } from '../context/AuthContext';
+import AutoLogoutWrapper from './components/AutoLogoutWrapper';
 
-function App() {
+function AppContent () {
   const location = useLocation();
   // Show Navbar only on specific paths
   const showNavbar = ["/", "/complaints", "/faqs", "/contact","/how-it-works"].includes(location.pathname);
 
   return (
+
     <div>
+      <AutoLogoutWrapper />
       {showNavbar ? <Navbar /> : <Header />}
       {/* <ToastContainer autoClose={3000} position="top-center" /> */}
       <Routes>
@@ -44,4 +48,10 @@ function App() {
 }
 
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent/>
+    </AuthProvider>
+  )
+}

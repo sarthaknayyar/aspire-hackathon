@@ -9,19 +9,23 @@ const AccountDetails = () => {
   useEffect(() => {
     console.log("Validating user...");
   
-    fetch("https://aspire-hackathon.onrender.com/user/validate", {
+    fetch("https://e-jansamvad-1.onrender.com/user/userInfo", {
       method: "GET",
       credentials: "include", // <-- include cookies
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((res) => {
         if (!res.ok) throw new Error("Unauthorized");
         return res.json();
       })
       .then((data) => {
-        console.log("User validated:", data);
-        console.log("User validated:", data.user);
-        console.log("User validated:", data.user.user);
-        setUser(data.user.user); // set the user object
+        // console.log("User validated:", data);
+        // console.log("User validated:", data.user);
+        // console.log("User validated:", data.user.user);
+        setUser(data); // set the user object
       })
       .catch((err) => {
         console.error("User not logged in", err);
@@ -42,9 +46,10 @@ const AccountDetails = () => {
   ];
 
   const addressInfo = user.address
+  // console.log("user address", user.address)
     ? [
-        { label: "State", value: user.address.state || `${user.address}`, icon: <MapPin size={20} /> },
-        { label: "District", value: user.address.district || `${user.city}`, icon: <Landmark size={20} /> },
+        { label: "Locality", value: user.address.state || `${user.address}`, icon: <MapPin size={20} /> },
+        { label: "City", value: user.address.district || `${user.city}`, icon: <Landmark size={20} /> },
         { label: "Pincode", value: user.address.pincode || `${user.pincode}`, icon: <Edit3 size={20} /> },
         { label: "State", value: user.address.locality || `${user.state}`, icon: <MapPin size={20} /> },
         // { label: "Premise Name", value: user.address.premise || "N/A", icon: <MapPin size={20} /> },
