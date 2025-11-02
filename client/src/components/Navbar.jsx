@@ -42,7 +42,7 @@ const Navbar = () => {
     const fetchUser = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/user/userInfo",
+          "https://aspire-hackathon.onrender.com/user/userInfo",
           {
             method: "GET",
             headers: {

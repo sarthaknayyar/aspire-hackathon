@@ -9,7 +9,7 @@ const AccountDetails = () => {
   useEffect(() => {
     console.log("Validating user...");
   
-    fetch("http://localhost:5000/user/userInfo", {
+    fetch("https://aspire-hackathon.onrender.com/user/userInfo", {
       method: "GET",
       credentials: "include", // <-- include cookies
       headers: {

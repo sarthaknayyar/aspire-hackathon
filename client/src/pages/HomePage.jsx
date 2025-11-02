@@ -120,7 +120,7 @@ function HomePage() {
   // useEffect(() => {
   //   const checkAuth = async () => {
   //     try {
-  //       const res = await fetch("http://localhost:5000/user/validate", {
+  //       const res = await fetch("https://aspire-hackathon.onrender.com/user/validate", {
   //         credentials: "include"
   //       });
   
