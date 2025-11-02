@@ -17,7 +17,7 @@ function GrievanceDetail() {
     useEffect(() => {
         const fetchGrievance = async () => {
             try {
-                const response = await fetch(`https://aspire-hackathon.onrender.com/grievance/grievanceCode/${grievanceCode}`, {
+                const response = await fetch(`http://localhost:5000/grievance/grievanceCode/${grievanceCode}`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                     credentials: "include",
@@ -83,7 +83,7 @@ function GrievanceDetail() {
 
     const showFile = async () => {
         try {
-            const response = await fetch(`https://aspire-hackathon.onrender.com/download/${grievance.fileName}`, {
+            const response = await fetch(`http://localhost:5000/download/${grievance.fileName}`, {
                 method: "GET",
             });
     
@@ -105,7 +105,7 @@ function GrievanceDetail() {
         setCurrentStatus("Resolution Provided");
         console.log("currentStage", currentStage);
         try {
-            const response = await fetch(`https://aspire-hackathon.onrender.com/grievance/grievanceCode/${grievanceCode}`, {
+            const response = await fetch(`http://localhost:5000/grievance/grievanceCode/${grievanceCode}`, {
                 method: "PUT",
                 credentials: "include",
                 headers: {
@@ -137,7 +137,7 @@ function GrievanceDetail() {
 
     const handleStageClick = async(stage) => {
         setCurrentStage(stage);
-        const response = await fetch(`https://aspire-hackathon.onrender.com/grievance/grievanceCode/${grievanceCode}`, {
+        const response = await fetch(`http://localhost:5000/grievance/grievanceCode/${grievanceCode}`, {
             method: "PUT",
             credentials: "include",
             headers: {
