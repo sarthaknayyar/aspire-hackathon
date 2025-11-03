@@ -18,58 +18,67 @@ const GrievanceForm = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+  
     try {
-      // Step 1: Check if the description is spam
-      // const spamResponse = await fetch("http://localhost:8000/predict", {
-      //   method: "POST",
-      //   body: JSON.stringify({ description }),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-
-      // const spamResult = await spamResponse.json();
-
-      // if (spamResult.spam) {
-      //   toast.error("Spam detected! Cannot submit grievance.", {
-      //     style: { backgroundColor: "#ff4d4d", color: "white" },
-      //   });
-      //   return;
-      // }
-
-      // Step 2: If not spam, submit the grievance
+      // 1) Upload file if present
+      let uploadedFilename = null;
+      if (file) {
+        const form = new FormData();
+        form.append("file", file);              // key must match upload.single("file")
+  
+        const uploadResp = await fetch("https://aspire-hackathon.onrender.com/upload", {
+          method: "POST",
+          body: form,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}` // if endpoint requires auth
+            // DO NOT set "Content-Type" — browser sets it including boundary
+          },
+          // credentials: 'include' // only if using cookie-based auth
+        });
+  
+        if (!uploadResp.ok) {
+          const err = await uploadResp.json().catch(()=>({ message: uploadResp.statusText }));
+          toast.error("File upload failed: " + (err.message || uploadResp.status));
+          return;
+        }
+  
+        const uploadData = await uploadResp.json();
+        uploadedFilename = uploadData.filename; // match what your backend returns
+      }
+  
+      // 2) Submit grievance (JSON)
+      const payload = {
+        department,
+        category,
+        subcategory,
+        description,
+        remarks,
+        fileName: uploadedFilename, // null if none
+      };
+  
       const response = await fetch("https://aspire-hackathon.onrender.com/grievance", {
         method: "POST",
-        body: JSON.stringify({
-          department,
-          category,
-          subcategory,
-          description,
-          remarks,
-          file,
-        }),
         headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         },
-        credentials: "include",
+        body: JSON.stringify(payload),
+        // credentials: 'include' // only if you use cookies for auth/session
       });
-
+  
       if (response.status === 201) {
         toast.success("Grievance submitted successfully!");
-        setTimeout(() => {
-          navigate("/homepage");
-      }, 1000);
+        setTimeout(() => navigate("/homepage"), 1000);
       } else {
-        toast.error("Failed to submit grievance");
+        const err = await response.json().catch(()=>({ message: response.statusText }));
+        toast.error("Failed to submit grievance: " + (err.message || response.status));
       }
     } catch (err) {
       console.error(err);
       toast.error("Failed to submit grievance");
     }
   }
-
+  
   const mainCategories = [
     { value: "billing", label: "Billing Issues" },
     { value: "technical", label: "Technical Problems" },
