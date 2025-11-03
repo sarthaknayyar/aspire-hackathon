@@ -11,7 +11,7 @@ const Header = () => {
       <div 
       className="text-2xl font-bold"
   >
-        <Link to="/" className="hover:text-gray-300">e-Jansamvad</Link>
+        <Link to="/" className="hover:text-gray-300">JansunwAI</Link>
       </div>
 
       {/* Navigation Menu */}
