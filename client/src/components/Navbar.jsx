@@ -117,7 +117,17 @@ const Navbar = () => {
           ))}
         </ul>
       </nav>
-      <div>
+      <div className="flex gap-1">
+        {/* <div> */}
+        {!isLoggedIn &&
+          <button
+            // onClick={() => navigate("/login")}
+            className="bg-white text-blue-900 px-2 py-2 rounded-full font-semibold hover:bg-gray-200 transition"
+          >
+            <a href="https://google.com">Admin Login</a>
+          </button>
+      }
+          {/* </div> */}
         {isLoggedIn ? (
            <div
            ref={ref}
@@ -131,7 +141,7 @@ const Navbar = () => {
              onMouseEnter={() => { cancelClose(); setOpen(true); }}
              onMouseLeave={() => scheduleClose(150)}
              aria-expanded={open}
-             className="bg-white text-blue-900 px-4 py-2 rounded-full font-semibold hover:bg-gray-200 transition"
+             className="bg-white text-blue-900 px-2 py-2 rounded-full font-semibold hover:bg-gray-200 transition"
            >
              {user ? user.email : "user"}
            </button>
@@ -171,9 +181,9 @@ const Navbar = () => {
         ) : (
           <button
             onClick={() => navigate("/login")}
-            className="bg-white text-blue-900 px-4 py-2 rounded-full font-semibold hover:bg-gray-200 transition"
+            className="bg-white text-blue-900 px-2 py-2 rounded-full font-semibold hover:bg-gray-200 transition"
           >
-            Login
+           User Login
           </button>
         )}
       </div>

@@ -9,10 +9,22 @@ const grievanceRouter = require("./routers/grievance");
 const cookieParser = require("cookie-parser");
 const { MongoClient, GridFSBucket } = require("mongodb");
 const multer = require("multer");
+const axios = require("axios");
 
 // Initialize Express
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+
+const ASSEMBLYAI_API_KEY = "a061aaa6edaa40de90cfb01749a457ef";
+const BASE_URL = "https://api.assemblyai.com/v2";
 const app = express();
 const PORT = process.env.PORT || 5000;
+const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash"; // change if you want lite
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+const API_KEY = "AIzaSyCKL_Fd7JsZDkpq8qthSxVoq4ZaO0A07rc";
+
+
 
 // Middleware
 app.use(cookieParser());
@@ -34,8 +46,105 @@ mongoose.connection.once("open", () => {
 });
 
 // Configure Multer (Memory Storage for direct GridFS upload)
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+
+// Upload audio from frontend → AssemblyAI
+app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
+    try {
+      if (!req.file || !req.file.buffer) {
+        return res.status(400).json({ error: "No audio file uploaded" });
+      }
+  
+      const audioBuffer = req.file.buffer;
+  
+      // 1) Upload raw audio bytes to AssemblyAI
+      const uploadResponse = await axios.post(
+        `${BASE_URL}/upload`,
+        audioBuffer,
+        {
+          headers: {
+            authorization: ASSEMBLYAI_API_KEY,
+            "content-type": "application/octet-stream",
+            "transfer-encoding": "chunked"
+          },
+          // allow large uploads
+          maxContentLength: Infinity,
+          maxBodyLength: Infinity
+        }
+      );
+  
+      const audioUrl = uploadResponse.data.upload_url;
+      if (!audioUrl) throw new Error("Upload did not return upload_url");
+  
+      // 2) Request transcription
+      const transcriptResponse = await axios.post(
+        `${BASE_URL}/transcript`,
+        {
+          audio_url: audioUrl,
+          language_code: "hi" // set your language (hi = Hindi)
+        },
+        {
+          headers: { authorization: ASSEMBLYAI_API_KEY }
+        }
+      );
+  
+      const transcriptId = transcriptResponse.data.id;
+      if (!transcriptId) throw new Error("Transcript request failed to return id");
+  
+      // 3) Poll until completed (simple polling loop)
+      let transcriptText = "";
+      while (true) {
+        const poll = await axios.get(`${BASE_URL}/transcript/${transcriptId}`, {
+          headers: { authorization: ASSEMBLYAI_API_KEY }
+        });
+  
+        if (poll.data.status === "completed") {
+          transcriptText = poll.data.text || "";
+          break;
+        } else if (poll.data.status === "error") {
+          throw new Error(poll.data.error || "Transcription failed");
+        }
+  
+        // wait 2-3s before next poll
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+      }
+  
+      return res.json({ text: transcriptText });
+    } catch (err) {
+      console.error("Backend AssemblyAI Error:", err?.response?.data || err.message || err);
+      return res.status(500).json({ error: err.message || "Internal error" });
+    }
+  });
+
+
+
+
+  app.post("/api/gemini/generate", async (req, res) => {
+    try {
+      const prompt = req.body.prompt;
+      if (!prompt) return res.status(400).json({ error: "Missing prompt" });
+  
+      const r = await axios.post(
+        API_URL,
+        { contents: [{ parts: [{ text: prompt }] }] },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": API_KEY,
+          },
+          timeout: 60000,
+        }
+      );
+  
+      return res.json(r.data);
+    } catch (err) {
+      console.error("Gemini proxy error:", err?.response?.data || err.message);
+      const status = err?.response?.status || 500;
+      return res.status(status).json({ error: "Gemini request failed", details: err?.response?.data || err.message });
+    }
+  });
+  
+
+
 
 // 📌 **Upload File (POST /upload)**
 app.post("/upload", upload.single("file"), async (req, res) => {

@@ -3,9 +3,7 @@ import axios from "axios";
 import { Mic, MicOff } from "lucide-react";
 import DOMPurify from "dompurify";
 
-
-const ASSEMBLYAI_API_KEY = import.meta.env.VITE_ASSEMBLY_API_KEY;
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 
 const Chatbot = () => {
@@ -46,90 +44,73 @@ const Chatbot = () => {
   const sendAudioToAssemblyAI = async (audioBlob) => {
     setLoading(true);
     try {
-      // Upload the audio file to AssemblyAI
-      const uploadResponse = await fetch("https://api.assemblyai.com/v2/upload", {
-        method: "POST",
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "recording.webm");
+  
+      const response = await axios.post("http://localhost:5000/api/transcribe", formData, {
         headers: {
-          Authorization: ASSEMBLYAI_API_KEY,
+          "Content-Type": "multipart/form-data",
         },
-        body: audioBlob,
       });
-
-      const uploadData = await uploadResponse.json();
-      const audioUrl = uploadData.upload_url;
-
-      // Request Transcription
-      const transcriptResponse = await fetch("https://api.assemblyai.com/v2/transcript", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: ASSEMBLYAI_API_KEY,
-        },
-        body: JSON.stringify({
-          audio_url: audioUrl,
-          language_code: "hi", // Hindi Speech-to-Text
-        }),
-      });
-
-      const transcriptData = await transcriptResponse.json();
-      const transcriptId = transcriptData.id;
-
-      // Polling to check if transcription is completed
-      let transcriptText = "";
-      while (!transcriptText) {
-        const checkResponse = await fetch(`https://api.assemblyai.com/v2/transcript/${transcriptId}`, {
-          headers: { Authorization: ASSEMBLYAI_API_KEY },
-        });
-
-        const checkData = await checkResponse.json();
-        if (checkData.status === "completed") {
-          transcriptText = checkData.text;
-          setQuestion((prev) => prev + " " + transcriptText);
-        } else if (checkData.status === "failed") {
-          console.error("Transcription failed.");
-          setQuestion("Transcription failed. Try again.");
-          break;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 3000)); // Poll every 3 seconds
+  
+      const transcriptText = response.data.text;
+      if (transcriptText) {
+        setQuestion((prev) => prev + " " + transcriptText);
+      } else {
+        setQuestion("Transcription failed. Try again.");
       }
     } catch (error) {
-      console.error("AssemblyAI error:", error);
+      console.error("AssemblyAI proxy error:", error);
       setQuestion("Speech recognition error. Try again.");
     } finally {
       setLoading(false);
     }
   };
+  
 
-  async function fetchGrievanceResponse() {
+  const fetchGrievanceResponse = async () => {
+    if (!question || question.trim().length === 0) {
+      setAnswer("Please describe your issue first (type or record).");
+      return;
+    }
+
     setAnswer("");
     setLoading(true);
     try {
-      const response = await axios({
-        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          contents: [
-            {
-              parts: [
-                {
-                  text: `Classify and provide a response on how a citizen can file a government grievance in India for the following issue: ${question}`,
-                },
-              ],
-            },
-          ],
-        },
-      });
-      setAnswer(formatResponse(response.data.candidates[0].content.parts[0].text));
-    } catch (error) {
-      setAnswer("An error occurred. Please try again.");
-      console.error(error);
+      const prompt = `Classify and provide a response on how a citizen can file a government grievance in India for the following issue: ${question.trim()}`;
+
+      const resp = await axios.post(
+        `${API_BASE}/api/gemini/generate`,
+        { prompt },
+        {
+          headers: { "Content-Type": "application/json" },
+          timeout: 60000,
+        }
+      );
+
+      // Gemini returns various shapes; extract the best available text safely
+      let text =
+        resp?.data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        resp?.data?.output?.[0]?.content?.text ||
+        resp?.data?.candidates?.[0]?.content?.[0]?.text ||
+        null;
+
+      if (!text) {
+        // If the response shape is different, try a generous fallback
+        const asString = JSON.stringify(resp.data).slice(0, 5000);
+        console.warn("Unexpected Gemini response shape:", resp.data);
+        text = `No readable text returned by model. Raw output (truncated): ${asString}`;
+      }
+
+      setAnswer(formatResponse(text));
+    } catch (err) {
+      console.error("Gemini proxy error:", err?.response?.data || err.message || err);
+      const msg = err?.response?.data?.error?.details || err?.response?.data?.error || err?.message || "Request failed";
+      setAnswer(`An error occurred: ${msg}`);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   // Convert Markdown-style response to proper HTML
   const formatResponse = (text) => {
