@@ -3,7 +3,7 @@ import axios from "axios";
 import { Mic, MicOff } from "lucide-react";
 import DOMPurify from "dompurify";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://aspire-hackathon.onrender.com";
 
 
 const Chatbot = () => {
@@ -47,7 +47,7 @@ const Chatbot = () => {
       const formData = new FormData();
       formData.append("audio", audioBlob, "recording.webm");
   
-      const response = await axios.post("http://localhost:5000/api/transcribe", formData, {
+      const response = await axios.post("https://aspire-hackathon.onrender.com/api/transcribe", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

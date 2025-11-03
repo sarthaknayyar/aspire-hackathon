@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast"; // For notifications
 import { useNavigate } from "react-router-dom";
+
 const GrievanceForm = () => {
   const { department } = useParams();
   const [category, setCategory] = useState("");
@@ -12,50 +13,88 @@ const GrievanceForm = () => {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
 
+  // <-- add these two states
+  const [showSpamModal, setShowSpamModal] = useState(false);
+  const [spamInfo, setSpamInfo] = useState(null);
+
   const handleFileChange = (e) => {
     setFile(e.target.files[0]); // Store selected file
   };
 
   async function handleSubmit(e) {
     e.preventDefault();
-  
+
+    // Quick client validation
+    if (!description || description.trim().length < 5) {
+      toast.error("Please enter a meaningful description.");
+      return;
+    }
+
     try {
-      // 1) Upload file if present
+      // 1) call spam-check endpoint
+      const spamResp = await fetch("https://aspire-hackathon.onrender.com/grievance/spam-check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({ text: description }),
+      });
+
+      let spamResult = { spam: false };
+      if (spamResp.ok) {
+        // spam-check should return { spam: true/false } — extra fields ignored
+        spamResult = await spamResp.json();
+      } else {
+        // If spam check fails, allow submission but warn user
+        const err = await spamResp.json().catch(() => ({ message: spamResp.statusText }));
+        toast.error("Spam-check temporarily unavailable: " + (err.message || spamResp.status));
+        // continue submitting with isSpam=false
+      }
+
+      // If spam, show popup/inform the user but still proceed to save in DB
+      if (spamResult.spam) {
+        console.log("Grievance flagged as spam:", spamResult);
+        setSpamInfo(spamResult);
+        setShowSpamModal(true);
+        // keep going to submit — user will see popup (you could also wait for confirmation)
+      }
+
+      // 2) Upload file if present
       let uploadedFilename = null;
       if (file) {
         const form = new FormData();
-        form.append("file", file);              // key must match upload.single("file")
-  
+        form.append("file", file);
+
         const uploadResp = await fetch("https://aspire-hackathon.onrender.com/upload", {
           method: "POST",
           body: form,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}` // if endpoint requires auth
-            // DO NOT set "Content-Type" — browser sets it including boundary
-          },
-          // credentials: 'include' // only if using cookie-based auth
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
         });
-  
+
         if (!uploadResp.ok) {
-          const err = await uploadResp.json().catch(()=>({ message: uploadResp.statusText }));
+          const err = await uploadResp.json().catch(() => ({ message: uploadResp.statusText }));
           toast.error("File upload failed: " + (err.message || uploadResp.status));
           return;
         }
-  
         const uploadData = await uploadResp.json();
-        uploadedFilename = uploadData.filename; // match what your backend returns
+        uploadedFilename = uploadData.filename;
       }
-  
-      // 2) Submit grievance (JSON)
+
+      // 3) Submit grievance with spam metadata
       const payload = {
         department,
         category,
         subcategory,
         description,
         remarks,
-        fileName: uploadedFilename, // null if none
+        fileName: uploadedFilename,
+        isSpam: !!spamResult.spam
       };
-  
+      console.log("Submitting grievance payload:", payload);
+
       const response = await fetch("https://aspire-hackathon.onrender.com/grievance", {
         method: "POST",
         headers: {
@@ -63,14 +102,18 @@ const GrievanceForm = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(payload),
-        // credentials: 'include' // only if you use cookies for auth/session
       });
-  
+
       if (response.status === 201) {
-        toast.success("Grievance submitted successfully!");
-        setTimeout(() => navigate("/homepage"), 1000);
+        toast.success(spamResult.spam ? "Submitted — flagged as likely spam and will be reviewed." : "Grievance submitted successfully!");
+        // optional: if spam popup not shown yet, show it
+        if (spamResult.spam && !showSpamModal) {
+          setSpamInfo(spamResult);
+          setShowSpamModal(true);
+        }
+        setTimeout(() => navigate("/homepage"), 1300);
       } else {
-        const err = await response.json().catch(()=>({ message: response.statusText }));
+        const err = await response.json().catch(() => ({ message: response.statusText }));
         toast.error("Failed to submit grievance: " + (err.message || response.status));
       }
     } catch (err) {
@@ -78,7 +121,7 @@ const GrievanceForm = () => {
       toast.error("Failed to submit grievance");
     }
   }
-  
+
   const mainCategories = [
     { value: "billing", label: "Billing Issues" },
     { value: "technical", label: "Technical Problems" },
@@ -240,6 +283,23 @@ const GrievanceForm = () => {
           </div>
         </form>
       </motion.div>
+
+      {/* Spam Modal (minimal) */}
+      {showSpamModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black opacity-50" onClick={() => setShowSpamModal(false)} />
+          <div className="bg-white rounded-lg p-6 z-60 max-w-lg mx-4 shadow-xl">
+            <h3 className="text-xl font-semibold text-red-600 mb-2">⚠️ Possible Spam Detected</h3>
+            <p className="text-gray-700 mb-3">
+              Our automated system has flagged this grievance as likely spam.
+              It has still been saved and will be reviewed by a human officer.
+            </p>
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={() => setShowSpamModal(false)} className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
