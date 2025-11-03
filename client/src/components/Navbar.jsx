@@ -124,7 +124,7 @@ const Navbar = () => {
             // onClick={() => navigate("/login")}
             className="bg-white text-blue-900 px-2 py-2 rounded-full font-semibold hover:bg-gray-200 transition"
           >
-            <a href="https://google.com">Admin Login</a>
+            <a href="https://aspire-hackathon-admin.vercel.app/">Admin Login</a>
           </button>
       }
           {/* </div> */}
