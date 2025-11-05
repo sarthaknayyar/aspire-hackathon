@@ -28,7 +28,7 @@ const Clients = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ zoom: "0.9" }}>
       <SummaryCards grievances={grievances} />
       <ClientTable grievances={grievances} /> {/* ✅ Pass grievances as a prop */}
     </div>

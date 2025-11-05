@@ -5,16 +5,19 @@ const authMiddleware = require('../middlewares/authcheck');
 const axios = require("axios");
 
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 const API_KEY = process.env.GEMINI_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GROQ_CHAT_MODEL = process.env.GROQ_CHAT_MODEL || "llama-3.1-8b-instant";
+const GROQ_CHAT_URL = `https://api.groq.com/openai/v1/chat/completions`;
 
 const router = express.Router();
 
 // Create Grievance
 router.post("/", authMiddleware, async (req, res) => {
     try {
-      console.log("Incoming create-grievance request body:", req.body);
+      // console.log("Incoming create-grievance request body:", req.body);
       const username = req.user.name;
       const email = req.user.email;
   
@@ -116,61 +119,87 @@ router.get("/allGrievances", async (req, res) => {
 });
 
 router.post("/spam-check", async (req, res) => {
-    try {
-      const { text } = req.body;
-      if (!text || !text.trim()) return res.status(400).json({ error: "Missing text" });
-  
-      // Prompt: ask for strict JSON response only
-      const prompt = `
-  You are a classifier that checks whether a user-submitted complaint is likely SPAM (e.g., gibberish, advertisements, repeated/irrelevant links, non-complaint promotional content).
-  Answer ONLY with valid JSON, nothing else, in this exact format:
-  {"spam": true|false, "score": 0.00-1.00, "reason": "<single-sentence justification>"}
-  
-  Complaint:
-  """${text.replace(/"/g, '\\"')}"""
-  `;
-  
-      const r = await axios.post(
-        GEMINI_URL,
-        { contents: [{ parts: [{ text: prompt }] }] },
-        { headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY }, timeout: 60000 }
-      );
-  
-      // Extract model text
-      const modelText =
-        r?.data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-        r?.data?.output?.[0]?.content?.text ||
-        null;
-  
-      if (!modelText) {
-        return res.status(502).json({ error: "No model response" });
+  console.log("groq spam-check request body:", req.body);
+  try {
+    const { text } = req.body;
+    if (!text || !text.trim()) return res.status(400).json({ error: "Missing text" });
+
+    // Prompt: ask for strict JSON response only
+    const prompt = `You are a classifier that checks whether a user-submitted complaint is likely SPAM (e.g., gibberish, advertisements, repeated/irrelevant links, non-complaint promotional content).
+Answer ONLY with valid JSON, nothing else, in this exact format:
+{"spam": true|false, "score": 0.00-1.00, "reason": "<single-sentence justification>"}
+
+Complaint:
+"""${text.replace(/"/g, '\\"')}"""`;
+
+    // Use Groq instead of Gemini
+    const groqResponse = await axios.post(
+      GROQ_CHAT_URL,
+      {
+        model: GROQ_CHAT_MODEL,
+        messages: [
+          {
+            role: "system",
+            content: "You are a spam detection system. Respond only with valid JSON."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        temperature: 0.3, // Lower temperature for more consistent JSON output
+        response_format: { type: "json_object" } // Request JSON mode (if supported)
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${GROQ_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        timeout: 60000
       }
-  
-      // Try parse JSON — model should return plain JSON
-      let parsed;
-      try {
-        // Trim surrounding whitespace and possible code fences
-        const cleaned = modelText.replace(/^[\s`]*|[\s`]*$/g, "");
-        // find first { ... } substring if noise exists
-        const m = cleaned.match(/\{[\s\S]*\}/);
-        parsed = m ? JSON.parse(m[0]) : JSON.parse(cleaned);
-      } catch (err) {
-        console.error("Failed to parse JSON from model:", modelText);
-        // fallback: return not-spam but include raw model text for debugging
-        return res.status(200).json({ spam: false, score: 0, reason: "unable to parse model output", raw: modelText });
-      }
-  
-      // Normalize fields & clamp score
-      const spam = !!parsed.spam;
-      const score = Math.max(0, Math.min(1, Number(parsed.score) || 0));
-      const reason = (parsed.reason || "").toString();
-  
-      return res.json({ spam, score, reason, raw: modelText });
-    } catch (err) {
-      console.error("Spam-check error:", err?.response?.data || err.message || err);
-      const status = err?.response?.status || 500;
-      return res.status(status).json({ error: "Spam-check failed", details: err?.response?.data || err.message });
+    );
+
+    // Extract model text from Groq response
+    const modelText = groqResponse.data.choices[0]?.message?.content || null;
+
+    if (!modelText) {
+      return res.status(502).json({ error: "No model response" });
     }
-  });
+
+    // Try parse JSON — model should return plain JSON
+    let parsed;
+    try {
+      // Trim surrounding whitespace and possible code fences
+      const cleaned = modelText.replace(/^[\s`]*|[\s`]*$/g, "");
+      // find first { ... } substring if noise exists
+      const m = cleaned.match(/\{[\s\S]*\}/);
+      parsed = m ? JSON.parse(m[0]) : JSON.parse(cleaned);
+    } catch (err) {
+      console.error("Failed to parse JSON from model:", modelText);
+      // fallback: return not-spam but include raw model text for debugging
+      return res.status(200).json({ 
+        spam: false, 
+        score: 0, 
+        reason: "unable to parse model output", 
+        raw: modelText 
+      });
+    }
+
+    // Normalize fields & clamp score
+    const spam = !!parsed.spam;
+    const score = Math.max(0, Math.min(1, Number(parsed.score) || 0));
+    const reason = (parsed.reason || "").toString();
+
+    return res.json({ spam, score, reason, raw: modelText });
+  } catch (err) {
+    console.error("Spam-check error:", err?.response?.data || err.message || err);
+    const status = err?.response?.status || 500;
+    return res.status(status).json({ 
+      error: "Spam-check failed", 
+      details: err?.response?.data || err.message 
+    });
+  }
+});
+
 
 module.exports = router;
