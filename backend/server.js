@@ -314,55 +314,59 @@ async function pineconeQuery(vector, topK = 4) {
    RAG Endpoints (Jina + Groq)
    ========================= */
 
-app.post("/init_rag", (req, res) => {
-  uploadPdf(req, res, async (multerErr) => {
-    try {
-      if (multerErr) return res.status(400).json({ error: multerErr.message });
-      if (!req.file) return res.status(400).json({ error: "No PDF uploaded." });
-
-      console.log(`📄 Processing PDF: ${req.file.originalname}`);
-      const data = await pdfParse(req.file.buffer);
-      const text = (data.text || "").trim();
-      if (!text || text.length < 50) {
-        return res.status(400).json({ error: "PDF has insufficient text." });
-      }
-
-      const chunks = chunkText(text);
-      console.log(`✅ Extracted ${text.length} chars, created ${chunks.length} chunks.`);
-
-      const embeddings = await createJinaEmbeddings(chunks);
-
-      const vectors = embeddings.map((emb, i) => ({
-        id: `doc-${Date.now()}-${i}`,
-        values: emb,
-        metadata: { text: chunks[i], chunkIndex: i, source: req.file.originalname }
-      }));
-
-      if (!pineconeReady) return res.status(503).json({ error: "Vector DB not ready." });
-      
-      // CLEAR OLD DATA: Delete all vectors before uploading new PDF
-      console.log("🗑️ Clearing previous PDF data from Pinecone...");
+   app.post("/init_rag", (req, res) => {
+    uploadPdf(req, res, async (multerErr) => {
       try {
-        await pineconeIndex.deleteAll();
-        console.log("✅ Old data cleared successfully");
-      } catch (deleteErr) {
-        console.warn("⚠️ Could not clear old data:", deleteErr.message);
+        if (multerErr) return res.status(400).json({ error: multerErr.message });
+        if (!req.file) return res.status(400).json({ error: "No PDF uploaded." });
+  
+        console.log(`📄 Processing PDF: ${req.file.originalname}`);
+        const data = await pdfParse(req.file.buffer);
+        const text = (data.text || "").trim();
+        if (!text || text.length < 50) {
+          return res.status(400).json({ error: "PDF has insufficient text." });
+        }
+  
+        const chunks = chunkText(text);
+        console.log(`✅ Extracted ${text.length} chars, created ${chunks.length} chunks.`);
+  
+        const embeddings = await createJinaEmbeddings(chunks);
+  
+        const vectors = embeddings.map((emb, i) => ({
+          id: `doc-${Date.now()}-${i}`,
+          values: emb,
+          metadata: { text: chunks[i], chunkIndex: i, source: req.file.originalname }
+        }));
+  
+        if (!pineconeReady) return res.status(503).json({ error: "Vector DB not ready." });
+        
+        // ✅ CLEAR OLD DATA: Delete all vectors before uploading new PDF
+        console.log("🗑️ Clearing previous PDF data from Pinecone...");
+        try {
+          await pineconeIndex.deleteAll();
+          console.log("✅ Old data cleared successfully");
+          
+          // ✅ ADD DELAY to ensure cleanup completes
+          await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+          
+        } catch (deleteErr) {
+          console.warn("⚠️ Could not clear old data:", deleteErr.message);
+        }
+        
+        console.log("🔍 Attempting to upsert", vectors.length, "vectors");
+        console.log("🔍 First vector dimension:", vectors[0].values.length);
+        
+        await pineconeUpsert(vectors);
+  
+        console.log(`✅ Indexed ${vectors.length} vectors to Pinecone via Jina AI.`);
+        return res.json({ ok: true, inserted: vectors.length });
+      } catch (err) {
+        console.error("init_rag error:", err);
+        return res.status(500).json({ error: "RAG initialization failed." });
       }
-      
-      console.log("🔍 Attempting to upsert", vectors.length, "vectors");
-      console.log("🔍 First vector dimension:", vectors[0].values.length);
-      
-      await pineconeUpsert(vectors);
-
-      console.log(`✅ Indexed ${vectors.length} vectors to Pinecone via Jina AI.`);
-      return res.json({ ok: true, inserted: vectors.length });
-    } catch (err) {
-      console.error("init_rag error:", err);
-      return res.status(500).json({ error: "RAG initialization failed." });
-    }
+    });
   });
-});
-
+  
 app.post("/ask_question", async (req, res) => {
   try {
     const { query } = req.body || {};
